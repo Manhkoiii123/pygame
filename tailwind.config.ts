@@ -22,6 +22,7 @@ const config: Config = {
       textColor: {
         primary: "#111315",
         secondary: "#009DBE",
+        ink300: "#272B30",
       },
     },
   },

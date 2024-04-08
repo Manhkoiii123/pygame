@@ -22,15 +22,19 @@ const RootLayout = ({ children }: React.PropsWithChildren) => (
     <body className={poppins.className}>
       <AppTheme>
         <AntdRegistry>
-          <div className="flex items-center justify-between px-2">
-            <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+          <div className="flex items-center justify-between px-5 pt-3">
+            {/* <Link href={"/"}> */}
+            <Image
+              alt="logo"
+              width={200}
+              height={100}
+              src={"/logo.png"}
+              className="w-[200px] h-[100px] object-cover"
+            />
+            {/* </Link> */}
             <div className="flex items-center justify-center gap-4">
               <Link href="/test-library">
-                <Button
-                  htmlType="button"
-                  className="w-[180px] text-white"
-                  type="default"
-                >
+                <Button htmlType="button" className="w-[180px] " type="default">
                   <span className="text-secondary">Test Library</span>
                 </Button>
               </Link>

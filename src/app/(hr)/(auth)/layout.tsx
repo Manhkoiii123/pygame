@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import AppTheme from "@/components/config/config-theme";
 import "../../globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import Link from "next/link";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -16,10 +17,12 @@ export const metadata: Metadata = {
 
 const LayoutAuth = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
-    <body className={poppins.className}>
+    <body className={`${poppins.className} px-5 pt-3`}>
       <AppTheme>
         <AntdRegistry>
-          <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+          <Link href={"/"}>
+            <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+          </Link>
 
           <div className="flex items-center justify-center">
             <div className="flex items-center justify-between w-[80%] gap-10">
