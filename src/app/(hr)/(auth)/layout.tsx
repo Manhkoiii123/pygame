@@ -22,7 +22,7 @@ const LayoutAuth = ({ children }: React.PropsWithChildren) => (
           <Image alt="logo" width={200} height={100} src={"/logo.png"} />
 
           <div className="flex items-center justify-center">
-            <div className="flex items-center justify-between w-[80%]">
+            <div className="flex items-center justify-between w-[80%] gap-10">
               <Image
                 src={"/loginBanner.png"}
                 alt="login banner"
@@ -30,12 +30,8 @@ const LayoutAuth = ({ children }: React.PropsWithChildren) => (
                 height={600}
                 className="flex-2"
               />
-              <div className="flex flex-col items-start justify-center gap-8 flex-1">
-                <span className="font-semibold text-[40px] leading-[56px] flex items-center justify-center gap-2">
-                  <span className="text-primary">Welcome To </span>
-                  <span className="text-secondary">Pytalent</span>
-                </span>
-                <div className="w-[70%] flex flex-col gap-8">{children}</div>
+              <div className="flex flex-col items-start justify-center gap-8 flex-1 mb-auto mt-16">
+                {children}
               </div>
             </div>
           </div>
