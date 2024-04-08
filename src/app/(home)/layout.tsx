@@ -26,12 +26,16 @@ const RootLayout = ({ children }: React.PropsWithChildren) => (
             <Image alt="logo" width={200} height={100} src={"/logo.png"} />
             <div className="flex items-center justify-center gap-4">
               <Link href="/test-library">
-                <Button className="w-[180px] text-white" type="default">
+                <Button
+                  htmlType="button"
+                  className="w-[180px] text-white"
+                  type="default"
+                >
                   <span className="text-secondary">Test Library</span>
                 </Button>
               </Link>
               <Link href="/login">
-                <Button className="w-[180px]" type="primary">
+                <Button htmlType="button" className="w-[180px]" type="primary">
                   <span>Login</span>
                 </Button>
               </Link>
