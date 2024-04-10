@@ -33,7 +33,7 @@ const CustomSelect = ({
   const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
   const [valueRadio, setValueRadio] = useState<string>("");
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
-
+  const [form] = Form.useForm();
   const handleDropdownVisibleChange = (visible: boolean) => {
     setDropdownVisible(visible);
   };
@@ -59,7 +59,8 @@ const CustomSelect = ({
             setValueCheck(checkedValues);
           };
 
-          const handleSaveClick = () => {
+          const handleSaveClick = async () => {
+            await form.validateFields();
             const tmpValueCheck = valueCheck.filter(
               (item) => item !== "Personalitytest"
             );
@@ -98,33 +99,49 @@ const CustomSelect = ({
           ].some((value) => valueCheck.includes(value));
 
           return (
-            <div
-              className="flex flex-col gap-2"
-              style={{ borderBottom: "1px solid #e8e8e8", padding: "8px" }}
+            <Form
+              form={form}
+              onFinish={handleSaveClick}
+              initialValues={{ selectedOption: valueCheck }}
             >
-              <Checkbox.Group
+              <div
                 className="flex flex-col gap-2"
-                options={options}
-                onChange={onChangeCheckbox}
-              />
-              {checkChildren && (
-                <Radio.Group
-                  className="!flex !flex-col !ml-8"
-                  onChange={onChangeRadio}
-                  value={valueRadio}
-                >
-                  <Radio value={"PersonalitytestEnglish"}>
-                    Personality test in English
-                  </Radio>
-                  <Radio value={"PersonalitytestVietnamese"}>
-                    Personality test in Vietnamese
-                  </Radio>
-                </Radio.Group>
-              )}
-              <Button onClick={handleSaveClick} htmlType="button">
-                Save
-              </Button>
-            </div>
+                style={{ borderBottom: "1px solid #e8e8e8", padding: "8px" }}
+              >
+                <Checkbox.Group
+                  className="flex flex-col gap-2"
+                  options={options}
+                  onChange={onChangeCheckbox}
+                />
+                {checkChildren && (
+                  <Form.Item
+                    name="selectedChildrenOption"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select a personality test!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group
+                      className="!flex !flex-col !ml-8"
+                      onChange={onChangeRadio}
+                      value={valueRadio}
+                    >
+                      <Radio value={"PersonalitytestEnglish"}>
+                        Personality test in English
+                      </Radio>
+                      <Radio value={"PersonalitytestVietnamese"}>
+                        Personality test in Vietnamese
+                      </Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                )}
+                <Button onClick={handleSaveClick} htmlType="button">
+                  Save
+                </Button>
+              </div>
+            </Form>
           );
         }}
       ></Select>
