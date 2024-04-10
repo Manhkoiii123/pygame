@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -7,7 +7,6 @@ import {
   Radio,
   RadioChangeEvent,
   Select,
-  TreeSelect,
 } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 
@@ -18,24 +17,29 @@ const CustomSelect = ({
   value: string[];
   onChange: any;
 }) => {
-  const options = [
-    {
-      label: "Option 1",
-      value: "Option1",
-    },
-    { label: "Option 2", value: "Option2" },
-    { label: "Option 3", value: "Option3" },
-    { label: "Option 4", value: "Option4" },
-    { label: "Option 5", value: "Option5" },
-    { label: "Option 6", value: "Option6" },
-  ];
+  const options = useMemo(() => {
+    return [
+      {
+        label: "Verbal test",
+        value: "Verbaltest",
+      },
+      { label: "Numerical test", value: "Numericaltest" },
+      { label: "Logical test", value: "Logicaltest" },
+      { label: "Visual test", value: "Visualtest" },
+      { label: "Personality test", value: "Personalitytest" },
+    ];
+  }, []);
 
   const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
   const [valueRadio, setValueRadio] = useState<string>("");
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+
+  const handleDropdownVisibleChange = (visible: boolean) => {
+    setDropdownVisible(visible);
+  };
 
   return (
     <Form.Item
-      initialValue={value}
       label="Select an option"
       name="selectedOption"
       rules={[{ required: true, message: "Please select an option!" }]}
@@ -45,32 +49,54 @@ const CustomSelect = ({
         style={{ width: "100%" }}
         placeholder={"Please select test"}
         showSearch={false}
-        value={"ssssss"}
         options={options}
+        onDropdownVisibleChange={handleDropdownVisibleChange}
+        open={dropdownVisible}
         dropdownRender={() => {
           const onChangeCheckbox: GetProp<typeof Checkbox.Group, "onChange"> = (
             checkedValues
           ) => {
             setValueCheck(checkedValues);
           };
-          const handleSaveClick = () => {
-            if (valueCheck.includes("Option6") && valueRadio !== "") {
-              const tmpValueCheck = valueCheck.filter(
-                (item) => item !== "Option6"
-              );
-              console.log("tmpValueCheck", tmpValueCheck);
-              setValueCheck([...tmpValueCheck, valueRadio]);
-            } else {
-              setValueCheck([...valueCheck]);
-            }
 
+          const handleSaveClick = () => {
+            const tmpValueCheck = valueCheck.filter(
+              (item) => item !== "Personalitytest"
+            );
+            if (valueCheck.includes("Personalitytest")) {
+              if (valueRadio !== "") {
+                setValueCheck([...tmpValueCheck, valueRadio]);
+              }
+            } else {
+              if (valueRadio !== "") {
+                if (
+                  ["PersonalitytestEnglish", "PersonalitytestVietnamese"].some(
+                    (value) => valueCheck.includes(value)
+                  )
+                ) {
+                  const tmpValueCheck = valueCheck.slice(0, -1);
+                  setValueCheck([...tmpValueCheck, valueRadio]);
+                } else {
+                  setValueCheck([...valueCheck]);
+                }
+              } else {
+                setValueCheck([...tmpValueCheck]);
+              }
+            }
             onChange(valueCheck.map(String));
+            setDropdownVisible(false);
           };
+          console.log("valueCheck", valueCheck);
+
           const onChangeRadio = (e: RadioChangeEvent) => {
             setValueRadio(e.target.value);
           };
-          console.log("valueCheck", valueCheck);
-          const checkChildren = valueCheck.includes("Option6");
+          const checkChildren = [
+            "Personalitytest",
+            "PersonalitytestEnglish",
+            "PersonalitytestVietnamese",
+          ].some((value) => valueCheck.includes(value));
+
           return (
             <div
               className="flex flex-col gap-2"
@@ -83,12 +109,16 @@ const CustomSelect = ({
               />
               {checkChildren && (
                 <Radio.Group
-                  className="!flex !flex-col"
+                  className="!flex !flex-col !ml-8"
                   onChange={onChangeRadio}
                   value={valueRadio}
                 >
-                  <Radio value={"1"}>A</Radio>
-                  <Radio value={"2"}>B</Radio>
+                  <Radio value={"PersonalitytestEnglish"}>
+                    Personality test in English
+                  </Radio>
+                  <Radio value={"PersonalitytestVietnamese"}>
+                    Personality test in Vietnamese
+                  </Radio>
                 </Radio.Group>
               )}
               <Button onClick={handleSaveClick} htmlType="button">
@@ -97,13 +127,7 @@ const CustomSelect = ({
             </div>
           );
         }}
-      >
-        {/* {options.map((option) => (
-          <Select.Option key={option.value} value={option.value}>
-            {option.label}
-          </Select.Option>
-        ))} */}
-      </Select>
+      ></Select>
     </Form.Item>
   );
 };
