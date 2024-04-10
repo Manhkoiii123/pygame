@@ -24,7 +24,6 @@ const ModalAddAssessment = (props: TProps) => {
     ]);
   };
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  // console.log("🚀 ~ ModalAddAssessment ~ selectedOption:", selectedOption);
   const handleSelectChange = (e: string[]) => {
     setSelectedOption(e);
   };
@@ -34,7 +33,9 @@ const ModalAddAssessment = (props: TProps) => {
       title={
         <span className="font-semibold text-3xl">Create new assessmanent</span>
       }
-      onCancel={handleCancel}
+      onCancel={() => {
+        handleCancel();
+      }}
       open={isModalOpen}
       footer={null}
     >
@@ -54,7 +55,6 @@ const ModalAddAssessment = (props: TProps) => {
           <Input onChange={handleChangeInput} placeholder="Enter your name" />
         </Form.Item>
         <CustomSelect onChange={handleSelectChange} value={selectedOption} />
-        {/* <CustomSelect /> */}
         <Form.Item
           label="Hiring position"
           name="hiringPosition"
