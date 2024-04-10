@@ -11,11 +11,11 @@ import {
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 const CustomSelect = ({
-  value,
-  onChange,
+  setSelectedOption,
+  selectedOption,
 }: {
-  value: string[];
-  onChange: any;
+  selectedOption: string[];
+  setSelectedOption: any;
 }) => {
   const options = useMemo(() => {
     return [
@@ -37,6 +37,9 @@ const CustomSelect = ({
   const handleDropdownVisibleChange = (visible: boolean) => {
     setDropdownVisible(visible);
   };
+  useEffect(() => {
+    setSelectedOption(valueCheck.map(String));
+  }, [valueCheck]);
 
   return (
     <Form.Item
@@ -84,10 +87,8 @@ const CustomSelect = ({
                 setValueCheck([...tmpValueCheck]);
               }
             }
-            onChange(valueCheck.map(String));
             setDropdownVisible(false);
           };
-          console.log("valueCheck", valueCheck);
 
           const onChangeRadio = (e: RadioChangeEvent) => {
             setValueRadio(e.target.value);
