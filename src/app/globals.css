@@ -34,3 +34,18 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.ant-select-item-option-selected {
+  background-color: transparent !important; /* Bỏ màu nền xanh */
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled)
+  .ant-select-item-option-state {
+  display: none; /* Ẩn dấu tích (đánh dấu đã chọn) */
+}
+.ant-select-selection-item {
+  background: white !important;
+}
+.ant-select-selection-item-remove {
+  display: none !important;
+}

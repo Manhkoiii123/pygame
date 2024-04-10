@@ -18,8 +18,6 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
-  // <html lang="en">
-  //   <body className={poppins.className}>
   <AppTheme>
     <AntdRegistry>
       <div className="flex items-center justify-between px-5 pt-3">
@@ -48,8 +46,6 @@ const RootLayout = ({ children }: React.PropsWithChildren) => (
       <div className="flex items-center justify-center">{children}</div>
     </AntdRegistry>
   </AppTheme>
-  //   </body>
-  // </html>
 );
 
 export default RootLayout;
