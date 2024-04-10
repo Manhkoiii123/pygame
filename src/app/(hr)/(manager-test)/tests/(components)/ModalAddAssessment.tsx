@@ -1,5 +1,5 @@
-import { Modal, Select } from "antd";
-import React, { useRef, useState } from "react";
+import { Modal } from "antd";
+import React, { useEffect, useState } from "react";
 import { Button, Form, type FormProps, Input, DatePicker } from "antd";
 import CustomSelect from "@/app/(hr)/(manager-test)/tests/(components)/SelectTest";
 
@@ -24,10 +24,7 @@ const ModalAddAssessment = (props: TProps) => {
     ]);
   };
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  const handleSelectChange = (e: string[]) => {
-    setSelectedOption(e);
-  };
-
+  console.log("🚀 ~ ModalAddAssessment ~ selectedOption:", selectedOption);
   return (
     <Modal
       title={
@@ -54,7 +51,10 @@ const ModalAddAssessment = (props: TProps) => {
         >
           <Input onChange={handleChangeInput} placeholder="Enter your name" />
         </Form.Item>
-        <CustomSelect onChange={handleSelectChange} value={selectedOption} />
+        <CustomSelect
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
         <Form.Item
           label="Hiring position"
           name="hiringPosition"
@@ -75,6 +75,9 @@ const ModalAddAssessment = (props: TProps) => {
           </Button>
         </Form.Item>
       </Form>
+      {selectedOption.map((item) => {
+        return <span key={item}>{item}</span>;
+      })}
     </Modal>
   );
 };
