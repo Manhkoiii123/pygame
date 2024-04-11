@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, type FormProps, Input, DatePicker } from "antd";
 import CustomSelect from "@/app/(hr)/(manager-test)/tests/(components)/SelectTest";
 import SelectPosition from "@/app/(hr)/(manager-test)/tests/(components)/SelectPosition";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 const { RangePicker } = DatePicker;
 interface TProps {
@@ -12,6 +13,7 @@ interface TProps {
 
 const ModalAddAssessment = (props: TProps) => {
   const [form] = Form.useForm();
+  const [formChild] = Form.useForm();
   const { isModalOpen, handleCancel } = props;
   const onFinish: FormProps["onFinish"] = (values) => {
     console.log("Success:", values);
@@ -19,23 +21,30 @@ const ModalAddAssessment = (props: TProps) => {
   const handleChangeInput = () => {
     form.setFields([
       {
-        name: "email",
+        name: "username",
         errors: [],
       },
     ]);
+  };
+  const onReset = () => {
+    form.resetFields();
+    formChild.resetFields();
   };
   const handleOnChangeSelectTests = (value: string) => {
     form.setFieldValue("selectedOption", value);
   };
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
+  const [valueRadio, setValueRadio] = useState<string>("");
+  const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
   return (
     <Modal
-      
       title={
         <span className="font-semibold text-3xl">Create new assessmanent</span>
       }
       onCancel={() => {
+        onReset();
         handleCancel();
+        setValueCheck([]);
       }}
       open={isModalOpen}
       footer={null}
@@ -56,6 +65,11 @@ const ModalAddAssessment = (props: TProps) => {
           <Input onChange={handleChangeInput} placeholder="Enter your name" />
         </Form.Item>
         <CustomSelect
+          valueCheck={valueCheck}
+          setValueCheck={setValueCheck}
+          formChild={formChild}
+          valueRadio={valueRadio}
+          setValueRadio={setValueRadio}
           handleOnChangeSelectTests={handleOnChangeSelectTests}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
