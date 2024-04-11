@@ -16,8 +16,13 @@ const AppTheme = ({ children }: { children: React.ReactNode }) => {
           },
           Button: {
             colorBgBase: "#009DBE",
-            // defaultHoverBg: "#009DBE",
             defaultBg: "#CCEBF2",
+          },
+          Cascader: {
+            controlItemWidth: 200,
+            dropdownHeight: 250,
+            optionPadding: 8,
+            optionSelectedBg: "#F2F9FF",
           },
         },
       }}

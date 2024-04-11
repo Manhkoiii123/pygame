@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { Button, Form, type FormProps, Input, DatePicker } from "antd";
 import CustomSelect from "@/app/(hr)/(manager-test)/tests/(components)/SelectTest";
+import SelectPosition from "@/app/(hr)/(manager-test)/tests/(components)/SelectPosition";
 
 const { RangePicker } = DatePicker;
 interface TProps {
@@ -29,6 +30,7 @@ const ModalAddAssessment = (props: TProps) => {
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
   return (
     <Modal
+      
       title={
         <span className="font-semibold text-3xl">Create new assessmanent</span>
       }
@@ -58,13 +60,7 @@ const ModalAddAssessment = (props: TProps) => {
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
         />
-        <Form.Item
-          label="Hiring position"
-          name="hiringPosition"
-          rules={[{ required: true, message: "Please select positions!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
+        <SelectPosition />
         <Form.Item
           label="Assessment date"
           name="date"
