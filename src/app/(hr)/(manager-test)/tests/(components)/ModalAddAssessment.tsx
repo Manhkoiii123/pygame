@@ -23,8 +23,10 @@ const ModalAddAssessment = (props: TProps) => {
       },
     ]);
   };
+  const handleOnChangeSelectTests = (value: string) => {
+    form.setFieldValue("selectedOption", value);
+  };
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  console.log("🚀 ~ ModalAddAssessment ~ selectedOption:", selectedOption);
   return (
     <Modal
       title={
@@ -52,6 +54,7 @@ const ModalAddAssessment = (props: TProps) => {
           <Input onChange={handleChangeInput} placeholder="Enter your name" />
         </Form.Item>
         <CustomSelect
+          handleOnChangeSelectTests={handleOnChangeSelectTests}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
         />
@@ -75,9 +78,6 @@ const ModalAddAssessment = (props: TProps) => {
           </Button>
         </Form.Item>
       </Form>
-      {selectedOption.map((item) => {
-        return <span key={item}>{item}</span>;
-      })}
     </Modal>
   );
 };
