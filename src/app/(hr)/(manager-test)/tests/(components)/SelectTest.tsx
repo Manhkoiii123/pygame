@@ -15,10 +15,20 @@ const CustomSelect = ({
   setSelectedOption,
   selectedOption,
   handleOnChangeSelectTests,
+  valueRadio,
+  setValueRadio,
+  formChild,
+  valueCheck,
+  setValueCheck,
 }: {
   selectedOption: string[];
   setSelectedOption: any;
   handleOnChangeSelectTests: any;
+  valueRadio: string;
+  setValueRadio: any;
+  formChild: any;
+  valueCheck: CheckboxValueType[];
+  setValueCheck: any;
 }) => {
   const options = useMemo(() => {
     return [
@@ -33,10 +43,7 @@ const CustomSelect = ({
     ];
   }, []);
 
-  const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
-  const [valueRadio, setValueRadio] = useState<string>("");
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
-  const [form] = Form.useForm();
 
   const [initialValue, setInitialValue] = useState<string>("");
   useEffect(() => {
@@ -84,7 +91,7 @@ const CustomSelect = ({
           };
 
           const handleSaveClick = async () => {
-            await form.validateFields();
+            await formChild.validateFields();
             const tmpValueCheck = valueCheck.filter(
               (item) => item !== "Personality Test"
             );
@@ -109,6 +116,7 @@ const CustomSelect = ({
                 setValueCheck([...tmpValueCheck]);
               }
             }
+            // await handleOnChangeSelectTests(initialValue);
             setDropdownVisible(false);
           };
 
@@ -123,9 +131,9 @@ const CustomSelect = ({
 
           return (
             <Form
-              form={form}
+              form={formChild}
               onFinish={handleSaveClick}
-              initialValues={{ selectedOption: valueCheck }}
+              // initialValues={{ selectedOption: valueCheck }}
             >
               <div
                 className="flex flex-col gap-2"
