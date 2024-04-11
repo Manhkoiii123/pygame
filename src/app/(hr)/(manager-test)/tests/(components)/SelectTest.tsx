@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Button,
@@ -13,20 +14,22 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 const CustomSelect = ({
   setSelectedOption,
   selectedOption,
+  handleOnChangeSelectTests,
 }: {
   selectedOption: string[];
   setSelectedOption: any;
+  handleOnChangeSelectTests: any;
 }) => {
   const options = useMemo(() => {
     return [
       {
         label: "Verbal test",
-        value: "Verbaltest",
+        value: "Verbal test",
       },
-      { label: "Numerical test", value: "Numericaltest" },
-      { label: "Logical test", value: "Logicaltest" },
-      { label: "Visual test", value: "Visualtest" },
-      { label: "Personality test", value: "Personalitytest" },
+      { label: "Numerical test", value: "Numerical test" },
+      { label: "Logical test", value: "Logical test" },
+      { label: "Visual test", value: "Visual test" },
+      { label: "Personality test", value: "Personality Test" },
     ];
   }, []);
 
@@ -34,6 +37,20 @@ const CustomSelect = ({
   const [valueRadio, setValueRadio] = useState<string>("");
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
+
+  const [initialValue, setInitialValue] = useState<string>("");
+  useEffect(() => {
+    if (selectedOption.length > 0) {
+      const init = selectedOption.join(", ");
+      setInitialValue(init);
+    } else {
+      setInitialValue("");
+    }
+  }, [selectedOption]);
+  console.log("🚀 ~ selectedOption:", selectedOption);
+  useEffect(() => {
+    handleOnChangeSelectTests(initialValue);
+  }, [initialValue]);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setDropdownVisible(visible);
   };
@@ -65,18 +82,19 @@ const CustomSelect = ({
           const handleSaveClick = async () => {
             await form.validateFields();
             const tmpValueCheck = valueCheck.filter(
-              (item) => item !== "Personalitytest"
+              (item) => item !== "Personality Test"
             );
-            if (valueCheck.includes("Personalitytest")) {
+            if (valueCheck.includes("Personality Test")) {
               if (valueRadio !== "") {
                 setValueCheck([...tmpValueCheck, valueRadio]);
               }
             } else {
               if (valueRadio !== "") {
                 if (
-                  ["PersonalitytestEnglish", "PersonalitytestVietnamese"].some(
-                    (value) => valueCheck.includes(value)
-                  )
+                  [
+                    "Personality Test English",
+                    "Personality Test Vietnamese",
+                  ].some((value) => valueCheck.includes(value))
                 ) {
                   const tmpValueCheck = valueCheck.slice(0, -1);
                   setValueCheck([...tmpValueCheck, valueRadio]);
@@ -94,9 +112,9 @@ const CustomSelect = ({
             setValueRadio(e.target.value);
           };
           const checkChildren = [
-            "Personalitytest",
-            "PersonalitytestEnglish",
-            "PersonalitytestVietnamese",
+            "Personality Test",
+            "Personality Test English",
+            "Personality Test Vietnamese",
           ].some((value) => valueCheck.includes(value));
 
           return (
@@ -129,10 +147,10 @@ const CustomSelect = ({
                       onChange={onChangeRadio}
                       value={valueRadio}
                     >
-                      <Radio value={"PersonalitytestEnglish"}>
+                      <Radio value={"Personality Test English"}>
                         Personality test in English
                       </Radio>
-                      <Radio value={"PersonalitytestVietnamese"}>
+                      <Radio value={"Personality Test Vietnamese"}>
                         Personality test in Vietnamese
                       </Radio>
                     </Radio.Group>
