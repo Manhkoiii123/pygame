@@ -47,7 +47,6 @@ const CustomSelect = ({
       setInitialValue("");
     }
   }, [selectedOption]);
-  console.log("🚀 ~ selectedOption:", selectedOption);
   useEffect(() => {
     handleOnChangeSelectTests(initialValue);
   }, [initialValue]);
@@ -62,7 +61,12 @@ const CustomSelect = ({
     <Form.Item
       label="Select an option"
       name="selectedOption"
-      rules={[{ required: true, message: "Please select an option!" }]}
+      rules={[
+        {
+          required: true,
+          message: "Complete this field to create assessment !",
+        },
+      ]}
     >
       <Select
         mode="multiple"
