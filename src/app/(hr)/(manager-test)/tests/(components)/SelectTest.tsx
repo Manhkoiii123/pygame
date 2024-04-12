@@ -4,6 +4,7 @@ import {
   Button,
   Checkbox,
   Form,
+  FormInstance,
   GetProp,
   Radio,
   RadioChangeEvent,
@@ -22,13 +23,13 @@ const CustomSelect = ({
   setValueCheck,
 }: {
   selectedOption: string[];
-  setSelectedOption: any;
-  handleOnChangeSelectTests: any;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string[]>>;
+  handleOnChangeSelectTests: (value: string) => void;
   valueRadio: string;
-  setValueRadio: any;
-  formChild: any;
+  setValueRadio: React.Dispatch<React.SetStateAction<string>>;
+  formChild: FormInstance<any>;
   valueCheck: CheckboxValueType[];
-  setValueCheck: any;
+  setValueCheck: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>;
 }) => {
   const options = useMemo(() => {
     return [
@@ -76,6 +77,7 @@ const CustomSelect = ({
       ]}
     >
       <Select
+        className="selectTest"
         mode="multiple"
         style={{ width: "100%" }}
         placeholder={"Please select test"}

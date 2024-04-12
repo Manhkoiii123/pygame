@@ -24,6 +24,9 @@ const AppTheme = ({ children }: { children: React.ReactNode }) => {
             optionPadding: 8,
             optionSelectedBg: "#F2F9FF",
           },
+          Dropdown: {
+            paddingBlock: 16,
+          },
         },
       }}
     >
