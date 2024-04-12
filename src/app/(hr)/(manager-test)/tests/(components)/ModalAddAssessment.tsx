@@ -80,7 +80,7 @@ const ModalAddAssessment = (props: TProps) => {
           name="date"
           rules={[{ required: false }]}
         >
-          <RangePicker className="w-full" />
+          <RangePicker format={"DD-MM-YYYY"} className="w-full" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" className="w-full" htmlType="submit">
