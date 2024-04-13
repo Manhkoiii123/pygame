@@ -26,6 +26,7 @@ const config: Config = {
         secondary: "#009DBE",
         ink300: "#272B30",
         ink100: "#6F767E",
+        pri500: "#009DBE",
       },
       transitionProperty: {
         height: "height",
