@@ -1,3 +1,4 @@
+import ModalUpload from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalUpload";
 import { Button, Modal, Select, message } from "antd";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,6 +8,7 @@ type TProps = {
 };
 const ModalInvite = (props: TProps) => {
   const [messageApi, contextHolder] = message.useMessage();
+
   const success = () => {
     messageApi.open({
       type: "success",
@@ -25,6 +27,7 @@ const ModalInvite = (props: TProps) => {
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [openUploadModal, setOpenUploadModal] = useState<boolean>(false);
 
   const isEmailValid = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,11 +65,20 @@ const ModalInvite = (props: TProps) => {
     const newEmail = email.filter((item) => item !== value);
     setEmail(newEmail);
   };
+  const handleOpenUpload = () => {
+    setOpen(false);
+    setOpenUploadModal(true);
+  };
+  const handleCloseModalUpload = () => {
+    setOpen(true);
+    setOpenUploadModal(false);
+  };
+
   return (
     <>
       {contextHolder}
       <Modal
-        width={600}
+        width={800}
         centered
         title={
           <span className="font-semibold text-3xl">Invite participants</span>
@@ -130,7 +142,10 @@ const ModalInvite = (props: TProps) => {
           <span className="text-base text-ink100 font-medium">
             You can also import excel file for bulk list of email
           </span>
-          <div className="flex gap-1 items-center border border-1 border-primary px-2 py-1 rounded-lg cursor-pointer">
+          <div
+            onClick={handleOpenUpload}
+            className="flex gap-1 items-center border border-1 border-primary px-2 py-1 rounded-lg cursor-pointer"
+          >
             <span className="text-base fotn-font-medium text-pri500">
               Upload here
             </span>
@@ -143,6 +158,10 @@ const ModalInvite = (props: TProps) => {
           </div>
         </div>
       </Modal>
+      <ModalUpload
+        openUploadModal={openUploadModal}
+        handleCloseModalUpload={handleCloseModalUpload}
+      ></ModalUpload>
     </>
   );
 };
