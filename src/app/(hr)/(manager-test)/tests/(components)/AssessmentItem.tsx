@@ -112,4 +112,3 @@ const AssessmentItem = (props: TProps) => {
 };
 
 export default AssessmentItem;
-//
