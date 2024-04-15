@@ -1,5 +1,5 @@
 "use client";
-import { Button, Divider, Modal, Upload, UploadProps, message } from "antd";
+import { Divider, Modal, Progress, Upload, UploadProps, message } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
@@ -22,7 +22,8 @@ const ModalUpload = (props: TProps) => {
   // 1 là đang up
   // 2 là đã up thành công
   // -1 up thất bại
-  const [statusUpload, setStatusUpload] = useState<number>(0);
+  const [statusUpload, setStatusUpload] = useState<number | undefined>(0);
+  const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState<string>("");
   const { openUploadModal, handleCloseModalUpload } = props;
 
@@ -35,20 +36,24 @@ const ModalUpload = (props: TProps) => {
   const propsUpload: UploadProps = {
     name: "file",
     multiple: false,
+    showUploadList: false,
     maxCount: 1,
     accept:
       ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
     customRequest: dummyRequest as any,
+
     onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
+      const { status, percent } = info.file;
+      const file = info.fileList[0].originFileObj as File;
+      setFileName(file.name);
+      if (status === "uploading") {
+        setStatusUpload(1);
+        const percentage = Math.floor((percent || 0) * 100);
+        setProgress(percentage);
       }
       if (status === "done") {
-        setStatusUpload(1);
+        setStatusUpload(2);
         if (info.fileList && info.fileList.length > 0) {
-          const file = info.fileList[0].originFileObj as File;
-          setFileName(file.name);
           const reader = new FileReader();
           reader.readAsArrayBuffer(file);
           reader.onload = function (e) {
@@ -65,7 +70,6 @@ const ModalUpload = (props: TProps) => {
         }
       } else if (status === "error") {
         setStatusUpload(-1);
-        message.error(`${info.file.name} file upload failed.`);
       }
     },
     onDrop(e) {
@@ -83,7 +87,12 @@ const ModalUpload = (props: TProps) => {
         </span>
       }
       open={openUploadModal}
-      onCancel={handleCloseModalUpload}
+      onCancel={() => {
+        handleCloseModalUpload();
+        setStatusUpload(0);
+        setDataExcel([]);
+        setFileName("");
+      }}
     >
       <Dragger
         {...propsUpload}
@@ -104,6 +113,14 @@ const ModalUpload = (props: TProps) => {
           </div>
         )}
         {statusUpload === 1 && (
+          <div className="flex items-center flex-col gap-2">
+            <span className="font-medium text-base text-primary">
+              {fileName}
+            </span>
+            <Progress format={(percent) => ``} percent={progress} />
+          </div>
+        )}
+        {statusUpload === 2 && (
           <div className="flex items-center flex-col gap-2">
             <Image
               src="/uploadSuccess.png"

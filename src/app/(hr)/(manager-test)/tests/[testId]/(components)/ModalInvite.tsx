@@ -84,7 +84,10 @@ const ModalInvite = (props: TProps) => {
           <span className="font-semibold text-3xl">Invite participants</span>
         }
         open={open}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setOpen(false);
+          setEmail([]);
+        }}
         footer={null}
       >
         <div className="flex items-center justify-between gap-2 my-4">
