@@ -20,6 +20,7 @@ const config: Config = {
         completed: "#A9F5AB",
         processed: "#FFAC9F",
         started: "#FFD0A5",
+        pri100: "#CCEBF2",
       },
       textColor: {
         primary: "#111315",
@@ -27,6 +28,7 @@ const config: Config = {
         ink300: "#272B30",
         ink100: "#6F767E",
         pri500: "#009DBE",
+        pri100: "#CCEBF2",
       },
       transitionProperty: {
         height: "height",
