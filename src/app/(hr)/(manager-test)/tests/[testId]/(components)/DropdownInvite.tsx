@@ -2,7 +2,7 @@
 import MenuDropdown from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/MenuDropdown";
 import ModalInvite from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalInvite";
 import { TDropdown } from "@/types/dropdown";
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 
