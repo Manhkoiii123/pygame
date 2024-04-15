@@ -1,4 +1,5 @@
 import DropdownInvite from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/DropdownInvite";
+import DropdownMore from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/DropdownMore";
 import ListTestInAssessment from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ListTestInAssessment";
 import MenuDropdown from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/MenuDropdown";
 import { dropdownMore } from "@/constants/dropdownInvite";
@@ -37,13 +38,7 @@ const Index = () => {
         </div>
         <div className="flex items-center gap-4">
           <DropdownInvite></DropdownInvite>
-          <MenuDropdown items={dropdownMore}>
-            <div className="p-2 rounded-full border-gray-100 cursor-pointer border-2">
-              <div className="flex gap-1">
-                <Image src="/more.png" alt="add" width={24} height={24}></Image>
-              </div>
-            </div>
-          </MenuDropdown>
+          <DropdownMore></DropdownMore>
         </div>
       </div>
       <Divider />
