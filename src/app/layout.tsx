@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-
+import TanstackWrapper from "@/lib/tanstack.wrapper";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -14,7 +15,14 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
-    <body className={poppins.className}>{children}</body>
+    {/* <TanstackWrapper> */}
+    <body className={poppins.className}>
+      <TanstackWrapper>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </TanstackWrapper>
+    </body>
+    {/* </TanstackWrapper> */}
   </html>
 );
 
