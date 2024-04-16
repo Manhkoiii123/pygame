@@ -3,15 +3,25 @@ import React from "react";
 import { Button, Form, type FormProps, Input } from "antd";
 
 import Link from "next/link";
+import { authHrRequest } from "@/apiRequest/hr/auth";
+import { TLogin } from "@/types/auth";
+import { BASE_URL } from "@/utils/axios/customize";
 type FieldType = {
   email?: string;
   password?: string;
 };
 const LoginPage = () => {
   const [form] = Form.useForm();
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
+  const onFinish: FormProps["onFinish"] = async (values: TLogin) => {
+    // console.log(BASE_URL);
+    const data: TLogin = {
+      email: values.email,
+      password: values.password,
+    };
+    const res = await authHrRequest.login(data);
+    console.log("🚀 ~ constonFinish:FormProps", res);
   };
+
   const handleChangeInput = () => {
     form.setFields([
       {
@@ -75,8 +85,6 @@ const LoginPage = () => {
         </Link>
       </div>
     </>
-    //   </div>
-    // </div>
   );
 };
 

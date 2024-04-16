@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
-  // <TanstackWrapper>
+  <TanstackWrapper>
     <AppTheme>
       <AntdRegistry>
         <div className="flex items-center justify-between px-5 pt-3">
@@ -48,7 +48,7 @@ const RootLayout = ({ children }: React.PropsWithChildren) => (
         <div className="flex items-center justify-center">{children}</div>
       </AntdRegistry>
     </AppTheme>
-  // </TanstackWrapper>
+  </TanstackWrapper>
 );
 
 export default RootLayout;
