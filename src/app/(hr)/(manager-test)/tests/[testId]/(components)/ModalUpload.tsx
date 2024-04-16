@@ -27,12 +27,12 @@ const ModalUpload = (props: TProps) => {
   const [fileName, setFileName] = useState<string>("");
   const { openUploadModal, handleCloseModalUpload } = props;
 
-  const dummyRequest = (options: UploadRequestOption<any>) => {
-    const { file, onSuccess } = options;
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 1000);
-  };
+  // const dummyRequest = (options: UploadRequestOption<any>) => {
+  // const { file, onSuccess } = options;
+  // setTimeout(() => {
+  // onSuccess("ok");
+  // }, 1000);
+  // };
   const propsUpload: UploadProps = {
     name: "file",
     multiple: false,
@@ -40,16 +40,17 @@ const ModalUpload = (props: TProps) => {
     maxCount: 1,
     accept:
       ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
-    customRequest: dummyRequest as any,
+    // customRequest: dummyRequest as any,
 
     onChange(info) {
       const { status, percent } = info.file;
       const file = info.fileList[0].originFileObj as File;
       setFileName(file.name);
       if (status === "uploading") {
+        console.log(percent);
         setStatusUpload(1);
-        const percentage = Math.floor((percent || 0) * 100);
-        setProgress(percentage);
+        // const percentage = Math.floor((percent || 0) * 100);
+        setProgress(percent || 0);
       }
       if (status === "done") {
         setStatusUpload(2);
@@ -117,7 +118,7 @@ const ModalUpload = (props: TProps) => {
             <span className="font-medium text-base text-primary">
               {fileName}
             </span>
-            <Progress format={(percent) => ``} percent={progress} />
+            <Progress className="w-5/6" percent={progress} showInfo={false} />
           </div>
         )}
         {statusUpload === 2 && (

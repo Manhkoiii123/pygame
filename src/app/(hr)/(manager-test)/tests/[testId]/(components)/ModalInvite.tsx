@@ -58,7 +58,9 @@ const ModalInvite = (props: TProps) => {
     }
   };
   useEffect(() => {
-    setCurrentUrl(window.location.href);
+    const originalUrl = window.location.href;
+    const newUrl = originalUrl.replace("/tests/", "/user/tests/");
+    setCurrentUrl(newUrl);
   }, []);
 
   const handleDeselect = (value: string) => {
