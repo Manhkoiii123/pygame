@@ -15,14 +15,9 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
-    {/* <TanstackWrapper> */}
     <body className={poppins.className}>
-      <TanstackWrapper>
-        {children}
-        <ReactQueryDevtools initialIsOpen={false} />
-      </TanstackWrapper>
+      <TanstackWrapper>{children}</TanstackWrapper>
     </body>
-    {/* </TanstackWrapper> */}
   </html>
 );
 

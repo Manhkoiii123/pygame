@@ -4,6 +4,7 @@ import AppTheme from "@/components/config/config-theme";
 import "../../globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Link from "next/link";
+import TanstackWrapper from "@/lib/tanstack.wrapper";
 
 export const metadata: Metadata = {
   title: "Auth page",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 };
 
 const LayoutAuth = ({ children }: React.PropsWithChildren) => (
+  // <TanstackWrapper>
   <div className="px-5 pt-3">
     <AppTheme>
       <AntdRegistry>
@@ -34,6 +36,7 @@ const LayoutAuth = ({ children }: React.PropsWithChildren) => (
       </AntdRegistry>
     </AppTheme>
   </div>
+  // </TanstackWrapper>
 );
 
 export default LayoutAuth;
