@@ -1,3 +1,4 @@
+import Welcome from "@/app/user/tests/[testId]/(component)/Welcome";
 import React from "react";
 type TProps = {
   params: {
@@ -7,11 +8,7 @@ type TProps = {
 const page = (props: TProps) => {
   const { params } = props;
   const testId = params.testId;
-  return (
-    <>
-      <span>{testId}</span>
-    </>
-  );
+  return <Welcome id={testId} />;
 };
 
 export default page;
