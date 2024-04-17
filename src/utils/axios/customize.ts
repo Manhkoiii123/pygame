@@ -1,6 +1,4 @@
-import { authHrRequest } from "@/apiRequest/hr/auth";
 import { authRequest } from "@/apiRequest/hrAuth";
-import { User } from "@/types/auth";
 import {
   clearLocalStorage,
   setAccessTokenFromLs,
