@@ -1,25 +1,43 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Form, type FormProps, Input } from "antd";
-
 import Link from "next/link";
 import { authHrRequest } from "@/apiRequest/hr/auth";
 import { TLogin } from "@/types/auth";
-import { BASE_URL } from "@/utils/axios/customize";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import Loading from "@/components/views/Loading";
+import { AppContext } from "@/lib/context.wrapper";
+import { authRequest } from "@/apiRequest/hrAuth";
+
 type FieldType = {
   email?: string;
   password?: string;
 };
 const LoginPage = () => {
+  const loginMutation = useMutation({
+    mutationFn: (body: TLogin) => authHrRequest.login(body),
+  });
+  const { profile, setProfile, setIsAuthenticate } = useContext(AppContext);
+  const router = useRouter();
   const [form] = Form.useForm();
   const onFinish: FormProps["onFinish"] = async (values: TLogin) => {
-    // console.log(BASE_URL);
     const data: TLogin = {
       email: values.email,
       password: values.password,
     };
-    const res = await authHrRequest.login(data);
-    console.log("🚀 ~ constonFinish:FormProps", res);
+    loginMutation.mutate(data, {
+      onSuccess: async (res) => {
+        toast.success(res.data.message);
+        setProfile(res.data.data);
+        setIsAuthenticate(true);
+        router.push("/tests");
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data?.message);
+      },
+    });
   };
 
   const handleChangeInput = () => {
@@ -74,8 +92,12 @@ const LoginPage = () => {
             <Input.Password placeholder="Enter your password" />
           </Form.Item>
 
-          <Button className="w-full mt-1" type="primary" htmlType="submit">
-            Login
+          <Button
+            className="w-full mt-1 mx-auto"
+            type="primary"
+            htmlType="submit"
+          >
+            {loginMutation.isPending ? <Loading /> : "Login"}
           </Button>
         </Form>
         <Link href={"/forgot-password"} className="ml-auto">
