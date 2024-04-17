@@ -1,21 +1,25 @@
+import { authHrRequest } from "@/apiRequest/hr/auth";
 import { authRequest } from "@/apiRequest/hrAuth";
 import {
   clearLocalStorage,
   setAccessTokenFromLs,
   setProfileFromLS,
 } from "@/utils/auth/auth";
+import { sessionToken } from "@/utils/axios/customSession";
 import axios from "axios";
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
+
 export const instanceAxios = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
 instanceAxios.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
-  if (token) {
-    config.headers.authorization = token;
+  const access_token = localStorage.getItem("access_token");
+  if (access_token) {
+    config.headers.authorization = `Bearer ${access_token}`;
   }
   return config;
 });
@@ -31,6 +35,7 @@ instanceAxios.interceptors.response.use(async (response) => {
   } else if (url === "/logout") {
     accessToken = "";
     clearLocalStorage();
+    await authRequest.logoutDeleteCookie();
   }
   return response;
 });

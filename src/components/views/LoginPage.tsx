@@ -18,6 +18,7 @@ const LoginPage = () => {
   const loginMutation = useMutation({
     mutationFn: (body: TLogin) => authHrRequest.login(body),
   });
+
   const { setProfile, setIsAuthenticate } = useContext(AppContext);
   const router = useRouter();
   const [form] = Form.useForm();
@@ -27,9 +28,9 @@ const LoginPage = () => {
       password: values.password,
     };
     loginMutation.mutate(data, {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         toast.success(res.data.message);
-        setProfile(res.data.data.data.data as User);
+        setProfile(res?.data?.data as User);
         setIsAuthenticate(true);
         router.push("/tests");
       },
