@@ -3,13 +3,12 @@ import React, { useContext } from "react";
 import { Button, Form, type FormProps, Input } from "antd";
 import Link from "next/link";
 import { authHrRequest } from "@/apiRequest/hr/auth";
-import { TLogin } from "@/types/auth";
+import { AuthResponse, TLogin, User } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/views/Loading";
 import { AppContext } from "@/lib/context.wrapper";
-import { authRequest } from "@/apiRequest/hrAuth";
 
 type FieldType = {
   email?: string;
@@ -19,7 +18,7 @@ const LoginPage = () => {
   const loginMutation = useMutation({
     mutationFn: (body: TLogin) => authHrRequest.login(body),
   });
-  const { profile, setProfile, setIsAuthenticate } = useContext(AppContext);
+  const { setProfile, setIsAuthenticate } = useContext(AppContext);
   const router = useRouter();
   const [form] = Form.useForm();
   const onFinish: FormProps["onFinish"] = async (values: TLogin) => {
@@ -29,8 +28,9 @@ const LoginPage = () => {
     };
     loginMutation.mutate(data, {
       onSuccess: async (res) => {
+        console.log("🚀 ~ onSuccess: ~ res:", res);
         toast.success(res.data.message);
-        setProfile(res.data.data);
+        setProfile(res.data.data.data.data as User);
         setIsAuthenticate(true);
         router.push("/tests");
       },
