@@ -27,8 +27,7 @@ const LoginPage = () => {
       password: values.password,
     };
     loginMutation.mutate(data, {
-      onSuccess: async (res) => {
-        console.log("🚀 ~ onSuccess: ~ res:", res);
+      onSuccess: (res) => {
         toast.success(res.data.message);
         setProfile(res.data.data.data.data as User);
         setIsAuthenticate(true);
