@@ -1,7 +1,7 @@
 "use client";
 import { User } from "@/types/auth";
 import { getAccessTokenFromLS, getProfileFromLS } from "@/utils/auth/auth";
-import { sessionToken } from "@/utils/axios/customSession";
+import { sessionToken } from "@/lib/axios/customSession";
 
 import { createContext, useEffect, useState } from "react";
 interface AppContextType {
@@ -34,15 +34,10 @@ export const AppProvider = ({
   const [profile, setProfile] = useState<User | null>(
     initialAppContext.profile
   );
-  useState(() => {
-    if (typeof window !== "undefined") {
-      sessionToken.value = initSession;
-    }
-  });
+
   const reset = () => {
     setIsAuthenticate(false);
     setProfile(null);
-    sessionToken.value = "";
   };
 
   return (

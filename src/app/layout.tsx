@@ -6,6 +6,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppProvider } from "@/lib/context.wrapper";
 import { cookies } from "next/headers";
+import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
+
+// import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -18,13 +21,17 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: React.PropsWithChildren) => {
   const sessionToken = cookies().get("access_token")?.value ?? "";
+
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <TanstackWrapper>
-          <AppProvider initSession={sessionToken}>{children}</AppProvider>
-          <ToastContainer />
-        </TanstackWrapper>
+        {/* <AxiosInterceptor sessionToken={sessionToken}> */}
+        <AxiosInterceptor>
+          <TanstackWrapper>
+            <AppProvider initSession={sessionToken}>{children}</AppProvider>
+            <ToastContainer />
+          </TanstackWrapper>
+        </AxiosInterceptor>
       </body>
     </html>
   );
