@@ -1,5 +1,3 @@
-import { instanceAxios } from "@/utils/axios/customize";
-
 export const authRequest = {
   setAccessToken: (access_token: string) => {
     return new Promise((resolve, reject) => {
@@ -24,8 +22,28 @@ export const authRequest = {
   },
   logoutDeleteCookie: () => {
     return new Promise((resolve, reject) => {
-      fetch("/api/logout", {
+      fetch("/api/logoutNextServer", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            resolve(response.json());
+          } else {
+            reject("Error occurred during fetch");
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+  getCookieFromNextServer: () => {
+    return new Promise((resolve, reject) => {
+      fetch("/api/hrAuth", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },

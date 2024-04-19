@@ -5,7 +5,6 @@ import {
   setAccessTokenFromLs,
   setProfileFromLS,
 } from "@/utils/auth/auth";
-import { sessionToken } from "@/utils/axios/customSession";
 import axios from "axios";
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 

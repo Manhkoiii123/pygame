@@ -3,7 +3,7 @@ import { authHrRequest } from "@/apiRequest/hr/auth";
 import { authRequest } from "@/apiRequest/hrAuth";
 import MenuDropdown from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/MenuDropdown";
 import { AppContext } from "@/lib/context.wrapper";
-import { User } from "@/types/auth";
+
 import { TDropdown } from "@/types/dropdown";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -12,13 +12,13 @@ import React, { useContext, useState } from "react";
 
 const ProfileHeader = () => {
   const router = useRouter();
-  const { profile, setProfile, setIsAuthenticate } = useContext(AppContext);
+  const { profile, reset } = useContext(AppContext);
   const [open, setOpen] = useState<boolean>(false);
   const logoutMutation = useMutation({
     mutationFn: () => authHrRequest.logout(),
-    onSuccess: () => {
-      setProfile(null);
-      setIsAuthenticate(false);
+    onSuccess: async () => {
+      reset();
+      await authRequest.logoutDeleteCookie();
       router.push("/login");
     },
   });

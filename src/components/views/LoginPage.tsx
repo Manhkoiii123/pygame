@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/views/Loading";
 import { AppContext } from "@/lib/context.wrapper";
+import { authRequest } from "@/apiRequest/hrAuth";
+import { setAccessTokenFromLs, setProfileFromLS } from "@/utils/auth/auth";
 
 type FieldType = {
   email?: string;
@@ -32,6 +34,11 @@ const LoginPage = () => {
         toast.success(res.data.message);
         setProfile(res?.data?.data as User);
         setIsAuthenticate(true);
+        setProfileFromLS(res?.data?.data);
+        setAccessTokenFromLs(res?.data?.data.access_token);
+        await authRequest.setAccessToken(
+          res?.data?.data.access_token as string
+        );
         router.push("/tests");
       },
       onError: (error: any) => {
