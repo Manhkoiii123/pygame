@@ -1,11 +1,12 @@
 export type TTest = {
+  created_at: null;
+  description: string;
   id: number;
-  image: string;
-  title: string;
+  image_cover: string;
+  name: string;
+  option: null;
   time: number;
-  cup: number;
-  status: number;
-  question: number;
+  updated_at: null;
 };
 export interface Status {
   bgColor: string;

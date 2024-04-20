@@ -10,7 +10,7 @@ const TestCard = (props: Tprops) => {
     <div className="border-2 rounded-2xl border-[#DEDDDD] p-4 bg-white w-[387px] h-[355px]">
       <div className="w-[340px] h-[160px]">
         <Image
-          src={item.image}
+          src={item.image_cover || "/preview.png"}
           alt="image"
           width={200}
           height={100}
@@ -19,12 +19,12 @@ const TestCard = (props: Tprops) => {
       </div>
       <div className="flex flex-col gap-2 mt-4">
         <span className="text-xl font-medium mt-1 text-primary">
-          {item.title}
+          {item.name}
         </span>
         <span className="text-xs font-normal text-ink300">
-          {item.question} questions in {item.time} seconds assess candidate’s
-          verbal communication skills. Good communicator will connect people
-          together to yield the best result with minimal misunderstanding.
+          {6} questions in {item.time} seconds assess candidate’s verbal
+          communication skills. Good communicator will connect people together
+          to yield the best result with minimal misunderstanding.
         </span>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 ">
