@@ -15,6 +15,7 @@ const ModalAddAssessment = (props: TProps) => {
   const [form] = Form.useForm();
   const [formChild] = Form.useForm();
   const { isModalOpen, handleCancel } = props;
+
   const onFinish: FormProps["onFinish"] = (values) => {
     console.log("Success:", values);
   };
@@ -36,6 +37,7 @@ const ModalAddAssessment = (props: TProps) => {
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const [valueRadio, setValueRadio] = useState<string>("");
   const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
+  const [valueChildrenCheck, setValueChilrenCheck] = useState<string[]>([]);
   return (
     <Modal
       title={
@@ -73,6 +75,8 @@ const ModalAddAssessment = (props: TProps) => {
           handleOnChangeSelectTests={handleOnChangeSelectTests}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
+          valueChildrenCheck={valueChildrenCheck}
+          setValueChilrenCheck={setValueChilrenCheck}
         />
         <SelectPosition />
         <Form.Item
