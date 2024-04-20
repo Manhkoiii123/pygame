@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Button,
@@ -11,6 +12,8 @@ import {
   Select,
 } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { useQuery } from "@tanstack/react-query";
+import { listTestRequest } from "@/apiRequest/test";
 
 const CustomSelect = ({
   setSelectedOption,
@@ -31,25 +34,29 @@ const CustomSelect = ({
   valueCheck: CheckboxValueType[];
   setValueCheck: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>;
 }) => {
-  const options = useMemo(() => {
-    return [
-      {
-        label: "Verbal test",
-        value: "Verbal test",
-      },
-      { label: "Numerical test", value: "Numerical test" },
-      { label: "Logical test", value: "Logical test" },
-      { label: "Visual test", value: "Visual test" },
-      { label: "Personality test", value: "Personality Test" },
-    ];
-  }, []);
+  const { data: listTest } = useQuery({
+    queryKey: ["listTest"],
+    queryFn: async () => {
+      const res = await listTestRequest.fetchListTest();
+      return res.data.data.games;
+    },
+  });
+  const options = listTest?.map((item) => ({
+    label: item.name,
+    value: item.id.toString(),
+  }));
 
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const [initialValue, setInitialValue] = useState<string>("");
   useEffect(() => {
     if (selectedOption.length > 0) {
-      const init = selectedOption.join(", ");
+      let init = selectedOption.reduce((acc, cur) => {
+        return (acc += `${
+          options?.find((item) => item.value === cur)?.label
+        }, `);
+      }, "");
+      init = init.slice(0, -2);
       setInitialValue(init);
     } else {
       setInitialValue("");
@@ -118,7 +125,6 @@ const CustomSelect = ({
                 setValueCheck([...tmpValueCheck]);
               }
             }
-            // await handleOnChangeSelectTests(initialValue);
             setDropdownVisible(false);
           };
 
@@ -132,11 +138,7 @@ const CustomSelect = ({
           ].some((value) => valueCheck.includes(value));
 
           return (
-            <Form
-              form={formChild}
-              onFinish={handleSaveClick}
-              // initialValues={{ selectedOption: valueCheck }}
-            >
+            <Form form={formChild} onFinish={handleSaveClick}>
               <div
                 className="flex flex-col gap-2"
                 style={{ borderBottom: "1px solid #e8e8e8", padding: "8px" }}

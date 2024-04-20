@@ -44,7 +44,6 @@ const setupInterceptors = (instanceAxios: AxiosInstance) => {
 };
 const AxiosInterceptor: FC<TAxiosInterceptor> = ({
   children,
-  // sessionToken,
 }) => {
   useEffect(() => {
     setupInterceptors(instanceAxios);

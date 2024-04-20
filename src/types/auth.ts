@@ -6,9 +6,9 @@ export type User = {
   access_token: string;
   email: string;
 };
-export type AuthResponse = {
+export type AuthResponse<T> = {
   success: boolean;
   code: number;
   message: string;
-  data: User;
+  data: T;
 };

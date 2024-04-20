@@ -24,13 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <TanstackWrapper>
-          <AppTheme>
-            <Image alt="logo" width={200} height={100} src={"/logo.png"} />
-            <div className="flex  items-center justify-center">{children}</div>
-            <ToastContainer />
-          </AppTheme>
-        </TanstackWrapper>
+        {/* <TanstackWrapper> */}
+        <AppTheme>
+          <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+          <div className="flex  items-center justify-center">{children}</div>
+          <ToastContainer />
+        </AppTheme>
+        {/* </TanstackWrapper> */}
       </body>
     </html>
   );
