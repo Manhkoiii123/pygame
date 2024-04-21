@@ -9,7 +9,6 @@ import { useEffect } from "react";
 const Index = () => {
   const handleFetchListAssessment = async () => {
     const res = await listTestRequest.fetchListAssessment(1);
-    // console.log("🚀 ~ Index ~ res:", res.data.data.assessments);
     return res.data.data.assessments;
   };
   const { data: listAssessmet, isLoading } = useQuery({
