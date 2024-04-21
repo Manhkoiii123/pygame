@@ -1,9 +1,12 @@
 "use client";
+import { TAssessment } from "@/types/listAssessment";
 import { Tooltip } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 interface TProps {
   status: number;
+  data: TAssessment;
 }
 const listAction = [
   {
@@ -28,7 +31,7 @@ const listAction = [
   },
 ];
 const AssessmentItem = (props: TProps) => {
-  const { status } = props;
+  const { status, data } = props;
   const handleTitleTooltip = (title: string) => {
     return <span className="text-primary font-medium text-base">{title}</span>;
   };
@@ -65,48 +68,50 @@ const AssessmentItem = (props: TProps) => {
         </div>
       )}
 
-      <div className="flex flex-col gap-2">
-        {status === 0 && (
-          <div className="px-2 max-w-max rounded-2xl py-1 bg-[#FFAC9F] text-primary font-normal text-sm">
-            End Test
+      <Link href={`/tests/${data.id}`}>
+        <div className="flex flex-col gap-2">
+          {status === 0 && (
+            <div className="px-2 max-w-max rounded-2xl py-1 bg-[#FFAC9F] text-primary font-normal text-sm">
+              End Test
+            </div>
+          )}
+          <span className="font-medium text-xl text-primary">{data.name}</span>
+          <div className="h-[2px] w-full bg-gradient-to-r from-primary to-transparent"></div>
+          <div className="flex items-center gap-2 text-xs">
+            <span className="text-ink100 font-normal">
+              Number of participants :
+              <span className="text-primary font-semibold">
+                {data.candidates_count}
+              </span>
+            </span>
           </div>
-        )}
-        <span className="font-medium text-xl text-primary">
-          Assessment name
-        </span>
-        <div className="h-[2px] w-full bg-gradient-to-r from-primary to-transparent"></div>
-        <div className="flex items-center gap-2 text-xs">
-          <span className="text-ink100 font-normal">
-            Number of participants :{" "}
-            <span className="text-primary font-semibold">8</span>
-          </span>
+          <div className="flex items-center gap-2 text-xs">
+            <span className="text-ink100 font-normal">
+              Last activity :{" "}
+              <span className="text-primary font-semibold">6 days ago</span>
+            </span>
+          </div>
+          <div className="flex cursor-pointer items-center gap-1 text-secondary font-medium text-base group">
+            <span>Detail</span>
+            <span className=" group-hover:translate-x-1 ease-in-out duration-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          <span className="text-ink100 font-normal">
-            Last activity :{" "}
-            <span className="text-primary font-semibold">6 days ago</span>
-          </span>
-        </div>
-        <div className="flex cursor-pointer items-center gap-1 text-secondary font-medium text-base group">
-          <span>Detail</span>
-          <span className=" group-hover:translate-x-1 ease-in-out duration-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </span>
-        </div>
-      </div>
+      </Link>
     </div>
   );
 };
