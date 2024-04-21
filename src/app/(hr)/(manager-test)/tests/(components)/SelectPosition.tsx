@@ -8,120 +8,43 @@ interface Option {
   label: string;
   children?: Option[];
 }
+interface TProps {
+  setJobPosition: React.Dispatch<React.SetStateAction<string>>;
+  jobPosition: string;
+  jobFunction: string;
+  setJobFunction: React.Dispatch<React.SetStateAction<string>>;
+}
 
 const options: Option[] = [
   {
-    value: "developer",
+    value: "Developer",
     label: "Developer",
     children: [
       {
-        value: "developerJunior",
-        label: "Junior",
+        value: "Developer C-level executive",
+        label: "C-level executive",
       },
       {
-        value: "developerSenior",
-        label: "Senior",
+        value: "Developer Director",
+        label: "Director",
       },
       {
-        value: "developerLead",
-        label: "Lead",
-      },
-      {
-        value: "developerManager",
+        value: "Developer Manager",
         label: "Manager",
+      },
+      {
+        value: "DeveloperManager Junior / Trainee",
+        label: "Junior / Trainee",
+      },
+      {
+        value: "Developer Intern",
+        label: "Intern",
       },
     ],
   },
+
   {
-    value: "quanlityControl",
-    label: "Quanlity control",
-    children: [
-      {
-        value: "quanlityControlJunior",
-        label: "Junior",
-      },
-      {
-        value: "quanlityControlSenior",
-        label: "Senior",
-      },
-      {
-        value: "quanlityControlLead",
-        label: "Lead",
-      },
-      {
-        value: "quanlityControlManager",
-        label: "Manager",
-      },
-    ],
-  },
-  {
-    value: "accounting",
-    label: "Accounting",
-    children: [
-      {
-        value: "accountingJunior",
-        label: "Junior",
-      },
-      {
-        value: "accountingSenior",
-        label: "Senior",
-      },
-      {
-        value: "accountingLead",
-        label: "Lead",
-      },
-      {
-        value: "accountingManager",
-        label: "Manager",
-      },
-    ],
-  },
-  {
-    value: "productOwner",
-    label: "Product Owner",
-    children: [
-      {
-        value: "productOwnerJunior",
-        label: "Junior",
-      },
-      {
-        value: "productOwnerSenior",
-        label: "Senior",
-      },
-      {
-        value: "productOwnerLead",
-        label: "Lead",
-      },
-      {
-        value: "productOwnerManager",
-        label: "Manager",
-      },
-    ],
-  },
-  {
-    value: "talentAcquisition",
-    label: "Talent Acquisition",
-    children: [
-      {
-        value: "talentAcquisitionJunior",
-        label: "Junior",
-      },
-      {
-        value: "talentAcquisitionSenior",
-        label: "Senior",
-      },
-      {
-        value: "talentAcquisitionLead",
-        label: "Lead",
-      },
-      {
-        value: "talentAcquisitionManager",
-        label: "Manager",
-      },
-    ],
-  },
-  {
-    value: "other",
+    value: "Other",
     label: "Other",
   },
 ];
@@ -141,10 +64,9 @@ const displayRender = (labels: string[]) => {
   );
 };
 
-const SelectPosition: React.FC = () => {
+const SelectPosition = (props: TProps) => {
   const [otherCheck, setOtherCheck] = useState<boolean>(false);
   const onChange: SingleCascaderProps<Option>["onChange"] = (value) => {
-
     if (value.length === 1) {
       setOtherCheck(true);
     } else {

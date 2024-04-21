@@ -51,8 +51,7 @@ const CustomSelect = ({
     return listTest.map((item) => ({
       label: item.name,
       value: item.id.toString(),
-      // children: item.option,
-      children: ["a", "b"],
+      children: item.option,
     }));
   }, [listTest]);
   const options = generateOptions();
@@ -65,10 +64,9 @@ const CustomSelect = ({
   useEffect(() => {
     if (selectedOption.length > 0) {
       let init = (valueCheck as string[]).reduce((acc, cur) => {
-        if (valueChildrenCheck.some((item) => item.startsWith(cur))) {
-          return (acc += `${
-            options?.find((item) => item.value === cur)?.label
-          }, `);
+        let tmpLabel = options?.find((item) => item.value === cur)?.label!;
+        if (!valueChildrenCheck.some((item) => item.startsWith(tmpLabel))) {
+          return (acc += `${tmpLabel}, `);
         } else {
           return (acc += "");
         }

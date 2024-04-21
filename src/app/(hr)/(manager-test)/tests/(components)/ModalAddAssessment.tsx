@@ -4,7 +4,7 @@ import { Button, Form, type FormProps, Input, DatePicker } from "antd";
 import CustomSelect from "@/app/(hr)/(manager-test)/tests/(components)/SelectTest";
 import SelectPosition from "@/app/(hr)/(manager-test)/tests/(components)/SelectPosition";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-
+import dayjs from "dayjs";
 const { RangePicker } = DatePicker;
 interface TProps {
   isModalOpen: boolean;
@@ -17,7 +17,29 @@ const ModalAddAssessment = (props: TProps) => {
   const { isModalOpen, handleCancel } = props;
 
   const onFinish: FormProps["onFinish"] = (values) => {
-    console.log("Success:", values);
+    const jobFunction = values.positionRecruiting[0];
+    let jobPosition;
+    if (jobFunction !== "Other") {
+      jobPosition = values.positionRecruiting[1].split(" ").splice(1).join(" ");
+    } else {
+      jobPosition = values.otherPosition;
+    }
+    const date = values.date.map((item: any) => {
+      const formattedDate = item
+        ? dayjs(item).format("DD-MM-YYYY HH:mm:ss")
+        : dayjs().format("DD-MM-YYYY HH:mm:ss");
+      return formattedDate;
+    });
+    const data = {
+      name: values.name,
+      job_function: jobFunction,
+      job_position: jobPosition,
+      games: valueCheck,
+      options: valueChildrenCheck,
+      startDate: date[0],
+      endDate: date[1],
+    };
+    console.log("🚀 ~ ModalAddAssessment ~ data:", data);
   };
   const handleChangeInput = () => {
     form.setFields([
@@ -38,6 +60,10 @@ const ModalAddAssessment = (props: TProps) => {
   const [valueRadio, setValueRadio] = useState<string>("");
   const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
   const [valueChildrenCheck, setValueChilrenCheck] = useState<string[]>([]);
+  //senior
+  const [jobPosition, setJobPosition] = useState<string>("");
+  // developer
+  const [jobFunction, setJobFunction] = useState<string>("");
 
   return (
     <Modal
@@ -62,9 +88,9 @@ const ModalAddAssessment = (props: TProps) => {
       >
         <Form.Item
           label="Your assessment name"
-          name="username"
+          name="name"
           validateTrigger="onSubmit"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please input your name!" }]}
         >
           <Input onChange={handleChangeInput} placeholder="Enter your name" />
         </Form.Item>
@@ -80,7 +106,12 @@ const ModalAddAssessment = (props: TProps) => {
           valueChildrenCheck={valueChildrenCheck}
           setValueChilrenCheck={setValueChilrenCheck}
         />
-        <SelectPosition />
+        <SelectPosition
+          setJobPosition={setJobPosition}
+          jobPosition={jobPosition}
+          jobFunction={jobFunction}
+          setJobFunction={setJobFunction}
+        />
         <Form.Item
           label="Assessment date"
           name="date"
