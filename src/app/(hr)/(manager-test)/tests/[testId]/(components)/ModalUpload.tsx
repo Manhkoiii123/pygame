@@ -47,7 +47,6 @@ const ModalUpload = (props: TProps) => {
       const file = info.fileList[0].originFileObj as File;
       setFileName(file.name);
       if (status === "uploading") {
-        console.log(percent);
         setStatusUpload(1);
         // const percentage = Math.floor((percent || 0) * 100);
         setProgress(percent || 0);

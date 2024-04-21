@@ -56,19 +56,28 @@ const CustomSelect = ({
     }));
   }, [listTest]);
   const options = generateOptions();
-
+  const [validateStatus, setValidateStatus] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const [initialValue, setInitialValue] = useState<string>("");
   useEffect(() => {
     if (selectedOption.length > 0) {
-      let init = selectedOption.reduce((acc, cur) => {
-        return (acc += `${
-          options?.find((item) => item.value === cur)?.label
-        }, `);
+      let init = (valueCheck as string[]).reduce((acc, cur) => {
+        if (valueChildrenCheck.some((item) => item.startsWith(cur))) {
+          return (acc += `${
+            options?.find((item) => item.value === cur)?.label
+          }, `);
+        } else {
+          return (acc += "");
+        }
       }, "");
-      init = init.slice(0, -2);
-      setInitialValue(init);
+      let init2 = (valueChildrenCheck as string[]).reduce((acc, cur) => {
+        return (acc += `${cur}, `);
+      }, "");
+      let ans = (init + init2).slice(0, -2);
+      setInitialValue(ans);
     } else {
       setInitialValue("");
     }
@@ -77,38 +86,32 @@ const CustomSelect = ({
     setDropdownVisible(visible);
   };
   useEffect(() => {
-    setSelectedOption(valueCheck.map(String));
-  }, [valueCheck]);
-
+    setSelectedOption([
+      ...valueCheck.map(String),
+      ...valueChildrenCheck.map(String),
+    ]);
+  }, [valueCheck, valueChildrenCheck]);
   const handleSaveClick = async () => {
     await formChild.validateFields();
     handleOnChangeSelectTests(initialValue);
-    // const tmpValueCheck = valueCheck.filter(
-    //   (item) => item !== "Personality Test"
-    // );
-    // if (valueCheck.includes("Personality Test")) {
-    //   if (valueRadio !== "") {
-    //     setValueCheck([...tmpValueCheck, valueRadio]);
-    //   }
-    // } else {
-    //   if (valueRadio !== "") {
-    //     if (
-    //       ["Personality Test English", "Personality Test Vietnamese"].some(
-    //         (value) => valueCheck.includes(value)
-    //       )
-    //     ) {
-    //       const tmpValueCheck = valueCheck.slice(0, -1);
-    //       setValueCheck([...tmpValueCheck, valueRadio]);
-    //     } else {
-    //       setValueCheck([...valueCheck]);
-    //     }
-    //   } else {
-    //     setValueCheck([...tmpValueCheck]);
-    //   }
-    // }
-
     setDropdownVisible(false);
   };
+  let tmpChildrenCheck = useMemo(
+    () => valueChildrenCheck,
+    [valueChildrenCheck]
+  );
+  useEffect(() => {
+    for (let i = 0; i < options.length; i++) {
+      if (valueCheck.includes(options[i].value) === false) {
+        tmpChildrenCheck = tmpChildrenCheck.filter(
+          (item) => !item.startsWith(options[i].label)
+        );
+      }
+    }
+
+    setValueChilrenCheck(tmpChildrenCheck);
+  }, [valueCheck]);
+  console.log("validateStatus", validateStatus);
   return (
     <Form.Item
       label="Select an option"
@@ -134,10 +137,29 @@ const CustomSelect = ({
             checkedValues
           ) => {
             setValueCheck(checkedValues);
+            (checkedValues as string[]).map((item) => {
+              setValidateStatus({
+                ...validateStatus,
+                [item]: valueCheck.includes(item),
+              });
+            });
           };
 
-          const onChangeRadio = (e: RadioChangeEvent, name: string) => {
+          const onChangeRadio = (
+            e: RadioChangeEvent,
+            name: string,
+            id: string
+          ) => {
             setValueRadio(e.target.value);
+
+            setValidateStatus({
+              ...validateStatus,
+              [id]:
+                valueCheck.includes(id) &&
+                e.target.value !== undefined &&
+                e.target.value !== "",
+            });
+
             if (e.target.value.startsWith(name)) {
               let cloneValueChildrenCheck = valueChildrenCheck.filter(
                 (item) => !item.startsWith(name)
@@ -146,7 +168,6 @@ const CustomSelect = ({
               setValueChilrenCheck(cloneValueChildrenCheck);
             }
           };
-          console.log("valueChildrenCheck", valueChildrenCheck);
           return (
             <Form form={formChild} onFinish={handleSaveClick}>
               <div
@@ -183,26 +204,22 @@ const CustomSelect = ({
                             name={`${option.label}`}
                             rules={[
                               {
-                                required: true,
-                                message: `${option.label} is required`,
+                                validator: (_, value) => {
+                                  if (validateStatus[option.value] !== true) {
+                                    return Promise.reject(
+                                      `${option.label} is required`
+                                    );
+                                  }
+                                  return Promise.resolve();
+                                },
                               },
                             ]}
                           >
-                            {/* <Radio.Group
-                              className="!flex !flex-col !ml-8"
-                              onChange={onChangeRadio}
-                              value={valueRadio}
-                            >
-                              <Radio value={`${option.label} English`}>
-                                {option.label} in English
-                              </Radio>
-                              <Radio value={`${option.label} Vietnamese`}>
-                                {option.label} in Vietnamese
-                              </Radio>
-                            </Radio.Group> */}
                             <Radio
                               className="!ml-8"
-                              onChange={(e) => onChangeRadio(e, option.label)}
+                              onChange={(e) =>
+                                onChangeRadio(e, option.label, option.value)
+                              }
                               value={`${option.label} English`}
                               checked={valueChildrenCheck.includes(
                                 `${option.label} English`
@@ -212,7 +229,9 @@ const CustomSelect = ({
                             </Radio>
                             <Radio
                               className="!ml-8"
-                              onChange={(e) => onChangeRadio(e, option.label)}
+                              onChange={(e) =>
+                                onChangeRadio(e, option.label, option.value)
+                              }
                               checked={valueChildrenCheck.includes(
                                 `${option.label} Vietnamese`
                               )}

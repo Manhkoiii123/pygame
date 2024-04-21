@@ -143,9 +143,8 @@ const displayRender = (labels: string[]) => {
 
 const SelectPosition: React.FC = () => {
   const [otherCheck, setOtherCheck] = useState<boolean>(false);
-  console.log("🚀 ~ otherCheck:", otherCheck);
   const onChange: SingleCascaderProps<Option>["onChange"] = (value) => {
-    // console.log(value);
+
     if (value.length === 1) {
       setOtherCheck(true);
     } else {

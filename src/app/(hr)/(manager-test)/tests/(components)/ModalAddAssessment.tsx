@@ -38,6 +38,7 @@ const ModalAddAssessment = (props: TProps) => {
   const [valueRadio, setValueRadio] = useState<string>("");
   const [valueCheck, setValueCheck] = useState<CheckboxValueType[]>([]);
   const [valueChildrenCheck, setValueChilrenCheck] = useState<string[]>([]);
+
   return (
     <Modal
       title={
@@ -47,6 +48,7 @@ const ModalAddAssessment = (props: TProps) => {
         onReset();
         handleCancel();
         setValueCheck([]);
+        setValueChilrenCheck([]);
       }}
       open={isModalOpen}
       footer={null}
