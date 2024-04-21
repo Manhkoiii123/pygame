@@ -1,6 +1,10 @@
 import instanceAxios from "@/lib/axios/axios.wrapper";
 import { AuthResponse } from "@/types/auth";
-import { TAssessment } from "@/types/listAssessment";
+import {
+  TAssessment,
+  TAssessmentData,
+  TDataCreateassessment,
+} from "@/types/listAssessment";
 import { TTest } from "@/types/listTest";
 
 export const listTestRequest = {
@@ -9,5 +13,10 @@ export const listTestRequest = {
   fetchListAssessment: async (status: number) =>
     await instanceAxios.get<AuthResponse<{ assessments: TAssessment[] }>>(
       `/list-assessment?status=${status}`
+    ),
+  createAssessment: async (data: FormData) =>
+    await instanceAxios.post<AuthResponse<{ item: TAssessmentData }>>(
+      "/create-assessment",
+      data
     ),
 };

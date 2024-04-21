@@ -5,6 +5,10 @@ import CustomSelect from "@/app/(hr)/(manager-test)/tests/(components)/SelectTes
 import SelectPosition from "@/app/(hr)/(manager-test)/tests/(components)/SelectPosition";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import dayjs from "dayjs";
+import { listTestRequest } from "@/apiRequest/test";
+import { TAssessment, TDataCreateassessment } from "@/types/listAssessment";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 const { RangePicker } = DatePicker;
 interface TProps {
   isModalOpen: boolean;
@@ -12,11 +16,18 @@ interface TProps {
 }
 
 const ModalAddAssessment = (props: TProps) => {
+  const handleCreateAssessment = async (data: FormData) => {
+    const res = await listTestRequest.createAssessment(data);
+    return res.data.data.item;
+  };
+  const createAssessmentMutation = useMutation({
+    mutationFn: handleCreateAssessment,
+  });
   const [form] = Form.useForm();
   const [formChild] = Form.useForm();
   const { isModalOpen, handleCancel } = props;
-
-  const onFinish: FormProps["onFinish"] = (values) => {
+  const queryClient = useQueryClient();
+  const onFinish: FormProps["onFinish"] = async (values) => {
     const jobFunction = values.positionRecruiting[0];
     let jobPosition;
     if (jobFunction !== "Other") {
@@ -24,22 +35,43 @@ const ModalAddAssessment = (props: TProps) => {
     } else {
       jobPosition = values.otherPosition;
     }
+
     const date = values.date.map((item: any) => {
       const formattedDate = item
         ? dayjs(item).format("DD-MM-YYYY HH:mm:ss")
         : dayjs().format("DD-MM-YYYY HH:mm:ss");
       return formattedDate;
     });
-    const data = {
+    const valueNumberCheck: number[] = valueCheck.map((item) => Number(item));
+    const data: TDataCreateassessment = {
       name: values.name,
       job_function: jobFunction,
       job_position: jobPosition,
-      games: valueCheck,
-      options: valueChildrenCheck,
-      startDate: date[0],
-      endDate: date[1],
+      "game[0][game_id]": [...valueNumberCheck] as number[],
+      "game[0][option]": valueChildrenCheck,
+      start_date: date[0],
+      end_date: date[1],
     };
-    console.log("🚀 ~ ModalAddAssessment ~ data:", data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("job_function", data.job_function);
+    formData.append("job_position", data.job_position);
+    formData.append("start_date", data.start_date);
+    formData.append("end_date", data.end_date);
+    formData.append("game[0][game_id]", data["game[0][game_id]"].join(","));
+    formData.append("game[0][option]", data["game[0][option]"].join(","));
+    createAssessmentMutation.mutate(formData, {
+      onSuccess: async (res) => {
+        toast.success("Tạo thành công");
+        onReset();
+        handleCancel();
+        setValueCheck([]);
+        setValueChilrenCheck([]);
+        queryClient.invalidateQueries({
+          queryKey: ["listAssessment"],
+        });
+      },
+    });
   };
   const handleChangeInput = () => {
     form.setFields([

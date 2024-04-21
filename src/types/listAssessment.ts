@@ -16,3 +16,24 @@ export interface TAssessment {
   deleted_at: null;
   candidates_count: number;
 }
+export interface TAssessmentData {
+  name: string;
+  job_function: string;
+  job_position: string;
+  start_date: string;
+  end_date: string;
+  user_id: number;
+  token: string;
+  updated_at: string;
+  created_at: string;
+  id: number;
+}
+export type TDataCreateassessment = {
+  name: string;
+  job_function: string;
+  job_position: string;
+  start_date: string;
+  end_date: string;
+  "game[0][game_id]": number[];
+  "game[0][option]": string[];
+};
