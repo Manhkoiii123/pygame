@@ -28,12 +28,15 @@ export interface TAssessmentData {
   created_at: string;
   id: number;
 }
+export type game = {
+  game_id: number[];
+  option?: string[];
+};
 export type TDataCreateassessment = {
   name: string;
   job_function: string;
   job_position: string;
   start_date: string;
   end_date: string;
-  "game[0][game_id]": number[];
-  "game[0][option]": string[];
+  game: game[];
 };

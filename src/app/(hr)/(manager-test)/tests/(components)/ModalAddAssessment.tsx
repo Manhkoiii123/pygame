@@ -6,9 +6,10 @@ import SelectPosition from "@/app/(hr)/(manager-test)/tests/(components)/SelectP
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import dayjs from "dayjs";
 import { listTestRequest } from "@/apiRequest/test";
-import { TAssessment, TDataCreateassessment } from "@/types/listAssessment";
+import { TDataCreateassessment, game } from "@/types/listAssessment";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import Loading from "@/components/views/Loading";
 const { RangePicker } = DatePicker;
 interface TProps {
   isModalOpen: boolean;
@@ -28,6 +29,7 @@ const ModalAddAssessment = (props: TProps) => {
   const { isModalOpen, handleCancel } = props;
   const queryClient = useQueryClient();
   const onFinish: FormProps["onFinish"] = async (values) => {
+    console.log("🚀 ~ constonFinish:FormProps= ~ values:", values);
     const jobFunction = values.positionRecruiting[0];
     let jobPosition;
     if (jobFunction !== "Other") {
@@ -35,31 +37,33 @@ const ModalAddAssessment = (props: TProps) => {
     } else {
       jobPosition = values.otherPosition;
     }
-
     const date = values.date.map((item: any) => {
       const formattedDate = item
         ? dayjs(item).format("DD-MM-YYYY HH:mm:ss")
         : dayjs().format("DD-MM-YYYY HH:mm:ss");
       return formattedDate;
     });
-    const valueNumberCheck: number[] = valueCheck.map((item) => Number(item));
+    const valueNumberCheck: number[] = valueCheck.map((item) => Number(item)); //game_id
+
     const data: TDataCreateassessment = {
       name: values.name,
       job_function: jobFunction,
       job_position: jobPosition,
-      "game[0][game_id]": [...valueNumberCheck] as number[],
-      "game[0][option]": valueChildrenCheck,
+      game: game,
       start_date: date[0],
       end_date: date[1],
     };
+
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("job_function", data.job_function);
     formData.append("job_position", data.job_position);
     formData.append("start_date", data.start_date);
     formData.append("end_date", data.end_date);
-    formData.append("game[0][game_id]", data["game[0][game_id]"].join(","));
-    formData.append("game[0][option]", data["game[0][option]"].join(","));
+    data.game.map((item: any, index) => {
+      formData.append(`game[${index}][game_id]`, item.game_id.toString());
+      formData.append(`game[${index}][option]`, item.option);
+    });
     createAssessmentMutation.mutate(formData, {
       onSuccess: async (res) => {
         toast.success("Tạo thành công");
@@ -96,6 +100,7 @@ const ModalAddAssessment = (props: TProps) => {
   const [jobPosition, setJobPosition] = useState<string>("");
   // developer
   const [jobFunction, setJobFunction] = useState<string>("");
+  const [game, setGame] = useState<game[]>([]);
 
   return (
     <Modal
@@ -137,6 +142,8 @@ const ModalAddAssessment = (props: TProps) => {
           setSelectedOption={setSelectedOption}
           valueChildrenCheck={valueChildrenCheck}
           setValueChilrenCheck={setValueChilrenCheck}
+          game={game}
+          setGame={setGame}
         />
         <SelectPosition
           setJobPosition={setJobPosition}
@@ -153,7 +160,11 @@ const ModalAddAssessment = (props: TProps) => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" className="w-full" htmlType="submit">
-            Create
+            {createAssessmentMutation.isPending ? (
+              <Loading></Loading>
+            ) : (
+              "Create"
+            )}
           </Button>
         </Form.Item>
       </Form>

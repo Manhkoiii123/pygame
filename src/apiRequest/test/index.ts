@@ -19,4 +19,9 @@ export const listTestRequest = {
       "/create-assessment",
       data
     ),
+  deleteAssessment: async (data: FormData) =>
+    await instanceAxios.post<AuthResponse<{ item: string }>>(
+      "/delete-assessment",
+      data
+    ),
 };

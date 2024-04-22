@@ -14,6 +14,7 @@ import {
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useQuery } from "@tanstack/react-query";
 import { listTestRequest } from "@/apiRequest/test";
+import { game } from "@/types/listAssessment";
 
 const CustomSelect = ({
   setSelectedOption,
@@ -26,6 +27,8 @@ const CustomSelect = ({
   setValueCheck,
   valueChildrenCheck,
   setValueChilrenCheck,
+  game,
+  setGame,
 }: {
   selectedOption: string[];
   setSelectedOption: React.Dispatch<React.SetStateAction<string[]>>;
@@ -37,6 +40,8 @@ const CustomSelect = ({
   setValueCheck: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>;
   valueChildrenCheck: string[];
   setValueChilrenCheck: React.Dispatch<React.SetStateAction<string[]>>;
+  game: game[];
+  setGame: React.Dispatch<React.SetStateAction<game[]>>;
 }) => {
   const { data: listTest } = useQuery({
     queryKey: ["listTest"],
@@ -92,6 +97,43 @@ const CustomSelect = ({
   const handleSaveClick = async () => {
     await formChild.validateFields();
     handleOnChangeSelectTests(initialValue);
+    valueChildrenCheck.forEach((item) => {
+      const op = options.findIndex((option) => item.includes(option.label));
+      let tmp: {
+        label: string;
+        value: string;
+        children: null;
+      };
+      let optionTmp = "";
+      if (item.includes("Vietnamese")) {
+        optionTmp = "vi";
+      } else if (item.includes("English")) {
+        optionTmp = "en";
+      }
+      if (op !== -1) {
+        tmp = options[op];
+      }
+      setGame((prev) => {
+        if (prev.some((game) => game.game_id.includes(Number(tmp.value)))) {
+          const tmpPrev = prev.filter(
+            (item) => String(item.game_id[0]) !== tmp.value
+          );
+          tmpPrev.push({
+            game_id: [Number(tmp.value)],
+            option: [optionTmp],
+          });
+          return tmpPrev;
+        }
+        return [...prev, { game_id: [Number(tmp.value)], option: [optionTmp] }];
+      });
+    });
+    valueCheck.forEach((item) => {
+      setGame((prev) => {
+        if (prev.some((game) => game.game_id.includes(Number(item))))
+          return prev;
+        return [...prev, { game_id: [Number(item)], option: [] }];
+      });
+    });
     setDropdownVisible(false);
   };
   let tmpChildrenCheck = useMemo(
@@ -106,10 +148,8 @@ const CustomSelect = ({
         );
       }
     }
-
     setValueChilrenCheck(tmpChildrenCheck);
   }, [valueCheck]);
-  console.log("validateStatus", validateStatus);
   return (
     <Form.Item
       label="Select an option"
@@ -149,7 +189,6 @@ const CustomSelect = ({
             id: string
           ) => {
             setValueRadio(e.target.value);
-
             setValidateStatus({
               ...validateStatus,
               [id]:
