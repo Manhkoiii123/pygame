@@ -15,6 +15,7 @@ const Index = () => {
     queryKey: ["listAssessment"],
     queryFn: () => handleFetchListAssessment(),
   });
+  console.log("🚀 ~ Index ~ listAssessmet:", listAssessmet);
   return (
     <div className="flex flex-col gap-4">
       <div className="text-[32px] leading-[44px] font-semibold text-primary">
