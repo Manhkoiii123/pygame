@@ -6,7 +6,7 @@ import { Button } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const DropdownInvite = () => {
+const DropdownInvite = ({ id }: { id: string }) => {
   const [open, setOpen] = useState<boolean>(false);
   const dropdownInvite: TDropdown[] = [
     {
@@ -34,7 +34,7 @@ const DropdownInvite = () => {
           </div>
         </Button>
       </MenuDropdown>
-      <ModalInvite open={open} setOpen={setOpen} />
+      <ModalInvite id={id} open={open} setOpen={setOpen} />
     </>
   );
 };

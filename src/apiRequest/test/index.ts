@@ -30,4 +30,10 @@ export const listTestRequest = {
       `/detail-assessment?assessment_id=${id}`
     );
   },
+  inviteCandicate: async (data: FormData) => {
+    return await instanceAxios.post<AuthResponse<any>>(
+      "/invite-candidate",
+      data
+    );
+  },
 };

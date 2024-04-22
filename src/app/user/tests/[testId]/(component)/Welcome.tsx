@@ -1,5 +1,7 @@
 "use client";
-import { authRequest } from "@/apiRequest/auth";
+
+import { userRequest } from "@/apiRequest/user";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,14 +14,35 @@ interface TProps {
 }
 const Welcome = (props: TProps) => {
   const { id } = props;
+
   const [form] = Form.useForm();
   const router = useRouter();
+  const handleUserLogin = async ({
+    data,
+    token,
+  }: {
+    data: FormData;
+    token: string;
+  }) => {
+    const res = await userRequest.userLogin({ data, token });
+    return res.data.data;
+  };
+  const userLoginMutation = useMutation({
+    mutationFn: handleUserLogin,
+  });
   const onFinish = async (values: TValues) => {
-    try {
-      await authRequest.setEmail(values.email);
-    } catch (error) {
-      console.error("Error setting email:", error);
-    }
+    const data = new FormData();
+    data.append("email", values.email);
+    // userLoginMutation.mutate(data, {
+    //   onSuccess: (res) => {
+    //     console.log(res);
+    //   },
+    // });
+    // try {
+    //   await authRequest.setEmail(values.email);
+    // } catch (error) {
+    //   console.error("Error setting email:", error);
+    // }
     router.push(`/user/tests/${id}/home`);
   };
   const handleChangeInput = () => {

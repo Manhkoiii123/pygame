@@ -1,10 +1,16 @@
+"use client";
+import { listTestRequest } from "@/apiRequest/test";
 import ModalUpload from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalUpload";
+import Loading from "@/components/views/Loading";
+import { useMutation } from "@tanstack/react-query";
 import { Button, Modal, Select, message } from "antd";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  id: string;
 };
 const ModalInvite = (props: TProps) => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -23,7 +29,7 @@ const ModalInvite = (props: TProps) => {
       duration: 1,
     });
   };
-  const { open, setOpen } = props;
+  const { open, setOpen, id } = props;
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -75,7 +81,28 @@ const ModalInvite = (props: TProps) => {
     setOpen(true);
     setOpenUploadModal(false);
   };
-
+  const handleInviteRequest = async (data: FormData) => {
+    const res = await listTestRequest.inviteCandicate(data);
+    return res;
+  };
+  const inviteMutation = useMutation({
+    mutationFn: handleInviteRequest,
+  });
+  const handleInvite = () => {
+    const data = new FormData();
+    data.append("assessment_id", id);
+    data.append("type", "1");
+    email.map((item, index) => {
+      data.append(`list_email[${index}]`, item);
+    });
+    inviteMutation.mutate(data, {
+      onSuccess: () => {
+        setOpen(false);
+        toast.success("Mời người dùng thành công");
+        setEmail([]);
+      },
+    });
+  };
   return (
     <>
       {contextHolder}
@@ -104,8 +131,13 @@ const ModalInvite = (props: TProps) => {
             placeholder="Please enter email"
             onDeselect={handleDeselect}
           />
-          <Button type="primary" className="w-[100px]" htmlType="button">
-            Invite
+          <Button
+            type="primary"
+            className="w-[100px]"
+            htmlType="button"
+            onClick={handleInvite}
+          >
+            {inviteMutation.isPending ? <Loading /> : "Invite"}
           </Button>
         </div>
         <div className="pt-5">
@@ -164,6 +196,8 @@ const ModalInvite = (props: TProps) => {
         </div>
       </Modal>
       <ModalUpload
+        id={id}
+        setOpen={setOpen}
         openUploadModal={openUploadModal}
         handleCloseModalUpload={handleCloseModalUpload}
       ></ModalUpload>
