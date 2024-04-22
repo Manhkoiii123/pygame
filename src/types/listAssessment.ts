@@ -1,5 +1,8 @@
 // 1 là còn hạn
 // 0 là hết hạn
+
+import { TTestAssessment } from "@/types/listTest";
+
 // -1 disable
 export interface TAssessment {
   id: number;
@@ -14,7 +17,13 @@ export interface TAssessment {
   created_at: string;
   updated_at: string;
   deleted_at: null;
-  candidates_count: number;
+  candidates_count?: number;
+  games: TTestAssessment[];
+}
+export interface TAssessmentDetail {
+  assessment: TAssessment;
+  number_invited: number;
+  number_played: number;
 }
 export interface TAssessmentData {
   name: string;
