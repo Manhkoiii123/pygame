@@ -1,11 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { listTestRequest } from "@/apiRequest/test";
+import { useMutation } from "@tanstack/react-query";
 import { Divider, Modal, Progress, Upload, UploadProps, message } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 interface TProps {
   openUploadModal: boolean;
   handleCloseModalUpload: () => void;
+  id: string;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type UploadRequestOption<T> = {
@@ -18,21 +24,36 @@ interface TFile {
 const { Dragger } = Upload;
 const ModalUpload = (props: TProps) => {
   const [dataExcel, setDataExcel] = useState<TFile[]>([]);
-  // 0 là ch up
-  // 1 là đang up
-  // 2 là đã up thành công
-  // -1 up thất bại
   const [statusUpload, setStatusUpload] = useState<number | undefined>(0);
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState<string>("");
-  const { openUploadModal, handleCloseModalUpload } = props;
+  const { openUploadModal, handleCloseModalUpload, id, setOpen } = props;
+  const handleInviteRequest = async (data: FormData) => {
+    const res = await listTestRequest.inviteCandicate(data);
+    return res;
+  };
+  const inviteMutation = useMutation({
+    mutationFn: handleInviteRequest,
+  });
+  const handleInvite = () => {
+    const data = new FormData();
+    data.append("assessment_id", id);
+    data.append("type", "1");
+    dataExcel.map((item, index) => {
+      data.append(`list_email[${index}]`, item.email);
+    });
+    inviteMutation.mutate(data, {
+      onSuccess: () => {
+        setOpen(false);
+        handleCloseModalUpload();
+        toast.success("Mời người dùng thành công");
+      },
+    });
+  };
+  useEffect(() => {
+    if (dataExcel && dataExcel.length > 0) handleInvite();
+  }, [dataExcel]);
 
-  // const dummyRequest = (options: UploadRequestOption<any>) => {
-  // const { file, onSuccess } = options;
-  // setTimeout(() => {
-  // onSuccess("ok");
-  // }, 1000);
-  // };
   const propsUpload: UploadProps = {
     name: "file",
     multiple: false,
@@ -40,7 +61,6 @@ const ModalUpload = (props: TProps) => {
     maxCount: 1,
     accept:
       ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
-    // customRequest: dummyRequest as any,
 
     onChange(info) {
       const { status, percent } = info.file;
@@ -48,7 +68,6 @@ const ModalUpload = (props: TProps) => {
       setFileName(file.name);
       if (status === "uploading") {
         setStatusUpload(1);
-        // const percentage = Math.floor((percent || 0) * 100);
         setProgress(percent || 0);
       }
       if (status === "done") {
@@ -64,7 +83,6 @@ const ModalUpload = (props: TProps) => {
               header: ["email"],
               range: 1,
             });
-            // cái kiểu dữ liệu của cái này sẽ là cái mà cần up lên chắc chỉ có mỗi email ko thôi
             if (json && json.length > 0) setDataExcel(json as TFile[]);
           };
         }

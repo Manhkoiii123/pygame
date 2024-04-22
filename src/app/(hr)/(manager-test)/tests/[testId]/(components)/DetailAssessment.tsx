@@ -21,9 +21,6 @@ const DetailAssessment = ({ testId }: { testId: string }) => {
     queryKey: ["detailAssessment", testId],
     queryFn: () => handleFetchDetail(testId),
   });
-  useEffect(() => {
-    handleFetchDetail(testId);
-  }, [testId]);
   return (
     <>
       {isLoading ? (
@@ -55,7 +52,7 @@ const DetailAssessment = ({ testId }: { testId: string }) => {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <DropdownInvite></DropdownInvite>
+              <DropdownInvite id={testId}></DropdownInvite>
               <DropdownMore></DropdownMore>
             </div>
           </div>
