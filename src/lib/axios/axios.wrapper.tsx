@@ -16,25 +16,38 @@ type TAxiosInterceptor = {
 };
 const fetchCookie = async () => {
   const res = (await authRequest.getCookieFromNextServer()) as string;
-  const parts = res.split(";");
-  const accessTokenHr = parts[0].trim().split("=")[1];
-  const accessTokenUser = parts[1].trim().split("=")[1];
-  return {
-    accessTokenHr,
-    accessTokenUser,
-  };
+  if (res.includes(";")) {
+    const parts = res.split(";");
+    const accessTokenHr = parts[0].trim().split("=")[1];
+    const accessTokenUser = parts[1].trim().split("=")[1];
+    return {
+      accessTokenHr,
+      accessTokenUser,
+    };
+  } else {
+    const parts = res.split("=");
+    return {
+      accessTokenHr: parts[1],
+      accessTokenUser: "",
+    };
+  }
 };
 
 const setupInterceptors = (instanceAxios: AxiosInstance) => {
   let sessionToken;
   instanceAxios.interceptors.request.use(async (config) => {
     sessionToken = await fetchCookie();
+    console.log(
+      "🚀 ~ instanceAxios.interceptors.request.use ~ sessionToken:",
+      sessionToken
+    );
     if (config.url?.includes("candidate")) {
       if (sessionToken.accessTokenUser) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
       }
       return config;
     } else {
+      console.log("a");
       if (sessionToken.accessTokenHr) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenHr}`;
       }
