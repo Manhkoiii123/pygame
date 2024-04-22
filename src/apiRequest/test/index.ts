@@ -3,6 +3,7 @@ import { AuthResponse } from "@/types/auth";
 import {
   TAssessment,
   TAssessmentData,
+  TAssessmentDetail,
   TDataCreateassessment,
 } from "@/types/listAssessment";
 import { TTest } from "@/types/listTest";
@@ -24,4 +25,9 @@ export const listTestRequest = {
       "/delete-assessment",
       data
     ),
+  detailAssessment: async (id: string) => {
+    return await instanceAxios.get<AuthResponse<TAssessmentDetail>>(
+      `/detail-assessment?assessment_id=${id}`
+    );
+  },
 };
