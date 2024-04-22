@@ -7,6 +7,7 @@ import { Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import { toast } from "react-toastify";
 interface TValues {
   email: string;
 }
@@ -45,6 +46,9 @@ const Welcome = (props: TProps) => {
           } catch (error) {
             console.error("Error setting email:", error);
           }
+        },
+        onError: (res) => {
+          toast.error(res.message);
         },
       }
     );

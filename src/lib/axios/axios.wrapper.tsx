@@ -16,17 +16,30 @@ type TAxiosInterceptor = {
 };
 const fetchCookie = async () => {
   const res = (await authRequest.getCookieFromNextServer()) as string;
-  const parts = res.split("=");
-  return parts[1];
+  const parts = res.split(";");
+  const accessTokenHr = parts[0].trim().split("=")[1];
+  const accessTokenUser = parts[1].trim().split("=")[1];
+  return {
+    accessTokenHr,
+    accessTokenUser,
+  };
 };
+
 const setupInterceptors = (instanceAxios: AxiosInstance) => {
   let sessionToken;
   instanceAxios.interceptors.request.use(async (config) => {
     sessionToken = await fetchCookie();
-    if (sessionToken) {
-      config.headers.authorization = `Bearer ${sessionToken}`;
+    if (config.url?.includes("candidate")) {
+      if (sessionToken.accessTokenUser) {
+        config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
+      }
+      return config;
+    } else {
+      if (sessionToken.accessTokenHr) {
+        config.headers.authorization = `Bearer ${sessionToken.accessTokenHr}`;
+      }
+      return config;
     }
-    return config;
   });
   instanceAxios.interceptors.response.use(async (response) => {
     let accessToken;
@@ -42,9 +55,7 @@ const setupInterceptors = (instanceAxios: AxiosInstance) => {
     return response;
   });
 };
-const AxiosInterceptor: FC<TAxiosInterceptor> = ({
-  children,
-}) => {
+const AxiosInterceptor: FC<TAxiosInterceptor> = ({ children }) => {
   useEffect(() => {
     setupInterceptors(instanceAxios);
   }, []);
