@@ -52,7 +52,10 @@ const DetailAssessment = ({ testId }: { testId: string }) => {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <DropdownInvite id={testId}></DropdownInvite>
+              <DropdownInvite
+                token={detailAssessment?.assessment.token}
+                id={testId}
+              ></DropdownInvite>
               <DropdownMore></DropdownMore>
             </div>
           </div>

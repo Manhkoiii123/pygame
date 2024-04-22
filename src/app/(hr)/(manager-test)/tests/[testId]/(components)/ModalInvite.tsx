@@ -11,6 +11,7 @@ type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
+  token: string | undefined;
 };
 const ModalInvite = (props: TProps) => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -29,7 +30,7 @@ const ModalInvite = (props: TProps) => {
       duration: 1,
     });
   };
-  const { open, setOpen, id } = props;
+  const { open, setOpen, id, token } = props;
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -65,7 +66,9 @@ const ModalInvite = (props: TProps) => {
   };
   useEffect(() => {
     const originalUrl = window.location.href;
-    const newUrl = originalUrl.replace("/tests/", "/user/tests/");
+    const newUrl =
+      originalUrl.replace("/tests/", "/user/tests/") + `?token=${token!}`;
+
     setCurrentUrl(newUrl);
   }, []);
 
