@@ -1,9 +1,10 @@
 "use client";
+import ModalDelete from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalDelete";
 import { TAssessment } from "@/types/listAssessment";
-import { Tooltip } from "antd";
+import { Modal, Tooltip } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 interface TProps {
   status: number;
   data: TAssessment;
@@ -32,6 +33,8 @@ const listAction = [
 ];
 const AssessmentItem = (props: TProps) => {
   const { status, data } = props;
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
+
   const handleTitleTooltip = (title: string) => {
     return <span className="text-primary font-medium text-base">{title}</span>;
   };
@@ -59,7 +62,7 @@ const AssessmentItem = (props: TProps) => {
                   width={24}
                   height={24}
                   onClick={() => {
-                    console.log("onClick");
+                    setOpenModalDelete(true);
                   }}
                 />
               </Tooltip>
@@ -67,7 +70,6 @@ const AssessmentItem = (props: TProps) => {
           })}
         </div>
       )}
-
       <Link href={`/tests/${data.id}`}>
         <div className="flex flex-col gap-2">
           {status === 0 && (
@@ -112,6 +114,11 @@ const AssessmentItem = (props: TProps) => {
           </div>
         </div>
       </Link>
+      <ModalDelete
+        data={data}
+        openDelete={openModalDelete}
+        setOpenDelete={setOpenModalDelete}
+      />
     </div>
   );
 };
