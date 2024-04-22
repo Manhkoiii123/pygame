@@ -1,10 +1,11 @@
 "use client";
 
+import { authRequest } from "@/apiRequest/auth";
 import { userRequest } from "@/apiRequest/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 interface TValues {
   email: string;
@@ -14,7 +15,8 @@ interface TProps {
 }
 const Welcome = (props: TProps) => {
   const { id } = props;
-
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token")!;
   const [form] = Form.useForm();
   const router = useRouter();
   const handleUserLogin = async ({
@@ -33,17 +35,19 @@ const Welcome = (props: TProps) => {
   const onFinish = async (values: TValues) => {
     const data = new FormData();
     data.append("email", values.email);
-    // userLoginMutation.mutate(data, {
-    //   onSuccess: (res) => {
-    //     console.log(res);
-    //   },
-    // });
-    // try {
-    //   await authRequest.setEmail(values.email);
-    // } catch (error) {
-    //   console.error("Error setting email:", error);
-    // }
-    router.push(`/user/tests/${id}/home`);
+    userLoginMutation.mutate(
+      { data, token },
+      {
+        onSuccess: async (res) => {
+          router.push(`/user/tests/${id}/home`);
+          try {
+            await authRequest.setCookie(res.access_token);
+          } catch (error) {
+            console.error("Error setting email:", error);
+          }
+        },
+      }
+    );
   };
   const handleChangeInput = () => {
     form.setFields([

@@ -1,12 +1,12 @@
 export const authRequest = {
-  setEmail: (email: string) => {
+  setCookie: (access_token: string) => {
     return new Promise((resolve, reject) => {
       fetch("/api/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ access_token }),
       })
         .then((response) => {
           if (response.ok) {
