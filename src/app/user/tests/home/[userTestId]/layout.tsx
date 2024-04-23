@@ -25,9 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AxiosInterceptor>
-          <AppTheme>
-            <div className="p-10">{children}</div>
-          </AppTheme>
+          <div className="p-10">{children}</div>
         </AxiosInterceptor>
       </body>
     </html>
