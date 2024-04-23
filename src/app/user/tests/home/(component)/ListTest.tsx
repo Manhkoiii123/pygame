@@ -9,12 +9,11 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect } from "react";
 
 const ListTest = () => {
-  const { testUser, setTestUser, setNumberQuestion } = useContext(AppContext);
+  const {  setTestUser, setNumberQuestion } = useContext(AppContext);
   useEffect(() => {
     setTestUser(testUserInit);
     setNumberQuestion(0);
   }, []);
-  console.log("🚀 ~ ListTest ~ testUser:", testUser);
   const handleFetchListTestUser = async () => {
     const res = await userRequest.userListTest();
     return res.data.data.games;
