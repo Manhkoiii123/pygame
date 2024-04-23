@@ -2,6 +2,7 @@
 
 import { authRequest } from "@/apiRequest/auth";
 import { userRequest } from "@/apiRequest/user";
+import Loading from "@/components/views/Loading";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";
@@ -37,15 +38,16 @@ const Welcome = (props: TProps) => {
       { data, token },
       {
         onSuccess: async (res) => {
+          toast.success("Đăng nhập thành công");
           router.push(`/user/tests/home`);
           try {
-            await authRequest.setCookie(res.access_token);
+            await authRequest.setCookie(res?.access_token!);
           } catch (error) {
             console.error("Error setting email:", error);
           }
         },
-        onError: (res) => {
-          toast.error(res.message);
+        onError: (res: any) => {
+          toast.error(res?.response.data.message);
         },
       }
     );
@@ -113,7 +115,7 @@ const Welcome = (props: TProps) => {
                   htmlType="submit"
                   className="w-full bg-primary h-[44px] rounded-lg text-center text-white hover:bg-primary hover:text-white hover:shadow-none "
                 >
-                  Continue
+                  {userLoginMutation.isPending ? <Loading /> : "Submit"}
                 </Button>
               </Form.Item>
             </Form>

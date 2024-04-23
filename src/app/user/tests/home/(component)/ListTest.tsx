@@ -14,7 +14,7 @@ const ListTest = () => {
   const { data: listTest } = useQuery({
     queryKey: ["listTestUser"],
     queryFn: handleFetchListTestUser,
-    retry: 0,
+    staleTime: 0,
   });
   return (
     <div className="flex flex-wrap gap-x-2 gap-y-4 mt-3">

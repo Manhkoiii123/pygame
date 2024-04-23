@@ -33,21 +33,24 @@ const fetchCookie = async () => {
   }
 };
 
-const setupInterceptors = (instanceAxios: AxiosInstance) => {
-  let sessionToken;
+const setupInterceptors = async (instanceAxios: AxiosInstance) => {
+  let sessionToken: {
+    accessTokenHr: string;
+    accessTokenUser: string;
+  };
   instanceAxios.interceptors.request.use(async (config) => {
-    sessionToken = await fetchCookie();
     console.log(
-      "🚀 ~ instanceAxios.interceptors.request.use ~ sessionToken:",
-      sessionToken
+      "🚀 ~ instanceAxios.interceptors.request.use ~ config:",
+      config
     );
-    if (config.url?.includes("/candidate/")) {
+    sessionToken = await fetchCookie();
+    if (config.url?.includes("/candidate")) {
+      console.log("a");
       if (sessionToken.accessTokenUser) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
       }
       return config;
     } else {
-      console.log("a");
       if (sessionToken.accessTokenHr) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenHr}`;
       }
@@ -63,7 +66,7 @@ const setupInterceptors = (instanceAxios: AxiosInstance) => {
     } else if (url === "/logout") {
       accessToken = "";
       clearLocalStorage();
-      sessionToken = "";
+      sessionToken.accessTokenHr = "";
     }
     return response;
   });
