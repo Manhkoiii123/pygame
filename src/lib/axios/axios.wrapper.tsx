@@ -41,7 +41,7 @@ const setupInterceptors = (instanceAxios: AxiosInstance) => {
       "🚀 ~ instanceAxios.interceptors.request.use ~ sessionToken:",
       sessionToken
     );
-    if (config.url?.includes("candidate")) {
+    if (config.url?.includes("/candidate/")) {
       if (sessionToken.accessTokenUser) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
       }

@@ -11,11 +11,8 @@ import { toast } from "react-toastify";
 interface TValues {
   email: string;
 }
-interface TProps {
-  id: string;
-}
+interface TProps {}
 const Welcome = (props: TProps) => {
-  const { id } = props;
   const searchParams = useSearchParams();
   const token = searchParams.get("token")!;
   const [form] = Form.useForm();
@@ -40,7 +37,7 @@ const Welcome = (props: TProps) => {
       { data, token },
       {
         onSuccess: async (res) => {
-          router.push(`/user/tests/${id}/home`);
+          router.push(`/user/tests/home`);
           try {
             await authRequest.setCookie(res.access_token);
           } catch (error) {

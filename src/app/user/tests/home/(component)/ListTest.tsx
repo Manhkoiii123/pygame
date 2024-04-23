@@ -1,6 +1,6 @@
 "use client";
 import { userRequest } from "@/apiRequest/user";
-import Test from "@/app/user/tests/[testId]/home/(component)/Test";
+import Test from "@/app/user/tests/home/(component)/Test";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -14,10 +14,10 @@ const ListTest = () => {
   const { data: listTest } = useQuery({
     queryKey: ["listTestUser"],
     queryFn: handleFetchListTestUser,
+    retry: 0,
   });
-  console.log("🚀 ~ ListTest ~ listTest:", listTest);
   return (
-    <div className="flex gap-2 mt-3">
+    <div className="flex flex-wrap gap-x-2 gap-y-4 mt-3">
       {listTest &&
         listTest.map((item, index) => <Test key={index} data={item} />)}
     </div>

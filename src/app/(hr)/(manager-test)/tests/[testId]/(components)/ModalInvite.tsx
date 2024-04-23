@@ -67,7 +67,7 @@ const ModalInvite = (props: TProps) => {
   useEffect(() => {
     const originalUrl = window.location.href;
     const newUrl =
-      originalUrl.replace("/tests/", "/user/tests/") + `?token=${token!}`;
+      originalUrl.replace(`/tests/${id}`, "/user/tests") + `?token=${token!}`;
 
     setCurrentUrl(newUrl);
   }, []);
