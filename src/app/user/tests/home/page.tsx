@@ -1,4 +1,4 @@
-import ListTest from "@/app/user/tests/[testId]/home/(component)/ListTest";
+import ListTest from "@/app/user/tests/home/(component)/ListTest";
 import React from "react";
 
 const info = [

@@ -3,6 +3,7 @@ import { TUserTest } from "@/types/user";
 import { covertStatus } from "@/utils/user/user";
 import { Tag } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
 
