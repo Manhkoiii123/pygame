@@ -29,7 +29,6 @@ const ModalAddAssessment = (props: TProps) => {
   const { isModalOpen, handleCancel } = props;
   const queryClient = useQueryClient();
   const onFinish: FormProps["onFinish"] = async (values) => {
-    console.log("🚀 ~ constonFinish:FormProps= ~ values:", values);
     const jobFunction = values.positionRecruiting[0];
     let jobPosition;
     if (jobFunction !== "Other") {
