@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { AppContext } from "@/lib/context.wrapper";
 import { TUserTest } from "@/types/user";
 import { covertStatus } from "@/utils/user/user";
 import { Tag } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 
 interface Tprops {
@@ -13,8 +15,9 @@ interface Tprops {
 }
 const Test = (props: Tprops) => {
   const { data } = props;
+  const { setTestUser } = useContext(AppContext);
+
   const { bgColor, text } = covertStatus(data.status_text);
-  const router = useRouter();
   const handleClick = (status: number) => {
     if (status === 2) {
       toast.success(
@@ -25,15 +28,16 @@ const Test = (props: Tprops) => {
         {
           style: {
             padding: 0,
-            backgroundColor: "#02BD3A", // Màu nền của toast
+            backgroundColor: "#02BD3A",
           },
           icon: false,
           closeButton: false,
-          autoClose: 3000,
+          autoClose: 2000,
           pauseOnHover: false,
         }
       );
     } else if (status !== 2) {
+      setTestUser(data);
     }
   };
   return (

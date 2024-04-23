@@ -28,7 +28,7 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
         {/* <AxiosInterceptor sessionToken={sessionToken}> */}
         <AxiosInterceptor>
           <TanstackWrapper>
-            <AppProvider initSession={sessionToken}>{children}</AppProvider>
+            <AppProvider>{children}</AppProvider>
             <ToastContainer />
           </TanstackWrapper>
         </AxiosInterceptor>
