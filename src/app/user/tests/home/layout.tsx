@@ -25,11 +25,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AxiosInterceptor>
-          <AppTheme>
-            <Image alt="logo" width={200} height={100} src={"/logo.png"} />
-            <div className="flex  items-center justify-center">{children}</div>
-            <ToastContainer />
-          </AppTheme>
+          <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+          {children}
         </AxiosInterceptor>
       </body>
     </html>

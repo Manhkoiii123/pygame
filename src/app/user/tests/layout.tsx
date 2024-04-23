@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "../../../../globals.css";
+import "../../globals.css";
 import Image from "next/image";
-import AppTheme from "@/components/config/config-theme";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -22,11 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
-      <body>
-        <AxiosInterceptor>
-          <div className="p-10">{children}</div>
-        </AxiosInterceptor>
+    <html lang="en">
+      <body className={poppins.className}>
+        <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+        {children}
       </body>
     </html>
   );
