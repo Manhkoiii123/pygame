@@ -39,13 +39,8 @@ const setupInterceptors = async (instanceAxios: AxiosInstance) => {
     accessTokenUser: string;
   };
   instanceAxios.interceptors.request.use(async (config) => {
-    console.log(
-      "🚀 ~ instanceAxios.interceptors.request.use ~ config:",
-      config
-    );
     sessionToken = await fetchCookie();
     if (config.url?.includes("/candidate")) {
-      console.log("a");
       if (sessionToken.accessTokenUser) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
       }
