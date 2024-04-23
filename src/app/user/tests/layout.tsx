@@ -5,6 +5,7 @@ import Image from "next/image";
 import AppTheme from "@/components/config/config-theme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -23,13 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        {/* <TanstackWrapper> */}
-        <AppTheme>
-          <Image alt="logo" width={200} height={100} src={"/logo.png"} />
-          <div className="flex  items-center justify-center">{children}</div>
-          <ToastContainer />
-        </AppTheme>
-        {/* </TanstackWrapper> */}
+        <AxiosInterceptor>
+          <AppTheme>
+            <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+            <div className="flex  items-center justify-center">{children}</div>
+            <ToastContainer />
+          </AppTheme>
+        </AxiosInterceptor>
       </body>
     </html>
   );

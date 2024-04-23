@@ -4,6 +4,7 @@ import { covertStatus } from "@/utils/user/user";
 import { Tag } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -13,6 +14,7 @@ interface Tprops {
 const Test = (props: Tprops) => {
   const { data } = props;
   const { bgColor, text } = covertStatus(data.status_text);
+  const router = useRouter();
   const handleClick = (status: number) => {
     if (status === 2) {
       toast.success(
@@ -31,7 +33,7 @@ const Test = (props: Tprops) => {
           pauseOnHover: false,
         }
       );
-    } else if (status === 1) {
+    } else if (status !== 2) {
     }
   };
   return (
@@ -48,60 +50,123 @@ const Test = (props: Tprops) => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <span
-          className="text-sm font-medium"
-          style={{
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {data.name}
-        </span>
-        {(data.time > 0 || data.score > 0) && (
-          <div className="flex justify-between text-sm font-normal text-primary">
-            {data.time > 0 ? (
-              <div className="flex items-center gap-2 ">
-                <Image
-                  alt="clock"
-                  width={16}
-                  height={16}
-                  className="w-4 h-4 object-cover"
-                  src={"/light.png"}
-                />
-                <span>{data.time}s</span>
+      {data.status !== 2 ? (
+        <Link href={`/user/tests/home/${data.id}`}>
+          <div className="flex flex-col gap-2">
+            <span
+              className="text-sm font-medium"
+              style={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {data.name}
+            </span>
+            {(data.time > 0 || data.score > 0) && (
+              <div className="flex justify-between text-sm font-normal text-primary">
+                {data.time > 0 ? (
+                  <div className="flex items-center gap-2 ">
+                    <Image
+                      alt="clock"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4 object-cover"
+                      src={"/light.png"}
+                    />
+                    <span>{data.time}s</span>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+                {data.score > 0 ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Image
+                      alt="clock"
+                      width={16}
+                      height={16}
+                      className="w-4 h-4 object-cover"
+                      src={"/cup.png"}
+                    />
+                    <span>{data.score}</span>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
-            ) : (
-              <div></div>
             )}
-            {data.score > 0 ? (
-              <div className="flex items-center justify-center gap-2">
-                <Image
-                  alt="clock"
-                  width={16}
-                  height={16}
-                  className="w-4 h-4 object-cover"
-                  src={"/cup.png"}
-                />
-                <span>{data.score}</span>
-              </div>
-            ) : (
-              <div></div>
-            )}
+            {data.time <= 0 && data.score <= 0 && <div>&nbsp;</div>}
+            <div>
+              <Tag
+                className="rounded-2xl py-1 px-3"
+                color={`${bgColor}`}
+                bordered={false}
+              >
+                <span className={`text-[#272B30] text-xs font-medium`}>
+                  {text}
+                </span>
+              </Tag>
+            </div>
           </div>
-        )}
-        {data.time <= 0 && data.score <= 0 && <div>&nbsp;</div>}
-        <div>
-          <Tag
-            className="rounded-2xl py-1 px-3"
-            color={`${bgColor}`}
-            bordered={false}
+        </Link>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <span
+            className="text-sm font-medium"
+            style={{
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
           >
-            <span className={`text-[#272B30] text-xs font-medium`}>{text}</span>
-          </Tag>
+            {data.name}
+          </span>
+          {(data.time > 0 || data.score > 0) && (
+            <div className="flex justify-between text-sm font-normal text-primary">
+              {data.time > 0 ? (
+                <div className="flex items-center gap-2 ">
+                  <Image
+                    alt="clock"
+                    width={16}
+                    height={16}
+                    className="w-4 h-4 object-cover"
+                    src={"/light.png"}
+                  />
+                  <span>{data.time}s</span>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {data.score > 0 ? (
+                <div className="flex items-center justify-center gap-2">
+                  <Image
+                    alt="clock"
+                    width={16}
+                    height={16}
+                    className="w-4 h-4 object-cover"
+                    src={"/cup.png"}
+                  />
+                  <span>{data.score}</span>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
+          )}
+          {data.time <= 0 && data.score <= 0 && <div>&nbsp;</div>}
+          <div>
+            <Tag
+              className="rounded-2xl py-1 px-3"
+              color={`${bgColor}`}
+              bordered={false}
+            >
+              <span className={`text-[#272B30] text-xs font-medium`}>
+                {text}
+              </span>
+            </Tag>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
