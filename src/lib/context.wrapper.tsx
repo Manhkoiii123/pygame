@@ -1,7 +1,11 @@
 "use client";
 import { User } from "@/types/auth";
 import { TGame, TQuestion, TUserTest } from "@/types/user";
-import { getAccessTokenFromLS, getProfileFromLS } from "@/utils/auth/auth";
+import {
+  getAccessTokenFromLS,
+  getProfileFromLS,
+  getUserTestFromLS,
+} from "@/utils/auth/auth";
 
 import { createContext, useState } from "react";
 interface AppContextType {
@@ -54,7 +58,7 @@ const initialAppContext: AppContextType = {
   reset: () => null,
   numberQuestion: 0,
   setNumberQuestion: () => null,
-  testUser: JSON.parse(localStorage.getItem("testUser") || ""),
+  testUser: getUserTestFromLS(),
   setTestUser: () => null,
   generateQuestion: generateQuestionInit,
   setGenerateQuestion: () => null,
