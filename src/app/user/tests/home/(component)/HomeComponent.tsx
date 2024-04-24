@@ -25,7 +25,7 @@ const HomeComponent = () => {
 
   return (
     <div className="flex  items-center justify-center">
-      <div className="w-[1200px] ">
+      <div className="w-[1200px] pb-4">
         <div className="w-full flex flex-col gap-1">
           <span className="font-semibold text-xl block">
             Welcome to our assessment,
