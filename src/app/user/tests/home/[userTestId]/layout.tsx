@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "../../../../globals.css";
-import Image from "next/image";
-import AppTheme from "@/components/config/config-theme";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 const poppins = Poppins({

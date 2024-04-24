@@ -4,7 +4,6 @@ import AssessmentItem from "@/app/(hr)/(manager-test)/tests/(components)/Assessm
 import ButtonAddAssessment from "@/app/(hr)/(manager-test)/tests/(components)/ButtonAddAssessment";
 import Loading from "@/components/views/Loading";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
 const Index = () => {
   const handleFetchListAssessment = async () => {
@@ -15,7 +14,6 @@ const Index = () => {
     queryKey: ["listAssessment"],
     queryFn: () => handleFetchListAssessment(),
   });
-  console.log("🚀 ~ Index ~ listAssessmet:", listAssessmet);
   return (
     <div className="flex flex-col gap-4">
       <div className="text-[32px] leading-[44px] font-semibold text-primary">
