@@ -1,6 +1,6 @@
 import instanceAxios from "@/lib/axios/axios.wrapper";
 import { AuthResponse } from "@/types/auth";
-import { TUserTest } from "@/types/user";
+import { TQuestion, TUserTest } from "@/types/user";
 type userResponse = {
   access_token: string;
 };
@@ -14,6 +14,12 @@ export const userRequest = {
   userListTest: () => {
     return instanceAxios.get<AuthResponse<{ games: TUserTest[] }>>(
       "/candidate/list-game"
+    );
+  },
+  generateQuestion: (data: FormData) => {
+    return instanceAxios.post<AuthResponse<TQuestion>>(
+      "/candidate/generate-question",
+      data
     );
   },
 };

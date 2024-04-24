@@ -1,6 +1,6 @@
 "use client";
 import { User } from "@/types/auth";
-import { TUserTest } from "@/types/user";
+import { TGame, TQuestion, TUserTest } from "@/types/user";
 import { getAccessTokenFromLS, getProfileFromLS } from "@/utils/auth/auth";
 
 import { createContext, useState } from "react";
@@ -14,6 +14,8 @@ interface AppContextType {
   setNumberQuestion: React.Dispatch<React.SetStateAction<number>>;
   testUser: TUserTest;
   setTestUser: React.Dispatch<React.SetStateAction<TUserTest>>;
+  generateQuestion: TQuestion;
+  setGenerateQuestion: React.Dispatch<React.SetStateAction<TQuestion>>;
 }
 export const testUserInit = {
   description: "",
@@ -26,6 +28,24 @@ export const testUserInit = {
   time: 0,
   used_time: 0,
 };
+export const generateQuestionInit = {
+  question: {
+    id: 0,
+    game_id: 0,
+    content: {
+      question: {},
+    },
+    score: 0,
+    level: "",
+  },
+  game_ended: false,
+  time: 0,
+  used_time: 0,
+  total_score: 0,
+  total_question: 0,
+  answered_question_num: 0,
+  option: null,
+};
 const initialAppContext: AppContextType = {
   isAuthenticate: Boolean(getAccessTokenFromLS()),
   setIsAuthenticate: () => null,
@@ -34,8 +54,10 @@ const initialAppContext: AppContextType = {
   reset: () => null,
   numberQuestion: 0,
   setNumberQuestion: () => null,
-  testUser: testUserInit,
+  testUser: JSON.parse(localStorage.getItem("testUser") || ""),
   setTestUser: () => null,
+  generateQuestion: generateQuestionInit,
+  setGenerateQuestion: () => null,
 };
 export const AppContext = createContext<AppContextType>(initialAppContext);
 
@@ -52,7 +74,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [testUser, setTestUser] = useState<TUserTest>(
     initialAppContext.testUser
   );
-
+  const [generateQuestion, setGenerateQuestion] = useState<TQuestion>(
+    initialAppContext.generateQuestion
+  );
   const reset = () => {
     setIsAuthenticate(false);
     setProfile(null);
@@ -70,6 +94,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setNumberQuestion,
         testUser,
         setTestUser,
+        generateQuestion,
+        setGenerateQuestion,
       }}
     >
       {children}

@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
 import { TUserTest } from "@/types/user";
 import { covertStatus } from "@/utils/user/user";
+import { useMutation } from "@tanstack/react-query";
 import { Tag } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { toast } from "react-toastify";
 
 interface Tprops {
@@ -15,8 +16,8 @@ interface Tprops {
 }
 const Test = (props: Tprops) => {
   const { data } = props;
-  const { setTestUser } = useContext(AppContext);
-
+  const { setTestUser, setGenerateQuestion, generateQuestion } =
+    useContext(AppContext);
   const { bgColor, text } = covertStatus(data.status_text);
   const handleClick = (status: number) => {
     if (status === 2) {
@@ -38,6 +39,7 @@ const Test = (props: Tprops) => {
       );
     } else if (status !== 2) {
       setTestUser(data);
+      localStorage.setItem("testUser", JSON.stringify(data));
     }
   };
   return (
