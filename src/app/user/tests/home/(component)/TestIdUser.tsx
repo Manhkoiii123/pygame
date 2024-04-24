@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { userRequest } from "@/apiRequest/user";
 import Loading from "@/components/views/Loading";
 import { AppContext } from "@/lib/context.wrapper";
 import { TQuestion } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
+import { Button } from "antd";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -37,7 +39,7 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
       ) : (
         <div className=" w-[600px] flex justify-center">
           <div className="flex flex-col gap-4 items-center justify-center">
-            <div className="w-[400px] h-[400px] border border-1 border-gray-200 rounded-lg">
+            <div className="w-[300px] h-[300px] border border-1 border-gray-200 rounded-lg">
               <Image
                 src={"/test1.png"}
                 alt="image"
@@ -47,7 +49,7 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
               ></Image>
             </div>
             <span className="font-semibold text-[32px] leading-[44px] text-primary">
-              {testUser.name}
+              {testUser?.name}
             </span>
             <div className="flex flex-col mr-auto gap-2 w-[600px]">
               <div className="flex items-center gap-2">
@@ -58,8 +60,8 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-[8px] h-[8px] bg-[#333] rounded-full flex self-start mt-[8px]"></div>
-                <span>{testUser.description}</span>
+                <div className="w-[25px] h-[9px] bg-[#333] rounded-full flex self-start mt-[8px]"></div>
+                <span>{testUser?.description}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-[11px] h-[8px] bg-[#333] rounded-full flex self-start mt-[8px]"></div>
@@ -69,6 +71,11 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
                 </span>
               </div>
             </div>
+            {/* <div> */}
+            <Button className="w-full" type="primary">
+              Start
+            </Button>
+            {/* </div> */}
           </div>
         </div>
       )}

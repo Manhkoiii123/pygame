@@ -1,8 +1,7 @@
 "use client";
 import { authRequest } from "@/apiRequest/hrAuth";
 import { clearLocalStorage } from "@/utils/auth/auth";
-import axios, { AxiosInstance } from "axios";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import axios from "axios";
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 
 const instanceAxios = axios.create({
@@ -33,7 +32,7 @@ const fetchCookie = async () => {
   }
 };
 
-const setupInterceptors = async (instanceAxios: AxiosInstance) => {
+const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
   let sessionToken: {
     accessTokenHr: string;
     accessTokenUser: string;
@@ -65,11 +64,6 @@ const setupInterceptors = async (instanceAxios: AxiosInstance) => {
     }
     return response;
   });
-};
-const AxiosInterceptor: FC<TAxiosInterceptor> = ({ children }) => {
-  useEffect(() => {
-    setupInterceptors(instanceAxios);
-  }, []);
 
   return <>{children}</>;
 };
