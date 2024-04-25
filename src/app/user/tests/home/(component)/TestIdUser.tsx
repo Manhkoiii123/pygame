@@ -10,8 +10,8 @@ import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 
 const TestIdUser = ({ userTestId }: { userTestId: string }) => {
-  const { testUser } = useContext(AppContext);
-  const [genQuestion, setGenQuestion] = useState<TQuestion>();
+  const { testUser, generateQuestion, setGenerateQuestion } =
+    useContext(AppContext);
 
   const handleGenerateQuestion = async (data: FormData) => {
     const res = await userRequest.generateQuestion(data);
@@ -25,7 +25,7 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
     id.append("game_id", userTestId.toString());
     generateQuestionMutation.mutate(id, {
       onSuccess: (res) => {
-        setGenQuestion(res);
+        setGenerateQuestion(res);
       },
     });
   };
@@ -55,8 +55,8 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
               <div className="flex items-center gap-2">
                 <div className="w-[8px] h-[8px] bg-[#333] rounded-full"></div>
                 <span>
-                  {genQuestion?.total_question} questions are given in{" "}
-                  {genQuestion?.time} seconds.
+                  {generateQuestion?.total_question} questions are given in{" "}
+                  {generateQuestion?.time} seconds.
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -71,11 +71,9 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
                 </span>
               </div>
             </div>
-            {/* <div> */}
             <Button className="w-full" type="primary">
               Start
             </Button>
-            {/* </div> */}
           </div>
         </div>
       )}

@@ -15,8 +15,7 @@ interface Tprops {
 }
 const Test = (props: Tprops) => {
   const { data } = props;
-  const { setTestUser, setGenerateQuestion, generateQuestion } =
-    useContext(AppContext);
+  const { setTestUser } = useContext(AppContext);
   const { bgColor, text } = covertStatus(data.status_text);
   const handleClick = (status: number) => {
     if (status === 2) {
