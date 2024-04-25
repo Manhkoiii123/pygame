@@ -20,14 +20,10 @@ const fetchCookie = async () => {
   if (res.includes(";")) {
     const parts = res.split(";");
     for (let i = 0; i < parts.length; i++) {
-      // if (parts[i].includes("access_token")) {
-      //   accessTokenHr = parts[i].trim().split("=")[1];
-      // } else if (parts[i].includes("candicate_access_token")) {
-      //   accessTokenUser = parts[i].trim().split("=")[1];
-      // }
       if (parts[i].includes("candicate_access_token")) {
         accessTokenUser = parts[i].trim().split("=")[1];
-      } else {
+      }
+      if (parts[i].includes("hr_access_token")) {
         accessTokenHr = parts[i].trim().split("=")[1];
       }
     }
@@ -37,9 +33,17 @@ const fetchCookie = async () => {
     };
   } else {
     const parts = res.split("=");
+    if (parts[0] === "candicate_access_token") {
+      accessTokenUser = parts[1];
+      accessTokenHr = "";
+    }
+    if (parts[0] === "hr_access_token") {
+      accessTokenHr = parts[1];
+      accessTokenUser = "";
+    }
     return {
-      accessTokenHr: parts[1],
-      accessTokenUser: "",
+      accessTokenHr,
+      accessTokenUser,
     };
   }
 };
@@ -51,6 +55,10 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
   };
   instanceAxios.interceptors.request.use(async (config) => {
     sessionToken = await fetchCookie();
+    console.log(
+      "🚀 ~ instanceAxios.interceptors.request.use ~ sessionToken:",
+      sessionToken
+    );
 
     if (config.url?.includes("/candidate")) {
       if (sessionToken.accessTokenUser) {

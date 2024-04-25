@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   const cookie = cookies();
-  const sessionToken = cookie.get("access_token");
+  const sessionToken = cookie.get("hr_access_token");
   if (!sessionToken) {
     return Response.json({ message: "Không nhận được token" }, { status: 401 });
   }
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       {
         status: 200,
         headers: {
-          "Set-cookie": `access_token=; Path=/;HttpOnly;Max-Age=0`,
+          "Set-cookie": `hr_access_token=; Path=/;HttpOnly;Max-Age=0`,
         },
       }
     );
