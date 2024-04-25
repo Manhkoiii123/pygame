@@ -5,6 +5,7 @@ import DropdownMore from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/
 import ListTestInAssessment from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ListTestInAssessment";
 import Loading from "@/components/views/Loading";
 import { TTestAssessment } from "@/types/listTest";
+import { convertDate, sosanhDate } from "@/utils/user/user";
 import { useQuery } from "@tanstack/react-query";
 import { Divider } from "antd";
 import dayjs from "dayjs";
@@ -40,7 +41,7 @@ const DetailAssessment = ({ testId }: { testId: string }) => {
                   Assessment for {detailAssessment?.assessment.job_function} -{" "}
                   {detailAssessment?.assessment.job_position}
                 </span>
-                <div>
+                <div className="flex gap-2 items-center">
                   <span className="text-xs font-normal text-ink100">
                     Date :{" "}
                   </span>
@@ -48,6 +49,14 @@ const DetailAssessment = ({ testId }: { testId: string }) => {
                     From {detailAssessment?.assessment.start_date} to{" "}
                     {detailAssessment?.assessment.end_date}
                   </span>
+                  {sosanhDate(
+                    detailAssessment?.assessment.end_date!,
+                    convertDate(new Date().toLocaleDateString())
+                  ) === false && (
+                    <div className="px-2 max-w-max rounded-2xl py-1 bg-[#FFAC9F] text-primary font-normal text-sm">
+                      End Test
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
