@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
   const candicate_access_token = request.cookies.get(
     "candicate_access_token"
   )?.value;
-  const access_token = request.cookies.get("access_token")?.value;
+  const access_token = request.cookies.get("hr_access_token")?.value;
   // if (
   //   pathname.startsWith(`/user/tests/${testId}/home`) &&
   //   !candicate_access_token
