@@ -1,13 +1,13 @@
-"use client";
-import { AppContext } from "@/lib/context.wrapper";
-import React, { useContext } from "react";
+import CloseButton from "@/app/user/tests/home/[userTestId]/question/(component)/CloseButton";
+import MainContentQuestion from "@/app/user/tests/home/[userTestId]/question/(component)/MainContentQuestion";
 
 const Page = () => {
-  const { generateQuestion } = useContext(AppContext);
-  console.log("🚀 ~ Page ~ generateQuestion:", generateQuestion);
   return (
     <div>
-      <span>aaaaaa</span>
+      <CloseButton />
+      <div className="flex items-center justify-center pt-4">
+        <MainContentQuestion />
+      </div>
     </div>
   );
 };

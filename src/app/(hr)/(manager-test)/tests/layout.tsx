@@ -4,10 +4,7 @@ import AppTheme from "@/components/config/config-theme";
 import "../../../globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Link from "next/link";
-import TanstackWrapper from "@/lib/tanstack.wrapper";
 import ProfileHeader from "@/app/(hr)/(manager-test)/tests/(components)/ProfileHeader";
-import { cookies } from "next/headers";
-import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 
 export const metadata: Metadata = {
   title: "Manager test page",
@@ -15,7 +12,6 @@ export const metadata: Metadata = {
 };
 
 const ManagerTestLayout = ({ children }: React.PropsWithChildren) => {
-  const sessionToken = cookies().get("access_token")?.value ?? "";
   return (
     <AppTheme>
       <AntdRegistry>

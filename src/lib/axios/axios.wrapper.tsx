@@ -55,10 +55,6 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
   };
   instanceAxios.interceptors.request.use(async (config) => {
     sessionToken = await fetchCookie();
-    console.log(
-      "🚀 ~ instanceAxios.interceptors.request.use ~ sessionToken:",
-      sessionToken
-    );
 
     if (config.url?.includes("/candidate")) {
       if (sessionToken.accessTokenUser) {
