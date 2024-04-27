@@ -3,10 +3,10 @@
 import { userRequest } from "@/apiRequest/user";
 import Loading from "@/components/views/Loading";
 import { AppContext } from "@/lib/context.wrapper";
-import { TQuestion } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "antd";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 const TestIdUser = ({ userTestId }: { userTestId: string }) => {
@@ -28,6 +28,10 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
         setGenerateQuestion(res);
       },
     });
+  };
+  const router = useRouter();
+  const handleNavigate = () => {
+    router.push(`/user/tests/home/${userTestId}/question`);
   };
   useEffect(() => {
     handleFetchQuestion();
@@ -71,7 +75,11 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
                 </span>
               </div>
             </div>
-            <Button className="w-full" type="primary">
+            <Button
+              onClick={() => handleNavigate()}
+              className="w-full"
+              type="primary"
+            >
               Start
             </Button>
           </div>
