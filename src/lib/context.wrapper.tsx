@@ -4,6 +4,7 @@ import { TGame, TQuestion, TUserTest } from "@/types/user";
 import {
   getAccessTokenFromLS,
   getProfileFromLS,
+  getQuestionFromLS,
   getUserTestFromLS,
 } from "@/utils/auth/auth";
 
@@ -60,7 +61,7 @@ const initialAppContext: AppContextType = {
   setNumberQuestion: () => null,
   testUser: getUserTestFromLS(),
   setTestUser: () => null,
-  generateQuestion: generateQuestionInit,
+  generateQuestion: getQuestionFromLS(),
   setGenerateQuestion: () => null,
 };
 export const AppContext = createContext<AppContextType>(initialAppContext);

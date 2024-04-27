@@ -7,8 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { AppProvider } from "@/lib/context.wrapper";
 import { cookies } from "next/headers";
 import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
-
-// import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -25,7 +23,6 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        {/* <AxiosInterceptor sessionToken={sessionToken}> */}
         <AxiosInterceptor>
           <TanstackWrapper>
             <AppProvider>{children}</AppProvider>

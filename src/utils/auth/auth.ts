@@ -39,6 +39,13 @@ export const getUserTestFromLS = () => {
   }
   return null;
 };
+export const getQuestionFromLS = () => {
+  if (typeof window !== "undefined") {
+    const result = localStorage.getItem("generateQuestion");
+    return result ? JSON.parse(result) : null;
+  }
+  return null;
+};
 
 export const setProfileFromLS = (profile: User) => {
   if (typeof window !== "undefined") {

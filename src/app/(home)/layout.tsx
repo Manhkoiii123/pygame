@@ -6,9 +6,6 @@ import Image from "next/image";
 import AppTheme from "@/components/config/config-theme";
 import { Button } from "antd";
 import Link from "next/link";
-import TanstackWrapper from "@/lib/tanstack.wrapper";
-import { cookies } from "next/headers";
-import { AxiosInterceptor } from "@/lib/axios/axios.wrapper";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,7 +18,6 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: React.PropsWithChildren) => {
-  const sessionToken = cookies().get("access_token")?.value ?? "";
   return (
     // <TanstackWrapper>
       <AppTheme>

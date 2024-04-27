@@ -12,7 +12,6 @@ import React, { useContext, useEffect, useState } from "react";
 const TestIdUser = ({ userTestId }: { userTestId: string }) => {
   const { testUser, generateQuestion, setGenerateQuestion } =
     useContext(AppContext);
-
   const handleGenerateQuestion = async (data: FormData) => {
     const res = await userRequest.generateQuestion(data);
     return res.data.data;
@@ -26,6 +25,7 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
     generateQuestionMutation.mutate(id, {
       onSuccess: (res) => {
         setGenerateQuestion(res);
+        localStorage.setItem("generateQuestion", JSON.stringify(res));
       },
     });
   };
