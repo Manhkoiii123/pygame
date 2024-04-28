@@ -48,7 +48,7 @@ const Header = ({ questionGen }: HeaderProps) => {
         <div className="flex items-center gap-2">
           <div className="p-3 border border-1 border-gray-300 rounded-full">
             <Image
-              src={"/union.png"}
+              src={"/Union.png"}
               alt="home banner"
               width={24}
               height={24}
