@@ -14,6 +14,10 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "gradient-hover":
           "linear-gradient(140.91deg, #E0F5FF 4.09%, #FFFFFF 95.68%)",
+        "gradient-divider":
+          "linear-gradient(90deg, #FFFFFF 0%, #99D8E5 53.06%, #FFFFFF 101.45%)",
+        "gradient-back-question":
+          "linear-gradient(180deg, #56D4F2 0%, rgba(211, 236, 242, 0.2) 100%)",
       },
       colors: {
         primary: "#009DBE",
