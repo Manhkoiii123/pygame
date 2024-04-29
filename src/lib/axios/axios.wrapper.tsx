@@ -15,45 +15,37 @@ type TAxiosInterceptor = {
   children: React.ReactNode;
 };
 const fetchCookie = async () => {
+  let sessionToken = {
+    accessTokenHr: "",
+    accessTokenUser: "",
+  };
   const res = (await authRequest.getCookieFromNextServer()) as string;
-  var accessTokenHr = "";
-  var accessTokenUser = "";
   if (res.includes(";")) {
     const parts = res.split(";");
     for (let i = 0; i < parts.length; i++) {
       if (parts[i].includes("candicate_access_token")) {
-        accessTokenUser = parts[i].trim().split("=")[1];
+        sessionToken.accessTokenUser = parts[i].trim().split("=")[1];
       }
       if (parts[i].includes("hr_access_token")) {
-        accessTokenHr = parts[i].trim().split("=")[1];
+        sessionToken.accessTokenHr = parts[i].trim().split("=")[1];
       }
     }
-    return {
-      accessTokenHr,
-      accessTokenUser,
-    };
+    return sessionToken;
   } else {
     const parts = res.split("=");
     if (parts[0] === "candicate_access_token") {
-      accessTokenUser = parts[1];
-      accessTokenHr = "";
+      sessionToken.accessTokenUser = parts[1];
+      sessionToken.accessTokenHr = "";
     }
     if (parts[0] === "hr_access_token") {
-      accessTokenHr = parts[1];
-      accessTokenUser = "";
+      sessionToken.accessTokenHr = parts[1];
+      sessionToken.accessTokenUser = "";
     }
-    return {
-      accessTokenHr,
-      accessTokenUser,
-    };
+    return sessionToken;
   }
 };
 
 const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
-  // let sessionToken: {
-  //   accessTokenHr: string;
-  //   accessTokenUser: string;
-  // };
   const [sessionToken, setSessionToken] = useState({
     accessTokenHr: "",
     accessTokenUser: "",
@@ -62,10 +54,9 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
     const sess = await fetchCookie();
     setSessionToken(sess);
   };
-
   instanceAxios.interceptors.request.use(async (config) => {
     if (
-      sessionToken.accessTokenHr === "" &&
+      sessionToken.accessTokenHr === "" ||
       sessionToken.accessTokenUser === ""
     ) {
       handleSetSessionToken();
