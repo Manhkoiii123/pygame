@@ -73,7 +73,6 @@ function Footer({
     };
     answerQuestionMutation.mutate(data, {
       onSuccess: (res) => {
-        console.log("🚀 ~ res:", res);
         handleFetchQuestion();
         setGenerateQuestion(res?.question);
       },
