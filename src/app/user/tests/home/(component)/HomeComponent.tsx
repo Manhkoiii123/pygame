@@ -9,10 +9,10 @@ import React, { useContext, useEffect } from "react";
 
 const HomeComponent = () => {
   const { setTestUser, setNumberQuestion } = useContext(AppContext);
-  useEffect(() => {
-    setTestUser(testUserInit);
-    setNumberQuestion(0);
-  }, []);
+  // useEffect(() => {
+  //   setTestUser(testUserInit);
+  //   setNumberQuestion(0);
+  // }, []);
   const handleFetchListTestUser = async () => {
     const res = await userRequest.userListTest();
     return res.data.data.games;

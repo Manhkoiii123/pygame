@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 
 const TestIdUser = ({ userTestId }: { userTestId: string }) => {
   const { testUser, generateQuestion, setGenerateQuestion } =
