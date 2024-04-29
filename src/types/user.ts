@@ -42,3 +42,13 @@ export interface TGame {
   statement_2?: string;
   //id 4
 }
+export interface TAnswerResponse {
+  question: TQuestion;
+  game_ended: boolean;
+  time: number;
+  used_time: number;
+  total_question: number;
+  answered_question_num: number;
+  total_score: number;
+  result: number;
+}

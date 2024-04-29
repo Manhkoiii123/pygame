@@ -3,12 +3,12 @@ import MainContentQuestion from "@/app/user/tests/home/[userTestId]/question/(co
 
 const Page = () => {
   return (
-    <div>
+    <>
       <CloseButton />
       <div className="flex items-center justify-center pt-4">
         <MainContentQuestion />
       </div>
-    </div>
+    </>
   );
 };
 

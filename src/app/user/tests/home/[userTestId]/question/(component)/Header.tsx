@@ -6,8 +6,9 @@ import { useContext } from "react";
 interface HeaderProps {
   questionGen: TQuestion | undefined;
 }
-const Header = ({ questionGen }: HeaderProps) => {
+const Header = () => {
   const { testUser } = useContext(AppContext);
+  const { generateQuestion } = useContext(AppContext);
   return (
     <div className="flex items-center justify-between w-[800px]">
       <div className="flex items-center gap-3">
@@ -28,7 +29,7 @@ const Header = ({ questionGen }: HeaderProps) => {
             />
           </div>
           <span className="font-semibold text-xl text-primary">
-            {questionGen?.time}s
+            {generateQuestion?.time}s
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -42,7 +43,8 @@ const Header = ({ questionGen }: HeaderProps) => {
             />
           </div>
           <span className="font-semibold text-xl text-primary">
-            {questionGen?.answered_question_num}/{questionGen?.total_question}
+            {generateQuestion?.answered_question_num}/
+            {generateQuestion?.total_question}
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -56,7 +58,7 @@ const Header = ({ questionGen }: HeaderProps) => {
             />
           </div>
           <span className="font-semibold text-xl text-primary">
-            {questionGen?.total_score}
+            {generateQuestion?.total_score}
           </span>
         </div>
       </div>
