@@ -2,6 +2,7 @@
 import { authRequest } from "@/apiRequest/hrAuth";
 import { clearLocalStorage } from "@/utils/auth/auth";
 import axios from "axios";
+import { useEffect, useState } from "react";
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 
 const instanceAxios = axios.create({
@@ -49,13 +50,19 @@ const fetchCookie = async () => {
 };
 
 const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
-  let sessionToken: {
-    accessTokenHr: string;
-    accessTokenUser: string;
-  };
+  const [sessionToken, setSessionToken] = useState({
+    accessTokenHr: "",
+    accessTokenUser: "",
+  });
+  useEffect(() => {
+    const handleSetSessionToken = async () => {
+      const sess = await fetchCookie();
+      setSessionToken(sess);
+    };
+    handleSetSessionToken();
+  }, []);
+  if (!sessionToken.accessTokenHr && !sessionToken.accessTokenUser) return null;
   instanceAxios.interceptors.request.use(async (config) => {
-    sessionToken = await fetchCookie();
-
     if (config.url?.includes("/candidate")) {
       if (sessionToken.accessTokenUser) {
         config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
