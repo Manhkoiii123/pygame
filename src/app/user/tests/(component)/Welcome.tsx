@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 interface TValues {
   email: string;
@@ -16,6 +16,12 @@ interface TProps {}
 const Welcome = (props: TProps) => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token")!;
+  useEffect(() => {
+    const handleDeleteCookie = async () => {
+      await authRequest.setCookie("");
+    };
+    handleDeleteCookie();
+  }, []);
   const [form] = Form.useForm();
   const router = useRouter();
   const handleUserLogin = async ({

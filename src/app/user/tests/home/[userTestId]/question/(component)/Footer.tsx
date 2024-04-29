@@ -1,17 +1,9 @@
 "use client";
 import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
-import { TQuestion } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, {
-  useEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-  useContext,
-} from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 
 function Footer({
   numbers,
@@ -20,7 +12,7 @@ function Footer({
 }: {
   numbers: [string, string];
   skip: boolean;
-  setIsCorrect: Dispatch<SetStateAction<boolean>>;
+  setIsCorrect: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { testUser, generateQuestion, setGenerateQuestion } =
     useContext(AppContext);
@@ -41,7 +33,6 @@ function Footer({
     generateQuestionMutation.mutate(id, {
       onSuccess: (res) => {
         if (res) {
-          console.log("🚀 ~ handleFetchQuestion ~ res:", res);
           setGenerateQuestion(res);
         }
       },
@@ -73,8 +64,15 @@ function Footer({
     };
     answerQuestionMutation.mutate(data, {
       onSuccess: (res) => {
-        handleFetchQuestion();
-        setGenerateQuestion(res?.question);
+        if (res.result === 1) {
+          setIsCorrect(1);
+        } else {
+          setIsCorrect(-1);
+        }
+        setTimeout(() => {
+          handleFetchQuestion();
+          setGenerateQuestion(res?.question);
+        }, 2000);
       },
     });
   };
