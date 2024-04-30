@@ -1,8 +1,9 @@
 "use client";
 import { authRequest } from "@/apiRequest/hrAuth";
+import { sessionTokenHr, sessionTokenUser } from "@/lib/axios/customSession";
 import { clearLocalStorage } from "@/utils/auth/auth";
 import axios from "axios";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 
 const instanceAxios = axios.create({
@@ -14,61 +15,59 @@ const instanceAxios = axios.create({
 type TAxiosInterceptor = {
   children: React.ReactNode;
 };
-const fetchCookie = async () => {
-  let sessionToken = {
-    accessTokenHr: "",
-    accessTokenUser: "",
-  };
-  const res = (await authRequest.getCookieFromNextServer()) as string;
-  if (res.includes(";")) {
-    const parts = res.split(";");
-    for (let i = 0; i < parts.length; i++) {
-      if (parts[i].includes("candicate_access_token")) {
-        sessionToken.accessTokenUser = parts[i].trim().split("=")[1];
-      }
-      if (parts[i].includes("hr_access_token")) {
-        sessionToken.accessTokenHr = parts[i].trim().split("=")[1];
-      }
-    }
-    return sessionToken;
-  } else {
-    const parts = res.split("=");
-    if (parts[0] === "candicate_access_token") {
-      sessionToken.accessTokenUser = parts[1];
-      sessionToken.accessTokenHr = "";
-    }
-    if (parts[0] === "hr_access_token") {
-      sessionToken.accessTokenHr = parts[1];
-      sessionToken.accessTokenUser = "";
-    }
-    return sessionToken;
-  }
-};
+// const fetchCookie = async () => {
+//   let sessionToken = {
+//     accessTokenHr: "",
+//     accessTokenUser: "",
+//   };
+//   const res = (await authRequest.getCookieFromNextServer()) as string;
+//   if (res.includes(";")) {
+//     const parts = res.split(";");
+//     for (let i = 0; i < parts.length; i++) {
+//       if (parts[i].includes("candicate_access_token")) {
+//         sessionToken.accessTokenUser = parts[i].trim().split("=")[1];
+//       }
+//       if (parts[i].includes("hr_access_token")) {
+//         sessionToken.accessTokenHr = parts[i].trim().split("=")[1];
+//       }
+//     }
+//     return sessionToken;
+//   } else {
+//     const parts = res.split("=");
+//     if (parts[0] === "candicate_access_token") {
+//       sessionToken.accessTokenUser = parts[1];
+//       sessionToken.accessTokenHr = "";
+//     }
+//     if (parts[0] === "hr_access_token") {
+//       sessionToken.accessTokenHr = parts[1];
+//       sessionToken.accessTokenUser = "";
+//     }
+//     return sessionToken;
+//   }
+// };
 
 const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
-  const [sessionToken, setSessionToken] = useState({
-    accessTokenHr: "",
-    accessTokenUser: "",
-  });
-  const handleSetSessionToken = async () => {
-    const sess = await fetchCookie();
-    setSessionToken(sess);
-  };
+  // const [sessionToken, setSessionToken] = useState({
+  //   accessTokenHr: "",
+  //   accessTokenUser: "",
+  // });
+
+  // const handleSetSessionToken = async () => {
+  //   const sess = await fetchCookie();
+  //   setSessionToken(sess);
+  // };
+  // useEffect(() => {
+  //   handleSetSessionToken();
+  // }, []);
   instanceAxios.interceptors.request.use(async (config) => {
-    if (
-      sessionToken.accessTokenHr === "" ||
-      sessionToken.accessTokenUser === ""
-    ) {
-      handleSetSessionToken();
-    }
     if (config.url?.includes("/candidate")) {
-      if (sessionToken.accessTokenUser) {
-        config.headers.authorization = `Bearer ${sessionToken.accessTokenUser}`;
+      if (sessionTokenUser.value) {
+        config.headers.authorization = `Bearer ${sessionTokenUser.value}`;
       }
       return config;
     } else {
-      if (sessionToken.accessTokenHr) {
-        config.headers.authorization = `Bearer ${sessionToken.accessTokenHr}`;
+      if (sessionTokenHr.value) {
+        config.headers.authorization = `Bearer ${sessionTokenHr.value}`;
       }
       return config;
     }
@@ -82,7 +81,7 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
     } else if (url === "/logout") {
       accessToken = "";
       clearLocalStorage();
-      sessionToken.accessTokenHr = "";
+      // sessionToken.accessTokenHr = "";
     }
     return response;
   });
