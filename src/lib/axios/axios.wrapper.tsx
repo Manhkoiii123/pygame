@@ -15,36 +15,36 @@ const instanceAxios = axios.create({
 type TAxiosInterceptor = {
   children: React.ReactNode;
 };
-// const fetchCookie = async () => {
-//   let sessionToken = {
-//     accessTokenHr: "",
-//     accessTokenUser: "",
-//   };
-//   const res = (await authRequest.getCookieFromNextServer()) as string;
-//   if (res.includes(";")) {
-//     const parts = res.split(";");
-//     for (let i = 0; i < parts.length; i++) {
-//       if (parts[i].includes("candicate_access_token")) {
-//         sessionToken.accessTokenUser = parts[i].trim().split("=")[1];
-//       }
-//       if (parts[i].includes("hr_access_token")) {
-//         sessionToken.accessTokenHr = parts[i].trim().split("=")[1];
-//       }
-//     }
-//     return sessionToken;
-//   } else {
-//     const parts = res.split("=");
-//     if (parts[0] === "candicate_access_token") {
-//       sessionToken.accessTokenUser = parts[1];
-//       sessionToken.accessTokenHr = "";
-//     }
-//     if (parts[0] === "hr_access_token") {
-//       sessionToken.accessTokenHr = parts[1];
-//       sessionToken.accessTokenUser = "";
-//     }
-//     return sessionToken;
-//   }
-// };
+const fetchCookie = async () => {
+  let sessionToken = {
+    accessTokenHr: "",
+    accessTokenUser: "",
+  };
+  const res = (await authRequest.getCookieFromNextServer()) as string;
+  if (res.includes(";")) {
+    const parts = res.split(";");
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].includes("candicate_access_token")) {
+        sessionToken.accessTokenUser = parts[i].trim().split("=")[1];
+      }
+      if (parts[i].includes("hr_access_token")) {
+        sessionToken.accessTokenHr = parts[i].trim().split("=")[1];
+      }
+    }
+    return sessionToken;
+  } else {
+    const parts = res.split("=");
+    if (parts[0] === "candicate_access_token") {
+      sessionToken.accessTokenUser = parts[1];
+      sessionToken.accessTokenHr = "";
+    }
+    if (parts[0] === "hr_access_token") {
+      sessionToken.accessTokenHr = parts[1];
+      sessionToken.accessTokenUser = "";
+    }
+    return sessionToken;
+  }
+};
 
 const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
   // const [sessionToken, setSessionToken] = useState({
@@ -63,14 +63,21 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
     if (config.url?.includes("/candidate")) {
       if (sessionTokenUser.value) {
         config.headers.authorization = `Bearer ${sessionTokenUser.value}`;
+      } else {
+        const sess = await fetchCookie();
+        sessionTokenUser.value = sess.accessTokenUser;
+        config.headers.authorization = `Bearer ${sessionTokenUser.value}`;
       }
-      return config;
     } else {
       if (sessionTokenHr.value) {
         config.headers.authorization = `Bearer ${sessionTokenHr.value}`;
+      } else {
+        const sess = await fetchCookie();
+        sessionTokenHr.value = sess.accessTokenHr;
+        config.headers.authorization = `Bearer ${sessionTokenHr.value}`;
       }
-      return config;
     }
+    return config;
   });
   instanceAxios.interceptors.response.use(async (response) => {
     let accessToken;
@@ -81,11 +88,9 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
     } else if (url === "/logout") {
       accessToken = "";
       clearLocalStorage();
-      // sessionToken.accessTokenHr = "";
     }
     return response;
   });
-  // if (!sessionToken.accessTokenHr && !sessionToken.accessTokenUser) return null;
   return <>{children}</>;
 };
 export default instanceAxios;
