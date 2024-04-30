@@ -3,6 +3,7 @@
 import { authRequest } from "@/apiRequest/auth";
 import { userRequest } from "@/apiRequest/user";
 import Loading from "@/components/views/Loading";
+import { sessionTokenUser } from "@/lib/axios/customSession";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";
@@ -48,6 +49,7 @@ const Welcome = (props: TProps) => {
       { data, token },
       {
         onSuccess: async (res) => {
+          sessionTokenUser.value = res?.access_token;
           toast.success("Đăng nhập thành công");
           router.push(`/user/tests/home`);
           try {

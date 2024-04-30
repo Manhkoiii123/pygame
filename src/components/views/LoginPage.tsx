@@ -11,6 +11,7 @@ import Loading from "@/components/views/Loading";
 import { AppContext } from "@/lib/context.wrapper";
 import { authRequest } from "@/apiRequest/hrAuth";
 import { setAccessTokenFromLs, setProfileFromLS } from "@/utils/auth/auth";
+import { sessionTokenHr } from "@/lib/axios/customSession";
 
 type FieldType = {
   email?: string;
@@ -36,6 +37,7 @@ const LoginPage = () => {
         setIsAuthenticate(true);
         setProfileFromLS(res?.data?.data);
         setAccessTokenFromLs(res?.data?.data.access_token);
+        sessionTokenHr.value = res?.data?.data.access_token;
         await authRequest.setAccessToken(
           res?.data?.data.access_token as string
         );
