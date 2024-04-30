@@ -20,4 +20,24 @@ export const authRequest = {
         });
     });
   },
+  logoutUser: () => {
+    return new Promise((resolve, reject) => {
+      fetch("/api/logoutUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            resolve(response.json());
+          } else {
+            reject("Error occurred during fetch");
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
 };

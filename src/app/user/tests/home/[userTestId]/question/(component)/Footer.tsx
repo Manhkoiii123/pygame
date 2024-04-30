@@ -66,7 +66,7 @@ function Footer({
       onSuccess: (res) => {
         if (res.result === 1) {
           setIsCorrect(1);
-        } else {
+        } else if (res.result === 0) {
           setIsCorrect(-1);
         }
         setTimeout(() => {

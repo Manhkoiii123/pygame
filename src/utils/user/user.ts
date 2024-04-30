@@ -31,8 +31,8 @@ export const convertDate = (date: string) => {
   return ngay_sau_chuyen_doi;
 };
 export const sosanhDate = (ngay1: string, ngay2: string) => {
-  var ngay_thang_nam_1 = ngay1.split("/");
-  var ngay_thang_nam_2 = ngay2.split("/");
+  var ngay_thang_nam_1 = ngay1?.split("/");
+  var ngay_thang_nam_2 = ngay2?.split("/");
 
   var ngay_1 = parseInt(ngay_thang_nam_1[0]);
   var thang_1 = parseInt(ngay_thang_nam_1[1]);

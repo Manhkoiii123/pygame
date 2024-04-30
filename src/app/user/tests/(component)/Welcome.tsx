@@ -3,7 +3,7 @@
 import { authRequest } from "@/apiRequest/auth";
 import { userRequest } from "@/apiRequest/user";
 import Loading from "@/components/views/Loading";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,7 +18,11 @@ const Welcome = (props: TProps) => {
   const token = searchParams.get("token")!;
   useEffect(() => {
     const handleDeleteCookie = async () => {
-      await authRequest.setCookie("");
+      try {
+        await authRequest.logoutUser();
+      } catch (error) {
+        console.error("Error setting email:", error);
+      }
     };
     handleDeleteCookie();
   }, []);
