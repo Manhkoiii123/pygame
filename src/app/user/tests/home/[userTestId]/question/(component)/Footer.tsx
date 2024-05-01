@@ -16,7 +16,12 @@ function Footer({
 }) {
   const { testUser, generateQuestion, setGenerateQuestion } =
     useContext(AppContext);
-  const handleAnswerQuestion = async (data: any) => {
+  const handleAnswerQuestion = async (data: {
+    question_id: string;
+    game_id: string;
+    answer: string | undefined;
+    is_skip: number;
+  }) => {
     const res = await userRequest.answerQuestion(data);
     return res.data.data;
   };
@@ -72,7 +77,6 @@ function Footer({
         setTimeout(() => {
           setIsCorrect(0);
           handleFetchQuestion();
-          // setGenerateQuestion(res?.question);
         }, 2000);
       },
     });

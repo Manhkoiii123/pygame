@@ -23,10 +23,20 @@ export const userRequest = {
       data
     );
   },
-  answerQuestion: (data: any) => {
+  answerQuestion: (data: {
+    question_id: string;
+    game_id: string;
+    answer: string | undefined;
+    is_skip: number;
+  }) => {
     return instanceAxios.post<AuthResponse<TAnswerResponse>>(
       "/candidate/answer-question",
       data
     );
+  },
+  finishTest: (data: { game_id: number }) => {
+    return instanceAxios.post<
+      AuthResponse<{ score: number; status: number; used_time: number }>
+    >("/candidate/finish-game", data);
   },
 };
