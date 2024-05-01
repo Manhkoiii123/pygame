@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "../../../globals.css";
 import Image from "next/image";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <Image alt="logo" width={200} height={100} src={"/logo.png"} />
         {children}
+        <ToastContainer />
       </body>
     </html>
   );

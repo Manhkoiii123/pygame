@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import MyLink from "@/app/user/tests/home/(component)/MyLink";
 import { AppContext } from "@/lib/context.wrapper";
 import { TUserTest } from "@/types/user";
 import { covertStatus } from "@/utils/user/user";
