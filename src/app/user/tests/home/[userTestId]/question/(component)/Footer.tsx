@@ -70,6 +70,7 @@ function Footer({
           setIsCorrect(-1);
         }
         setTimeout(() => {
+          setIsCorrect(0);
           handleFetchQuestion();
           // setGenerateQuestion(res?.question);
         }, 2000);
