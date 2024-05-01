@@ -3,7 +3,6 @@ import { authRequest } from "@/apiRequest/hrAuth";
 import { sessionTokenHr, sessionTokenUser } from "@/lib/axios/customSession";
 import { clearLocalStorage } from "@/utils/auth/auth";
 import axios from "axios";
-import { useEffect, useState } from "react";
 export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 
 const instanceAxios = axios.create({
@@ -84,7 +83,7 @@ const AxiosInterceptor = ({ children }: TAxiosInterceptor) => {
     const { url } = response.config;
     const data = response.data.data;
     if (url === "/login") {
-      accessToken = data.access_token;
+      // accessToken = data.access_token;
     } else if (url === "/logout") {
       accessToken = "";
       clearLocalStorage();
