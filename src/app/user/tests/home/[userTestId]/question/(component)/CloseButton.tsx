@@ -1,10 +1,31 @@
 "use client";
+import { userRequest } from "@/apiRequest/user";
+import { AppContext } from "@/lib/context.wrapper";
+import { useMutation } from "@tanstack/react-query";
 import { Modal } from "antd";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 
 const CloseButton = () => {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const { testUser } = useContext(AppContext);
+  const router = useRouter();
+  const gameId = testUser.id as number;
+  const callRequestFinishTest = async (id: number) => {
+    const res = await userRequest.finishTest({ game_id: id });
+    return res.data.data;
+  };
+  const finishTestMutation = useMutation({
+    mutationFn: callRequestFinishTest,
+  });
+  const handleFinishTest = (id: number) => {
+    finishTestMutation.mutate(id, {
+      onSuccess: (res) => {
+        router.push(`/user/tests/home`);
+      },
+    });
+  };
   return (
     <>
       <div
@@ -24,7 +45,7 @@ const CloseButton = () => {
         footer={() => (
           <div className="flex gap-4 justify-end mt-8">
             <button
-              onClick={() => setOpenDelete(false)}
+              onClick={() => handleFinishTest(gameId)}
               style={{
                 backgroundColor: "#DEDDDD",
                 borderColor: "#DEDDDD",
@@ -37,6 +58,7 @@ const CloseButton = () => {
               </span>
             </button>
             <button
+              onClick={() => setOpenDelete(false)}
               style={{
                 backgroundColor: "#FFE7E1",
                 borderColor: "#FFE7E1",
