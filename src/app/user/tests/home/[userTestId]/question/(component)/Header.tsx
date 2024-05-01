@@ -1,4 +1,5 @@
 "use client";
+import CountDown from "@/app/user/tests/home/[userTestId]/question/(component)/CountDown";
 import { AppContext } from "@/lib/context.wrapper";
 import { TQuestion } from "@/types/user";
 import Image from "next/image";
@@ -28,9 +29,10 @@ const Header = () => {
               className=" object-cover"
             />
           </div>
-          <span className="font-semibold text-xl text-primary">
+          <CountDown time={generateQuestion?.time}></CountDown>
+          {/* <span className="font-semibold text-xl text-primary">
             {generateQuestion?.time}s
-          </span>
+          </span> */}
         </div>
         <div className="flex items-center gap-2">
           <div className="p-3 border border-1 border-gray-300 rounded-full">

@@ -3,7 +3,7 @@ import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import React, { useEffect, useRef, useContext, useState } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 
 function Footer({
   numbers,
@@ -71,7 +71,7 @@ function Footer({
         }
         setTimeout(() => {
           handleFetchQuestion();
-          setGenerateQuestion(res?.question);
+          // setGenerateQuestion(res?.question);
         }, 2000);
       },
     });
