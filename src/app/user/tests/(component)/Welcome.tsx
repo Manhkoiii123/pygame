@@ -139,4 +139,3 @@ const Welcome = (props: TProps) => {
 };
 
 export default Welcome;
-// border: 1px solid #DEDDDD

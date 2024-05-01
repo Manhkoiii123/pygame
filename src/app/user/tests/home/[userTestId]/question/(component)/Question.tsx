@@ -2,7 +2,6 @@
 import NumericalChallenge from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/NumericalChallenge";
 import Verbal from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/Verbal";
 import { AppContext } from "@/lib/context.wrapper";
-import { TQuestion } from "@/types/user";
 import Image from "next/image";
 import React, { useContext } from "react";
 
