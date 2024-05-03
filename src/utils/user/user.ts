@@ -21,12 +21,10 @@ export const covertStatus = (status: string) => {
 export const convertDate = (date: string) => {
   var parts = date.split("/");
 
-  // Lấy ngày và tháng, nếu tháng có một chữ số, thêm 0 vào trước
   var ngay = parts[1].length === 1 ? "0" + parts[1] : parts[1];
   var thang = parts[0].length === 1 ? "0" + parts[0] : parts[0];
   var nam = parts[2];
 
-  // Xây dựng chuỗi mới với thứ tự ngày và tháng được hoán đổi
   var ngay_sau_chuyen_doi = ngay + "/" + thang + "/" + nam;
   return ngay_sau_chuyen_doi;
 };

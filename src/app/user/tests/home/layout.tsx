@@ -16,16 +16,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={poppins.className}>
-        <Image alt="logo" width={200} height={100} src={"/logo.png"} />
-        {children}
-        <ToastContainer />
-      </body>
-    </html>
-  );
+}) {
+  return <>{children}</>;
 }

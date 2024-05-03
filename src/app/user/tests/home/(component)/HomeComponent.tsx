@@ -1,14 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { userRequest } from "@/apiRequest/user";
 import Info from "@/app/user/tests/home/(component)/Info";
 import ListTest from "@/app/user/tests/home/(component)/ListTest";
-import { AppContext, testUserInit } from "@/lib/context.wrapper";
 import { useQuery } from "@tanstack/react-query";
-import React, { useContext, useEffect } from "react";
 
 const HomeComponent = () => {
-  const { setTestUser, setNumberQuestion } = useContext(AppContext);
   const handleFetchListTestUser = async () => {
     const res = await userRequest.userListTest();
     return res.data.data.games;

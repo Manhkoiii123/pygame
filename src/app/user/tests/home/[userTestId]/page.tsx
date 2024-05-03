@@ -7,7 +7,6 @@ const Page = ({ params }: { params: { userTestId: string } }) => {
   const { userTestId } = params;
 
   return (
-    <>
       <div className="flex flex-col justify-center items-center">
         <Link
           href={"/user/tests/home"}
@@ -22,7 +21,6 @@ const Page = ({ params }: { params: { userTestId: string } }) => {
         </Link>
         <TestIdUser userTestId={userTestId}></TestIdUser>
       </div>
-    </>
   );
 };
 

@@ -1,12 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { AppContext } from "@/lib/context.wrapper";
 import { TUserTest } from "@/types/user";
-import { covertStatus } from "@/utils/user/user";
 import { Tag } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 interface Tprops {
@@ -15,7 +13,20 @@ interface Tprops {
 const Test = (props: Tprops) => {
   const { data } = props;
   const { setTestUser } = useContext(AppContext);
-  const { bgColor, text } = covertStatus(data.status_text);
+  const [bgColor, setBgColor] = useState("");
+  const [text, setText] = useState("");
+  useEffect(() => {
+    if (data.status_text === "Completed") {
+      setBgColor("#A9F5AB");
+      setText("Completed");
+    } else if (data.status_text === "In progress") {
+      setBgColor("#FFAC9F");
+      setText("In progress");
+    } else if (data.status_text === "Not started") {
+      setBgColor("#FFD0A5");
+      setText("Not Started");
+    }
+  }, [data.status_text]);
   const handleClick = (status: number) => {
     if (status === 2) {
       toast.success(
