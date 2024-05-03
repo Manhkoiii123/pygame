@@ -9,7 +9,7 @@ const ListTest = ({ listTest }: { listTest: TUserTest[] | undefined }) => {
   return (
     <div className="flex flex-wrap gap-x-2 gap-y-4 mt-3">
       {listTest &&
-        listTest.map((item, index) => <Test key={index} data={item} />)}
+        listTest.map((item) => <Test key={item.id} data={item}></Test>)}
     </div>
   );
 };
