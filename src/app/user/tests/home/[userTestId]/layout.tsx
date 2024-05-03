@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function IDLayout({ children }: React.PropsWithChildren) {
-  return (
-    <>
-      <div className="p-10">{children}</div>
-    </>
-  );
+  return <div className="p-10">{children}</div>;
 }
