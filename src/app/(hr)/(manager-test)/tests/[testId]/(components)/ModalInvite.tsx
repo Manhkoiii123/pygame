@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { listTestRequest } from "@/apiRequest/test";
 import ModalUpload from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalUpload";

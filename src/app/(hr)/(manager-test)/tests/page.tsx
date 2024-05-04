@@ -7,13 +7,17 @@ import { convertDate, sosanhDate } from "@/utils/user/user";
 import { useQuery } from "@tanstack/react-query";
 
 const Index = () => {
-  const handleFetchListAssessment = async () => {
-    const res = await listTestRequest.fetchListAssessment(1);
+  const handleFetchListAssessment = async (status: number) => {
+    const res = await listTestRequest.fetchListAssessment(status);
     return res.data.data.assessments;
   };
   const { data: listAssessmet, isLoading } = useQuery({
     queryKey: ["listAssessment"],
-    queryFn: () => handleFetchListAssessment(),
+    queryFn: () => handleFetchListAssessment(1),
+  });
+  const { data: listAssessmetUnActive, isLoading: loadingUnActive } = useQuery({
+    queryKey: ["listAssessmentUnActive"],
+    queryFn: () => handleFetchListAssessment(0),
   });
   return (
     <div className="flex flex-col gap-4">
@@ -36,6 +40,20 @@ const Index = () => {
               } else {
                 return <AssessmentItem key={item.id} status={1} data={item} />;
               }
+            })}
+          </div>
+        )}
+      </div>
+      <div className="text-[32px] leading-[44px] font-semibold text-primary mt-10">
+        <div className="flex justify-between items-center">
+          <span>Archived assessments</span>
+        </div>
+        {loadingUnActive ? (
+          <Loading></Loading>
+        ) : (
+          <div className="mt-4 flex gap-3 flex-wrap">
+            {listAssessmetUnActive?.map((item) => {
+              return <AssessmentItem key={item.id} status={-1} data={item} />;
             })}
           </div>
         )}

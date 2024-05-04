@@ -36,4 +36,16 @@ export const listTestRequest = {
       data
     );
   },
+  unActiveAss: async (data: { assessment_id: number }) => {
+    return await instanceAxios.post<AuthResponse<any>>(
+      "/archive-assessment",
+      data
+    );
+  },
+  activeAss: async (data: { assessment_id: number }) => {
+    return await instanceAxios.post<AuthResponse<any>>(
+      "/unarchive-assessment",
+      data
+    );
+  },
 };
