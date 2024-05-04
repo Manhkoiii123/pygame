@@ -14,7 +14,7 @@ function Footer({
   skip: boolean;
   setIsCorrect: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const { testUser, generateQuestion, setGenerateQuestion, setScore } =
+  const { testUser, generateQuestion, setGenerateQuestion } =
     useContext(AppContext);
   const handleAnswerQuestion = async (data: {
     question_id: string;
@@ -70,8 +70,6 @@ function Footer({
     };
     answerQuestionMutation.mutate(data, {
       onSuccess: (res) => {
-        console.log("🚀 ~ res:", res);
-
         if (res.result === 1) {
           setIsCorrect(1);
         } else if (res.result === 0) {
