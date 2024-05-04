@@ -45,7 +45,7 @@ const CloseButton = () => {
         footer={() => (
           <div className="flex gap-4 justify-end mt-8">
             <button
-              onClick={() => handleFinishTest(gameId)}
+              onClick={() => setOpenDelete(false)}
               style={{
                 backgroundColor: "#DEDDDD",
                 borderColor: "#DEDDDD",
@@ -58,7 +58,7 @@ const CloseButton = () => {
               </span>
             </button>
             <button
-              onClick={() => setOpenDelete(false)}
+              onClick={() => handleFinishTest(gameId)}
               style={{
                 backgroundColor: "#FFE7E1",
                 borderColor: "#FFE7E1",

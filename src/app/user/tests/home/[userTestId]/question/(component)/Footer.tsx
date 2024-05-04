@@ -38,7 +38,9 @@ function Footer({
     generateQuestionMutation.mutate(id, {
       onSuccess: (res) => {
         if (res) {
+          // if (res.game_ended === false) {
           setGenerateQuestion(res);
+          // }
         }
       },
     });
@@ -77,7 +79,7 @@ function Footer({
         setTimeout(() => {
           setIsCorrect(0);
           handleFetchQuestion();
-        }, 2000);
+        }, 1000);
       },
     });
   };
