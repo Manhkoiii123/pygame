@@ -38,9 +38,7 @@ function Footer({
     generateQuestionMutation.mutate(id, {
       onSuccess: (res) => {
         if (res) {
-          // if (res.game_ended === false) {
           setGenerateQuestion(res);
-          // }
         }
       },
     });

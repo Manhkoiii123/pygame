@@ -1,12 +1,9 @@
 "use client";
 import CountDown from "@/app/user/tests/home/[userTestId]/question/(component)/CountDown";
 import { AppContext } from "@/lib/context.wrapper";
-import { TQuestion } from "@/types/user";
 import Image from "next/image";
 import { useContext } from "react";
-interface HeaderProps {
-  questionGen: TQuestion | undefined;
-}
+
 const Header = () => {
   const { testUser } = useContext(AppContext);
   const { generateQuestion } = useContext(AppContext);
@@ -30,9 +27,6 @@ const Header = () => {
             />
           </div>
           <CountDown time={generateQuestion?.time}></CountDown>
-          {/* <span className="font-semibold text-xl text-primary">
-            {generateQuestion?.time}s
-          </span> */}
         </div>
         <div className="flex items-center gap-2">
           <div className="p-3 border border-1 border-gray-300 rounded-full">
@@ -45,7 +39,7 @@ const Header = () => {
             />
           </div>
           <span className="font-semibold text-xl text-primary">
-            {generateQuestion?.answered_question_num}/
+            {generateQuestion?.answered_question_num + 1}/
             {generateQuestion?.total_question}
           </span>
         </div>
