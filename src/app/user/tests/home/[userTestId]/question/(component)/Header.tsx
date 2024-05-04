@@ -4,7 +4,13 @@ import { AppContext } from "@/lib/context.wrapper";
 import Image from "next/image";
 import { useContext } from "react";
 
-const Header = () => {
+const Header = ({
+  endGame,
+  setEndGame,
+}: {
+  endGame: boolean;
+  setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { testUser } = useContext(AppContext);
   const { generateQuestion } = useContext(AppContext);
   return (
@@ -26,7 +32,12 @@ const Header = () => {
               className=" object-cover"
             />
           </div>
-          <CountDown time={generateQuestion?.time}></CountDown>
+          <CountDown
+            endGame={endGame}
+            setEndGame={setEndGame}
+            time={generateQuestion?.time}
+            userTime={generateQuestion?.used_time}
+          ></CountDown>
         </div>
         <div className="flex items-center gap-2">
           <div className="p-3 border border-1 border-gray-300 rounded-full">
