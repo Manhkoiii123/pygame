@@ -21,6 +21,8 @@ interface AppContextType {
   setTestUser: React.Dispatch<React.SetStateAction<TUserTest>>;
   generateQuestion: TQuestion;
   setGenerateQuestion: React.Dispatch<React.SetStateAction<TQuestion>>;
+  score: number;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
 }
 export const testUserInit = {
   description: "",
@@ -63,6 +65,8 @@ const initialAppContext: AppContextType = {
   setTestUser: () => null,
   generateQuestion: getQuestionFromLS(),
   setGenerateQuestion: () => null,
+  score: 0,
+  setScore: () => null,
 };
 export const AppContext = createContext<AppContextType>(initialAppContext);
 
@@ -82,6 +86,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [generateQuestion, setGenerateQuestion] = useState<TQuestion>(
     initialAppContext.generateQuestion
   );
+  const [score, setScore] = useState(initialAppContext.score);
   const reset = () => {
     setIsAuthenticate(false);
     setProfile(null);
@@ -101,6 +106,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setTestUser,
         generateQuestion,
         setGenerateQuestion,
+        score,
+        setScore,
       }}
     >
       {children}
