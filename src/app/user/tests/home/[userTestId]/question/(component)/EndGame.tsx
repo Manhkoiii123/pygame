@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { userRequest } from "@/apiRequest/user";
+import Loading from "@/components/views/Loading";
 import { AppContext } from "@/lib/context.wrapper";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -32,7 +33,7 @@ const EndGame = ({ id }: { id: number }) => {
   return (
     <div className="font-medium bg-white px-12 py-6 border-[1px] border-[#009DBE] rounded-[16px] w-[700px]  mx-auto h-[500px] flex items-center justify-center ">
       <div className="mt-[30px] font-bold text-3xl text-blue-500">
-        Your Score: {score}
+        {finishTestMutation.isPending ? <Loading /> : <>Your Score: {score}</>}
       </div>
     </div>
   );
