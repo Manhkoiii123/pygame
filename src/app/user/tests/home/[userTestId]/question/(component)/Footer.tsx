@@ -39,6 +39,7 @@ function Footer({
       onSuccess: (res) => {
         if (res) {
           setGenerateQuestion(res);
+          localStorage.setItem("generateQuestion", JSON.stringify(res));
         }
       },
     });
@@ -69,17 +70,14 @@ function Footer({
     };
     answerQuestionMutation.mutate(data, {
       onSuccess: (res) => {
+        console.log("🚀 ~ res:", res);
+
         if (res.result === 1) {
           setIsCorrect(1);
-          if (res.answered_question_num + 1 === res.total_question) {
-            setScore(res.total_score + res.result);
-          }
         } else if (res.result === 0) {
           setIsCorrect(-1);
-          if (res.answered_question_num + 1 === res.total_question) {
-            setScore(res.total_score + res.result);
-          }
         }
+
         setTimeout(() => {
           setIsCorrect(0);
           handleFetchQuestion();

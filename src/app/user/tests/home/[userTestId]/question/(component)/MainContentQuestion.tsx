@@ -19,10 +19,10 @@ const MainContentQuestion = () => {
 
   return (
     <div className="p-5 border border-1 border-[#009DBE] rounded-2xl flex flex-col gap-4">
-      {endGame && <EndGame score={score} id={testUser.id}></EndGame>}
+      {endGame && <EndGame id={testUser.id}></EndGame>}
       {!endGame && (
         <>
-          <Header />
+          <Header endGame={endGame} setEndGame={setEndGame} />
           <div className="w-[800px] h-[1px] bg-gradient-divider"></div>
           <Question></Question>
         </>

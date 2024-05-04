@@ -11,7 +11,7 @@ const CloseButton = () => {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const { testUser } = useContext(AppContext);
   const router = useRouter();
-  const gameId = testUser.id as number;
+  const gameId = testUser?.id as number;
   const callRequestFinishTest = async (id: number) => {
     const res = await userRequest.finishTest({ game_id: id });
     return res.data.data;
