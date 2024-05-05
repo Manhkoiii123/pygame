@@ -4,14 +4,12 @@ import DropdownInvite from "@/app/(hr)/(manager-test)/tests/[testId]/(components
 import DropdownMore from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/DropdownMore";
 import ListTestInAssessment from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ListTestInAssessment";
 import Loading from "@/components/views/Loading";
-import { TTestAssessment } from "@/types/listTest";
 import { convertDate, sosanhDate } from "@/utils/user/user";
 import { useQuery } from "@tanstack/react-query";
 import { Divider } from "antd";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 
 const DetailAssessment = ({ testId }: { testId: string }) => {
   const handleFetchDetail = async (id: string) => {
@@ -48,6 +46,18 @@ const DetailAssessment = ({ testId }: { testId: string }) => {
                   <span className="text-xs font-normal text-primary">
                     From {detailAssessment?.assessment.start_date} to{" "}
                     {detailAssessment?.assessment.end_date}
+                  </span>
+                  <div className="h-1 w-1 rounded-full bg-black"></div>
+                  <span className="text-xs font-normal text-primary">
+                    {dayjs(
+                      convertDate(detailAssessment?.assessment.end_date!)
+                    ).diff(
+                      dayjs(
+                        convertDate(detailAssessment?.assessment.start_date!)
+                      ),
+                      "d"
+                    )}{" "}
+                    days
                   </span>
                   {sosanhDate(
                     detailAssessment?.assessment.end_date!,
