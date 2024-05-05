@@ -1,4 +1,5 @@
 "use client";
+import LogicalGame from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/LogicalGame";
 import NumericalChallenge from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/NumericalChallenge";
 import Verbal from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/Verbal";
 import { AppContext } from "@/lib/context.wrapper";
@@ -21,6 +22,9 @@ const Question = () => {
             generateQuestion?.question?.content?.question.word_2 && <Verbal />}
           {generateQuestion?.question?.content?.question?.expression && (
             <NumericalChallenge />
+          )}
+          {generateQuestion?.question?.content?.question?.conclusion && (
+            <LogicalGame />
           )}
         </div>
       </div>
