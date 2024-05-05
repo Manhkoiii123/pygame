@@ -34,7 +34,6 @@ const ModalInvite = (props: TProps) => {
     });
   };
   const { open, setOpen, id, token, key } = props;
-  console.log("🚀 ~ ModalInvite ~ key:", key);
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);

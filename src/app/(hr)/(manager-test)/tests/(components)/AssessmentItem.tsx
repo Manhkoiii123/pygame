@@ -3,8 +3,10 @@
 import { listTestRequest } from "@/apiRequest/test";
 import ModalDelete from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalDelete";
 import { TAssessment } from "@/types/listAssessment";
+import { convertDate } from "@/utils/user/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Tooltip } from "antd";
+import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
@@ -157,7 +159,13 @@ const AssessmentItem = (props: TProps) => {
             <div className="flex items-center gap-2 text-xs">
               <span className="text-ink100 font-normal">
                 Last activity :{" "}
-                <span className="text-primary font-semibold">6 days ago</span>
+                <span className="text-primary font-semibold">
+                  {dayjs(convertDate(new Date().toLocaleDateString())).diff(
+                    dayjs(convertDate(data.updated_at)),
+                    "d"
+                  )}{" "}
+                  days ago
+                </span>
               </span>
             </div>
             <div className="flex cursor-pointer items-center gap-1 text-secondary font-medium text-base group">
@@ -205,7 +213,13 @@ const AssessmentItem = (props: TProps) => {
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-ink100 font-normal">
                   Last activity :{" "}
-                  <span className="text-primary font-semibold">6 days ago</span>
+                  <span className="text-primary font-semibold">
+                    {dayjs(convertDate(new Date().toLocaleDateString())).diff(
+                      dayjs(convertDate(data.updated_at)),
+                      "d"
+                    )}{" "}
+                    days ago
+                  </span>
                 </span>
               </div>
               <div className="flex cursor-pointer items-center gap-1 text-secondary font-medium text-base group">
