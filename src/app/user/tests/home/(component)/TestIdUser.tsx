@@ -31,19 +31,11 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
   };
   const router = useRouter();
   const handleNavigate = () => {
-    const id = new FormData();
-    id.append("game_id", userTestId.toString());
-    generateQuestionMutation.mutate(id, {
-      onSuccess: (res) => {
-        setGenerateQuestion(res);
-        localStorage.setItem("generateQuestion", JSON.stringify(res));
-      },
-    });
     router.push(`/user/tests/home/${userTestId}/question`);
   };
-  // useEffect(() => {
-  //   handleFetchQuestion();
-  // }, [userTestId]);
+  useEffect(() => {
+    handleFetchQuestion();
+  }, [userTestId]);
   return (
     <>
       {generateQuestionMutation.isPending ? (
