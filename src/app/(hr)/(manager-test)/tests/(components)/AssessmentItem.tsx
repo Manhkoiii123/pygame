@@ -18,13 +18,6 @@ interface TProps {
 const AssessmentItem = (props: TProps) => {
   const queryClient = useQueryClient();
   const { status, data } = props;
-  console.log(
-    "🚀 ~ AssessmentItem ~ data:",
-    dayjs(dayjs(new Date().toLocaleDateString())).diff(
-      dayjs(convertDate(data.updated_at)),
-      "day"
-    )
-  );
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const reqUnActive = async (id: number) => {
     const data = {
@@ -167,7 +160,7 @@ const AssessmentItem = (props: TProps) => {
               <span className="text-ink100 font-normal">
                 Last activity :{" "}
                 <span className="text-primary font-semibold">
-                  {dayjs(dayjs(new Date().toLocaleDateString())).diff(
+                  {dayjs(new Date().toLocaleDateString()).diff(
                     dayjs(convertDate(data.updated_at)),
                     "day"
                   )}{" "}
@@ -221,7 +214,7 @@ const AssessmentItem = (props: TProps) => {
                 <span className="text-ink100 font-normal">
                   Last activity :{" "}
                   <span className="text-primary font-semibold">
-                    {dayjs(dayjs(new Date().toLocaleDateString())).diff(
+                    {dayjs(new Date().toLocaleDateString()).diff(
                       dayjs(convertDate(data.updated_at)),
                       "day"
                     )}{" "}

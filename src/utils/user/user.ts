@@ -59,3 +59,22 @@ export const sosanhDate = (ngay1: string, ngay2: string) => {
     }
   }
 };
+export const addZero = (tmp: string) => {
+  if (tmp.length <= 1) {
+    return "0" + tmp;
+  } else {
+    return tmp;
+  }
+};
+export const getDate = (
+  date: string,
+  month: string,
+  year: string,
+  hour: string,
+  min: string,
+  second: string
+) => {
+  return (
+    date + "/" + month + "/" + year + " " + hour + ":" + min + ":" + second
+  );
+};
