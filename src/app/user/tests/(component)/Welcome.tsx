@@ -13,10 +13,12 @@ import { toast } from "react-toastify";
 interface TValues {
   email: string;
 }
-interface TProps {}
+interface TProps {
+  cookie: string | undefined;
+  token: string;
+}
 const Welcome = (props: TProps) => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token")!;
+  const { cookie, token } = props;
   useEffect(() => {
     const handleDeleteCookie = async () => {
       try {
@@ -25,8 +27,10 @@ const Welcome = (props: TProps) => {
         console.error("Error setting email:", error);
       }
     };
-    handleDeleteCookie();
-  }, []);
+    if (cookie) {
+      handleDeleteCookie();
+    }
+  }, [cookie]);
   const [form] = Form.useForm();
   const router = useRouter();
   const handleUserLogin = async ({
