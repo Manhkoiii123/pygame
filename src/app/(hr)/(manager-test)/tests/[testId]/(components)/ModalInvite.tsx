@@ -5,7 +5,6 @@ import ModalUpload from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/M
 import Loading from "@/components/views/Loading";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Modal, Select, message } from "antd";
-import { Span } from "next/dist/trace";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -14,7 +13,7 @@ type TProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
   token: string | undefined;
-  key: string;
+  keyOpen: string;
 };
 const ModalInvite = (props: TProps) => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -33,7 +32,9 @@ const ModalInvite = (props: TProps) => {
       duration: 1,
     });
   };
-  const { open, setOpen, id, token, key } = props;
+  const { open, setOpen, id, token, keyOpen } = props;
+  console.log("🚀 ~ ModalInvite ~ keyOpen:", keyOpen);
+
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -97,7 +98,7 @@ const ModalInvite = (props: TProps) => {
   const handleInvite = () => {
     const data = new FormData();
     data.append("assessment_id", id);
-    data.append("type", "1");
+    data.append("type", keyOpen);
     email.map((item, index) => {
       data.append(`list_email[${index}]`, item);
     });
@@ -117,7 +118,7 @@ const ModalInvite = (props: TProps) => {
         centered
         title={
           <span className="font-semibold text-3xl">
-            Invite {key === "1" ? <>participants</> : <>candicates</>}
+            Invite {keyOpen === "1" ? "Candicates" : "Employees"}
           </span>
         }
         open={open}
@@ -204,6 +205,7 @@ const ModalInvite = (props: TProps) => {
         </div>
       </Modal>
       <ModalUpload
+        keyOpen={keyOpen}
         id={id}
         setOpen={setOpen}
         openUploadModal={openUploadModal}

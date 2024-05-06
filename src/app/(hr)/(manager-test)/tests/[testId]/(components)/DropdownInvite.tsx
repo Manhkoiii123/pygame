@@ -14,13 +14,12 @@ const DropdownInvite = ({
   token: string | undefined;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [key, setKey] = useState("");
+  const [open2, setOpen2] = useState<boolean>(false);
   const dropdownInvite: TDropdown[] = [
     {
       key: "1",
       label: "Invite applications",
       onClick: () => {
-        setKey("1");
         setOpen(true);
       },
     },
@@ -28,8 +27,7 @@ const DropdownInvite = ({
       key: "2",
       label: "Invite employees",
       onClick: () => {
-        setKey("2");
-        setOpen(true);
+        setOpen2(true);
       },
     },
   ];
@@ -43,12 +41,20 @@ const DropdownInvite = ({
           </div>
         </Button>
       </MenuDropdown>
+
       <ModalInvite
-        key={key}
+        keyOpen={"1"}
         token={token}
         id={id}
         open={open}
         setOpen={setOpen}
+      />
+      <ModalInvite
+        keyOpen={"2"}
+        token={token}
+        id={id}
+        open={open2}
+        setOpen={setOpen2}
       />
     </>
   );
