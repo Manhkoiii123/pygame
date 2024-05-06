@@ -12,6 +12,7 @@ interface TProps {
   handleCloseModalUpload: () => void;
   id: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  keyOpen: string;
 }
 
 type UploadRequestOption<T> = {
@@ -27,7 +28,8 @@ const ModalUpload = (props: TProps) => {
   const [statusUpload, setStatusUpload] = useState<number | undefined>(0);
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState<string>("");
-  const { openUploadModal, handleCloseModalUpload, id, setOpen } = props;
+  const { openUploadModal, handleCloseModalUpload, id, setOpen, keyOpen } =
+    props;
   const handleInviteRequest = async (data: FormData) => {
     const res = await listTestRequest.inviteCandicate(data);
     return res;
@@ -38,7 +40,7 @@ const ModalUpload = (props: TProps) => {
   const handleInvite = () => {
     const data = new FormData();
     data.append("assessment_id", id);
-    data.append("type", "1");
+    data.append("type", keyOpen);
     dataExcel.map((item, index) => {
       data.append(`list_email[${index}]`, item.email);
     });
