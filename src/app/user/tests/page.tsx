@@ -26,7 +26,6 @@ const Page = async (props: any) => {
   const token = props.searchParams.token;
   const res = await fetchDetailAssUser(token);
   const { end_date, start_date } = res.company;
-
   const cookie = cookies().get("candicate_access_token")?.value;
   return (
     <>

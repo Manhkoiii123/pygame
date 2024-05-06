@@ -1,4 +1,4 @@
-import instanceAxios, { BASE_URL } from "@/lib/axios/axios.wrapper";
+import instanceAxios from "@/lib/axios/axios.wrapper";
 import { AuthResponse } from "@/types/auth";
 import { TAnswerResponse, TQuestion, TUserTest } from "@/types/user";
 import axios from "axios";
@@ -22,6 +22,7 @@ type userAssRes = {
     };
   };
 };
+export const BASE_URL = process.env.NEXT_PUBLIC_API_HOST;
 export const userRequest = {
   userLogin: ({ data, token }: { data: FormData; token: string }) => {
     return axios.post<AuthResponse<userResponse>>(
@@ -31,7 +32,7 @@ export const userRequest = {
   },
   userFetchDetailAss: (data: { token: string }) => {
     return axios.post<AuthResponse<userAssRes>>(
-      `https://api-pytalent.doratekjsc.com/api/v1/get-info-assessment`,
+      `${BASE_URL}/get-info-assessment`,
       data
     );
   },
