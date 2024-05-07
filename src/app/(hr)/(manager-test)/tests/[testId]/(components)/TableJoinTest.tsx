@@ -6,6 +6,7 @@ import { TTestAssessment } from "@/types/listTest";
 import { useQuery } from "@tanstack/react-query";
 import { listTestRequest } from "@/apiRequest/test";
 import Image from "next/image";
+import Loading from "@/components/views/Loading";
 
 const TableJoinTest = ({
   listTest,
@@ -45,7 +46,7 @@ const TableJoinTest = ({
       };
     });
     setColumnTabel(tmp!);
-  }, []);
+  }, [listTest]);
   const handleFetchCandicate = async () => {
     const data = {
       type: selectTypeUser,
@@ -135,7 +136,8 @@ const TableJoinTest = ({
   if (!listTest) return null;
   return (
     <div className="mt-10 border border-1 border-gray-200 rounded-lg p-4 flex flex-col gap-4 ">
-      {listCandicate && listCandicate?.length > 0 && (
+      {isLoading && <Loading />}
+      {!isLoading && listCandicate && listCandicate?.length > 0 && (
         <>
           <div className="flex items-center justify-between">
             <div className="flex gap-3">
@@ -206,8 +208,8 @@ const TableJoinTest = ({
           />
         </>
       )}
-      {!listCandicate ||
-        (listCandicate?.length === 0 && (
+      {(!isLoading && !listCandicate) ||
+        (!isLoading && listCandicate?.length === 0 && (
           <div className="flex items-center justify-center">
             <Image src={"/Nodata.png"} alt="No data" width={400} height={400} />
           </div>
