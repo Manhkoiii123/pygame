@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const testPathRegex = /^\/user\/tests\/(\d+)\/home(?:\/|$)/;
