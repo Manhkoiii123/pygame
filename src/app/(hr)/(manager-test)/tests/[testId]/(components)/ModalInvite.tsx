@@ -33,7 +33,6 @@ const ModalInvite = (props: TProps) => {
     });
   };
   const { open, setOpen, id, token, keyOpen } = props;
-  console.log("🚀 ~ ModalInvite ~ keyOpen:", keyOpen);
 
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
@@ -117,7 +116,7 @@ const ModalInvite = (props: TProps) => {
         width={800}
         centered
         title={
-          <span className="font-semibold text-3xl">
+          <span className="text-3xl font-semibold">
             Invite {keyOpen === "1" ? "Candicates" : "Employees"}
           </span>
         }
@@ -150,7 +149,7 @@ const ModalInvite = (props: TProps) => {
           </Button>
         </div>
         <div className="pt-5">
-          <span className="text-base text-primary font-medium">
+          <span className="text-base font-medium text-primary">
             Share your assessment link
           </span>
           <div className="mt-4 flex gap-0 border-2 border-gray-200 rounded-lg px-[10px] items-center cursor-pointer">
@@ -159,7 +158,7 @@ const ModalInvite = (props: TProps) => {
               type="text"
               disabled
               value={currentUrl}
-              className="p-2 w-full text-gray-400 rounded-lg"
+              className="w-full p-2 text-gray-400 rounded-lg"
             />
             <div className="rounded-lg " onClick={handleCopy}>
               <div
@@ -168,7 +167,7 @@ const ModalInvite = (props: TProps) => {
                   width: "max-content",
                 }}
               >
-                <span className="text-secondary font-medium text-base">
+                <span className="text-base font-medium text-secondary">
                   Copy link
                 </span>
                 <Image
@@ -180,17 +179,17 @@ const ModalInvite = (props: TProps) => {
               </div>
             </div>
           </div>
-          <span className="p-2 block text-xs font-normal text-ink100">
+          <span className="block p-2 text-xs font-normal text-ink100">
             Only invited participants could assess the test
           </span>
         </div>
-        <div className="py-4 flex items-center gap-2">
-          <span className="text-base text-ink100 font-medium">
+        <div className="flex items-center gap-2 py-4">
+          <span className="text-base font-medium text-ink100">
             You can also import excel file for bulk list of email
           </span>
           <div
             onClick={handleOpenUpload}
-            className="flex gap-1 items-center border border-1 border-primary px-2 py-1 rounded-lg cursor-pointer"
+            className="flex items-center gap-1 px-2 py-1 border rounded-lg cursor-pointer border-1 border-primary"
           >
             <span className="text-base fotn-font-medium text-pri500">
               Upload here

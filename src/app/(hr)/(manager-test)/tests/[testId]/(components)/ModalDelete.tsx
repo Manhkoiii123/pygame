@@ -36,7 +36,7 @@ const ModalDelete = (props: TProps) => {
       centered
       width={480}
       footer={() => (
-        <div className="flex gap-4 justify-end mt-8">
+        <div className="flex justify-end gap-4 mt-8">
           <button
             onClick={() => setOpenDelete(false)}
             style={{
@@ -75,10 +75,6 @@ const ModalDelete = (props: TProps) => {
         </span>
       }
       open={openDelete}
-      // onOk={() => {
-      //   console.log("a");
-      //
-      // }}
       onCancel={() => {
         setOpenDelete(false);
       }}
