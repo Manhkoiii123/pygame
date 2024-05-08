@@ -15,7 +15,21 @@ const TableJoinTest = ({
   listTest: TTestAssessment[] | undefined;
   assId: number;
 }) => {
+  const withColumn = useMemo(() => {
+    return 65 / listTest?.length!;
+  }, [listTest]);
   const [selectTypeUser, setSelectTypeUser] = useState(1);
+  const [sortField, setSortField] = useState("");
+  console.log("🚀 ~ sortField:", sortField);
+  const [sortType, setSortType] = useState("");
+  console.log("🚀 ~ sortType:", sortType);
+  const [sortItem, setSortItem] = useState<
+    | {
+        name: string;
+        type: string;
+      }[]
+    | []
+  >([]);
   const [open, setOpen] = useState(false);
   const [labelSelectOptionSort, setLabelSelectOptionSort] =
     useState("applications");
@@ -23,36 +37,93 @@ const TableJoinTest = ({
   const handleOpenChange = () => {
     setOpen(!open);
   };
-  const [columnTabel, setColumnTabel] = useState<
-    {
-      title: React.ReactNode;
-      dataIndex: string;
-      key: string;
-    }[]
-  >([]);
+  const handleSort = (
+    name: string,
+    sortItem:
+      | {
+          name: string;
+          type: string;
+        }[]
+      | []
+  ) => {
+    const tmpItem = sortItem.find((item) => item.name.includes(name));
+    if (tmpItem?.type === "") {
+      setSortItem((prev) => {
+        return prev.map((item) => {
+          if (item.name.includes(name)) {
+            return {
+              name: tmpItem.name,
+              type: "asc",
+            };
+          }
+          return {
+            name: item.name,
+            type: "",
+          };
+        });
+      });
+    } else if (tmpItem?.type === "asc") {
+      setSortItem((prev) => {
+        return prev.map((item) => {
+          if (item.name.includes(name)) {
+            return {
+              name: tmpItem.name,
+              type: "desc",
+            };
+          }
+          return {
+            name: item.name,
+            type: "",
+          };
+        });
+      });
+    } else if (tmpItem?.type === "desc") {
+      setSortItem((prev) => {
+        return prev.map((item) => {
+          if (item.name.includes(name)) {
+            return {
+              name: tmpItem.name,
+              type: "",
+            };
+          }
+          return {
+            name: item.name,
+            type: "",
+          };
+        });
+      });
+    }
+
+    const tmp2 =
+      tmpItem?.type === "" ? "asc" : tmpItem?.type === "asc" ? "desc" : "";
+    setSortField(name);
+    setSortType(tmp2!);
+  };
   useEffect(() => {
-    const tmp = listTest?.map((item) => {
-      return {
-        title: <span className="flex justify-center">{item.name}</span>,
-        dataIndex: `${item.name.split(" ")[0].toLocaleLowerCase()}_game`,
-        key: `${item.name.split(" ")[0].toLocaleLowerCase()}_game`,
-        render: (text: string) => {
-          return (
-            <span className="font-medium text-base text-primary flex justify-center">
-              {text}
-            </span>
-          );
-        },
-      };
+    let tmp2 =
+      listTest?.map((item) => {
+        return {
+          name: `rank_${item.name.split(" ")[0].toLocaleLowerCase()}_game`,
+          type: "", // "" || desc || asc
+        };
+      }) || [];
+    tmp2.push({
+      name: "grading",
+      type: "",
     });
-    setColumnTabel(tmp!);
+    tmp2.push({
+      name: "email",
+      type: "",
+    });
+    setSortItem(tmp2);
   }, [listTest]);
+
   const handleFetchCandicate = async () => {
     const data = {
       type: selectTypeUser,
       option: valueSelectOptionSort,
-      //   sort_field: "desc",
-      //   sort_type: "email",
+      sort_field: sortField,
+      sort_type: sortType,
       //   hiring_stage: 1,
       assessment_id: assId,
     };
@@ -64,17 +135,61 @@ const TableJoinTest = ({
       "listCandicate",
       selectTypeUser,
       valueSelectOptionSort,
-      //   sort_field,
-      //   sort_type,
+      sortField,
+      sortType,
       //   hiring_stage,
       listTest && listTest[0].pivot.assessment_id,
     ],
     queryFn: () => handleFetchCandicate(),
   });
+
   const columns: TableProps<any>["columns"] = [
     {
-      title: <span className="flex justify-center">Email</span>,
+      title: (
+        <div
+          className="flex justify-center items-center gap-2 cursor-pointer  "
+          onClick={() => handleSort(`email`, sortItem)}
+        >
+          Email{" "}
+          {sortItem.find((item) => item.name === "email")?.type === "" && (
+            <span></span>
+          )}
+          {sortItem.find((item) => item.name === "email")?.type === "desc" && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#DEDDDD"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+              />
+            </svg>
+          )}
+          {sortItem.find((item) => item.name === "email")?.type === "asc" && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"
+              />
+            </svg>
+          )}
+        </div>
+      ),
       dataIndex: "email",
+      width: "250px",
       key: "email",
       render: (text) => {
         return (
@@ -84,10 +199,127 @@ const TableJoinTest = ({
         );
       },
     },
-    ...columnTabel,
+    // ...columnTabel,
+    ...listTest!.map((item) => {
+      return {
+        title: (
+          <div
+            className="flex justify-center items-center gap-2 cursor-pointer"
+            onClick={() =>
+              handleSort(
+                `${item.name.split(" ")[0].toLocaleLowerCase()}_game`,
+                sortItem
+              )
+            }
+          >
+            {item.name.split(" ")[0]}
+            {sortItem.find((item2) =>
+              item2.name.includes(
+                `${item.name.split(" ")[0].toLocaleLowerCase()}_game`
+              )
+            )?.type === "" && <span></span>}
+            {sortItem.find((item2) =>
+              item2.name.includes(
+                `${item.name.split(" ")[0].toLocaleLowerCase()}_game`
+              )
+            )?.type === "desc" && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#DEDDDD"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-4 h-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+                />
+              </svg>
+            )}
+            {sortItem.find((item2) =>
+              item2.name.includes(
+                `${item.name.split(" ")[0].toLocaleLowerCase()}_game`
+              )
+            )?.type === "asc" && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-4 h-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"
+                />
+              </svg>
+            )}
+          </div>
+        ),
+
+        dataIndex: `${item.name.split(" ")[0].toLocaleLowerCase()}_game`,
+        key: `${item.name.split(" ")[0].toLocaleLowerCase()}_game`,
+        // width: String(withColumn) + "%",
+        render: (text: string) => {
+          return (
+            <span className="font-medium text-base text-primary flex justify-center">
+              {text}
+            </span>
+          );
+        },
+      };
+    }),
     {
-      title: <span className="flex justify-center">Grading</span>,
+      title: (
+        <div
+          className="flex justify-center items-center gap-2 cursor-pointer "
+          onClick={() => handleSort(`grading`, sortItem)}
+        >
+          Grading{" "}
+          {sortItem.find((item) => item.name === "grading")?.type === "" && (
+            <span></span>
+          )}
+          {sortItem.find((item) => item.name === "grading")?.type ===
+            "desc" && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#DEDDDD"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+              />
+            </svg>
+          )}
+          {sortItem.find((item) => item.name === "grading")?.type === "asc" && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"
+              />
+            </svg>
+          )}
+        </div>
+      ),
       dataIndex: "grading",
+      width: "160px",
       key: "grading",
       render: (text) => {
         return (
@@ -100,11 +332,13 @@ const TableJoinTest = ({
     {
       title: <span className="flex justify-center">Note</span>,
       key: "note",
+      width: "40px",
       dataIndex: "note",
     },
     {
       title: <span className="flex justify-center">Hiring stage</span>,
       key: "hiring_stage",
+      width: "160px",
       dataIndex: "hiring_stage",
       render: (text) => {
         return (
