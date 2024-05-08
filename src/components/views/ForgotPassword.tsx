@@ -29,7 +29,7 @@ const ForgotPassword = () => {
         <span className="text-secondary">Pytalent</span>
       </span>
       <div className="w-[70%] flex flex-col gap-8">
-        <span className="block font-normal text-base pe-5">
+        <span className="block text-base font-normal pe-5">
           Enter your email address and we will send you instructions to reset
           your password.
         </span>
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
         <Link href={"/login"} className="ml-auto">
           <span>
             Take me back to{" "}
-            <span className="text-secondary text-lg font-normal text-left underline">
+            <span className="text-lg font-normal text-left underline text-secondary">
               Login
             </span>
           </span>

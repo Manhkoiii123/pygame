@@ -12,8 +12,6 @@ import React, { useContext, useEffect } from "react";
 const TestIdUser = ({ userTestId }: { userTestId: string }) => {
   const { testUser, generateQuestion, setGenerateQuestion } =
     useContext(AppContext);
-  console.log("🚀 ~ TestIdUser ~ testUser:", testUser);
-  console.log("🚀 ~ TestIdUser ~ generateQuestion:", generateQuestion);
   const handleGenerateQuestion = async (data: FormData) => {
     const res = await userRequest.generateQuestion(data);
     return res.data.data;
@@ -45,14 +43,14 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
         <Loading></Loading>
       ) : (
         <div className=" w-[600px] flex justify-center">
-          <div className="flex flex-col gap-4 items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-4">
             <div className="w-[300px] h-[300px] border border-1 border-gray-200 rounded-lg">
               <Image
                 src={"/test1.png"}
                 alt="image"
                 width={300}
                 height={300}
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
               ></Image>
             </div>
             <span className="font-semibold text-[32px] leading-[44px] text-primary">
