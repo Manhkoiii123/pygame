@@ -108,7 +108,7 @@ export const listTestRequest = {
     option: number;
     sort_field?: string;
     sort_type?: string;
-    hiring_stage?: number;
+    hiring_stage?: string;
     assessment_id: number;
   }) => {
     let url = "";
