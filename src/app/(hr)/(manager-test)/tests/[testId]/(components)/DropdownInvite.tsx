@@ -4,7 +4,7 @@ import ModalInvite from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/M
 import { TDropdown } from "@/types/dropdown";
 import { Button } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 const DropdownInvite = ({
   id,
@@ -15,22 +15,24 @@ const DropdownInvite = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [open2, setOpen2] = useState<boolean>(false);
-  const dropdownInvite: TDropdown[] = [
-    {
-      key: "1",
-      label: "Invite applications",
-      onClick: () => {
-        setOpen(true);
+  const dropdownInvite: TDropdown[] = useMemo(() => {
+    return [
+      {
+        key: "1",
+        label: "Invite applications",
+        onClick: () => {
+          setOpen(true);
+        },
       },
-    },
-    {
-      key: "2",
-      label: "Invite employees",
-      onClick: () => {
-        setOpen2(true);
+      {
+        key: "2",
+        label: "Invite employees",
+        onClick: () => {
+          setOpen2(true);
+        },
       },
-    },
-  ];
+    ];
+  }, []);
   return (
     <>
       <MenuDropdown items={dropdownInvite}>

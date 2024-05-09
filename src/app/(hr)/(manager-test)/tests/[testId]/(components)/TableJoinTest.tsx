@@ -9,6 +9,9 @@ import Image from "next/image";
 import Loading from "@/components/views/Loading";
 import * as XLSX from "xlsx";
 import UpdateNote from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/UpdateNote";
+import MenuDropdown from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/MenuDropdown";
+import TitleHiring from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/TitleHiring";
+import InputHiring from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/InputHiring";
 const TableJoinTest = ({
   listTest,
   assId,
@@ -27,6 +30,7 @@ const TableJoinTest = ({
     | []
   >([]);
   const [open, setOpen] = useState(false);
+  const [editHiringId, setEditHiringId] = useState<string>("");
   const [openNote, setOpenNote] = useState(false);
   const [idOpenNote, setIdOpenNote] = useState("");
   const [labelSelectOptionSort, setLabelSelectOptionSort] =
@@ -143,13 +147,14 @@ const TableJoinTest = ({
       XLSX.writeFile(workbook, "ExportDataCandicate.xlsx");
     }
   };
+  const [hiring, setHiring] = useState("");
   const handleFetchCandicate = async () => {
     const data = {
       type: selectTypeUser,
       option: valueSelectOptionSort,
       sort_field: sortField,
       sort_type: sortType,
-      //   hiring_stage: 1,
+      hiring_stage: hiring,
       assessment_id: assId,
     };
     const res = await listTestRequest.getCandicateInvateTest(data);
@@ -162,7 +167,7 @@ const TableJoinTest = ({
       valueSelectOptionSort,
       sortField,
       sortType,
-      //   hiring_stage,
+      hiring,
       listTest && listTest[0].pivot.assessment_id,
     ],
     queryFn: () => handleFetchCandicate(),
@@ -451,15 +456,18 @@ const TableJoinTest = ({
       },
     },
     {
-      title: <span className="flex justify-center">Hiring stage</span>,
+      title: <TitleHiring setHiring={setHiring} />,
       key: "hiring_stage",
       width: "160px",
       dataIndex: "hiring_stage",
-      render: (text) => {
+      render: (text, record) => {
         return (
-          <span className="flex justify-center text-base font-medium text-primary">
-            {text}
-          </span>
+          <InputHiring
+            text={text}
+            record={record}
+            editHiringId={editHiringId}
+            setEditHiringId={setEditHiringId}
+          />
         );
       },
     },
@@ -553,20 +561,29 @@ const TableJoinTest = ({
         </div>
       </>
       {isLoading && <Loading />}
-      {!isLoading && listCandicate && listCandicate?.length > 0 && (
+      {!isLoading && (
         <Table
           columns={columns}
-          dataSource={listCandicate}
+          dataSource={
+            !isLoading && listCandicate && listCandicate?.length > 0
+              ? listCandicate
+              : []
+          }
+          locale={{
+            emptyText: (
+              <div className="flex items-center justify-center">
+                <Image
+                  src={"/Nodata.png"}
+                  alt="No data"
+                  width={400}
+                  height={400}
+                />
+              </div>
+            ),
+          }}
           pagination={false}
-          className="tbale-custom"
         />
       )}
-      {(!isLoading && !listCandicate) ||
-        (!isLoading && listCandicate?.length === 0 && (
-          <div className="flex items-center justify-center">
-            <Image src={"/Nodata.png"} alt="No data" width={400} height={400} />
-          </div>
-        ))}
     </div>
   );
 };

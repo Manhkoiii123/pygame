@@ -4,7 +4,7 @@ import Loading from "@/components/views/Loading";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-type TData = {
+export type TData = {
   assessment_candidate_id: number;
   grading?: number;
   hiring_stage?: number;
@@ -19,7 +19,6 @@ const UpdateNote = ({
   setOpenNote: React.Dispatch<React.SetStateAction<boolean>>;
   oldNote: string;
 }) => {
-  // const [note, setNote] = useState(oldNote);
   const textRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     textRef.current!.value = oldNote;
