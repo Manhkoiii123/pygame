@@ -12,6 +12,7 @@ import UpdateNote from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/Up
 import MenuDropdown from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/MenuDropdown";
 import TitleHiring from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/TitleHiring";
 import InputHiring from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/InputHiring";
+import Grading from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/Grading";
 const TableJoinTest = ({
   listTest,
   assId,
@@ -380,12 +381,8 @@ const TableJoinTest = ({
       dataIndex: "grading",
       width: "160px",
       key: "grading",
-      render: (text) => {
-        return (
-          <span className="flex justify-center text-base font-medium text-primary">
-            {text}
-          </span>
-        );
+      render: (text, record) => {
+        return <Grading star={record.grading}></Grading>;
       },
     },
     {
