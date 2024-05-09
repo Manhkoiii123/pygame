@@ -125,4 +125,12 @@ export const listTestRequest = {
       `/list-candidate?type=${data.type}&option=${data.option}&assessment_id=${data.assessment_id}${url}`
     );
   },
+  updateFeedback: async (data: {
+    assessment_candidate_id: number;
+    grading?: number;
+    hiring_stage?: number;
+    note?: string;
+  }) => {
+    return await instanceAxios.post<AuthResponse<{}>>(`/update-feedback`, data);
+  },
 };
