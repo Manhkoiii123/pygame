@@ -15,7 +15,7 @@ const MainContentQuestion = () => {
     if (generateQuestion.game_ended) {
       setEndGame(true);
     }
-  }, [generateQuestion.game_ended]);
+  }, [generateQuestion?.game_ended]);
 
   return (
     <div className="p-5 border border-1 border-[#009DBE] rounded-2xl flex flex-col gap-4">

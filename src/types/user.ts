@@ -40,7 +40,9 @@ export interface TGame {
   conclusion?: string;
   statement_1?: string;
   statement_2?: string;
-  //id 4
+  //id 5
+  list_arrows?: string;
+  time?: number;
 }
 export interface TAnswerResponse {
   question: TQuestion;
