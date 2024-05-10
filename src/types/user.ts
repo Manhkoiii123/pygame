@@ -25,7 +25,7 @@ export interface TQuestion {
   total_score: number;
   total_question: number;
   answered_question_num: number;
-  option: null;
+  option?: null;
 }
 export interface TGame {
   //kết quả trả về của cái question lúc mà lấy ra các gene-quétion
@@ -44,8 +44,17 @@ export interface TGame {
   list_arrows?: string;
   time?: number;
 }
+export type TQuestionRe = {
+  content: {
+    question: TGame;
+  };
+  game_id: number;
+  id: number;
+  level: string;
+  score: number;
+};
 export interface TAnswerResponse {
-  question: TQuestion;
+  question: TQuestionRe;
   game_ended: boolean;
   time: number;
   used_time: number;

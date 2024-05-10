@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
+import { TQuestionRe } from "@/types/user";
 
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -17,13 +19,19 @@ const MemoryGameAns = ({
   time,
   setTime,
   setQuestionOrAnswer,
+  setQuestion,
+  question,
+  questionOrAnswer,
 }: {
   time: number;
   setTime: Dispatch<SetStateAction<number>>;
   setQuestionOrAnswer: Dispatch<SetStateAction<number>>;
+  setQuestion: React.Dispatch<React.SetStateAction<TQuestionRe>>;
+  question: TQuestionRe;
+  questionOrAnswer: number;
 }) => {
-  const { generateQuestion, setGenerateQuestion } = useContext(AppContext);
   const [isCorrect, setIsCorrect] = useState(0);
+  const { setGenerateQuestion } = useContext(AppContext);
   const [ans, setAns] = useState("");
   const buttonRefs = useRef<(HTMLDivElement | null)[]>([null, null]);
   useEffect(() => {
@@ -44,13 +52,25 @@ const MemoryGameAns = ({
   };
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "ArrowLeft") {
-      setAns((prev) => {
-        return prev + "l";
-      });
+      if (ans.length === 0) {
+        setAns((prev) => {
+          return prev + "l";
+        });
+      } else {
+        setAns((prev) => {
+          return prev + ",l";
+        });
+      }
     } else if (event.key === "ArrowRight") {
-      setAns((prev) => {
-        return prev + "r";
-      });
+      if (ans.length === 0) {
+        setAns((prev) => {
+          return prev + "r";
+        });
+      } else {
+        setAns((prev) => {
+          return prev + ",r";
+        });
+      }
     }
   };
 
@@ -69,8 +89,8 @@ const MemoryGameAns = ({
   });
   const handleAnswerQuestionMutation = ({ message }: { message: string }) => {
     const data = {
-      question_id: String(generateQuestion?.question.id),
-      game_id: String(generateQuestion?.question.game_id),
+      question_id: String(question?.id),
+      game_id: String(question.game_id),
       answer: message,
       is_skip: 0,
     };
@@ -81,9 +101,10 @@ const MemoryGameAns = ({
         } else if (res.result === 0) {
           setIsCorrect(-1);
         }
-
         setTimeout(() => {
           setIsCorrect(0);
+          setGenerateQuestion(res);
+          setQuestion(res.question);
           setQuestionOrAnswer(0);
         }, 1000);
       },
@@ -91,17 +112,18 @@ const MemoryGameAns = ({
   };
   useEffect(() => {
     if (
-      ans.length ===
-      generateQuestion.question.content.question.list_arrows?.length
+      ans.length === question.content.question.list_arrows?.length &&
+      questionOrAnswer === 1
     ) {
       handleAnswerQuestionMutation({ message: ans });
-      setTime(-1);
-    }
-    if (time <= 0) {
-      setTime(-1);
-      handleAnswerQuestionMutation({ message: ans });
+      setTime(0);
     }
   }, [ans.length]);
+  useEffect(() => {
+    if (time === 0 && questionOrAnswer === 1) {
+      handleAnswerQuestionMutation({ message: ans });
+    }
+  }, [time]);
   return (
     <>
       <div className="w-full p-4 bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl !relative">
@@ -185,7 +207,7 @@ const MemoryGameAns = ({
           >
             {index === 0 ? (
               <>
-                <div className="flex items-center gap-4 cursor-pointer">
+                <div className={`flex items-center gap-4 cursor-pointer `}>
                   <span className="text-xl font-medium text-primary">
                     {number}
                   </span>
@@ -199,7 +221,7 @@ const MemoryGameAns = ({
               </>
             ) : (
               <>
-                <div className="flex items-center gap-4 cursor-pointer">
+                <div className={`flex items-center gap-4 cursor-pointer `}>
                   <Image
                     src={"/buttonRight.png"}
                     alt="button left"
