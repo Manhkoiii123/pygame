@@ -21,14 +21,14 @@ const CountDownProgess = ({
         setQuestionOrAnswer(1);
       }
       setTime((prev) => {
-        if (prev <= 0) {
+        if (prev < 0) {
           clearInterval(interval);
-          return -1;
+          return 0;
         }
         return prev - 1;
       });
       setProgress((prevProgress) => {
-        if (prevProgress <= 0) {
+        if (prevProgress < 0) {
           clearInterval(interval);
           return 0;
         }

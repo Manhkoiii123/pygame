@@ -42,7 +42,7 @@ export const userRequest = {
     );
   },
   generateQuestion: (data: FormData) => {
-    return instanceAxios.post<AuthResponse<TQuestion>>(
+    return instanceAxios.post<AuthResponse<TAnswerResponse>>(
       "/candidate/generate-question",
       data
     );
