@@ -119,11 +119,11 @@ const MemoryGameAns = ({
       setTime(0);
     }
   }, [ans.length]);
-  useEffect(() => {
-    if (time === 0 && questionOrAnswer === 1) {
-      handleAnswerQuestionMutation({ message: ans });
-    }
-  }, [time]);
+  // useEffect(() => {
+  //   if (time === 0 && questionOrAnswer === 1) {
+  //     handleAnswerQuestionMutation({ message: ans });
+  //   }
+  // }, [time]);
   return (
     <>
       <div className="w-full p-4 bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl !relative">
