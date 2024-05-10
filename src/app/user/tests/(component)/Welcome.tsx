@@ -4,6 +4,7 @@ import { authRequest } from "@/apiRequest/auth";
 import { userRequest } from "@/apiRequest/user";
 import Loading from "@/components/views/Loading";
 import { sessionTokenUser } from "@/lib/axios/customSession";
+import { clearLocalStorage } from "@/utils/auth/auth";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import Image from "next/image";

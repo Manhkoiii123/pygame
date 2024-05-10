@@ -13,6 +13,8 @@ export const clearLocalStorage = () => {
   if (typeof window !== "undefined") {
     localStorage.removeItem("access_token");
     localStorage.removeItem("profile");
+    // localStorage.removeItem("testUser");
+    // localStorage.removeItem("generateQuestion");
     const clearLocalStorageEvent = new Event("clearLocalStorage");
     localStorageEventTarget.dispatchEvent(clearLocalStorageEvent);
   }
