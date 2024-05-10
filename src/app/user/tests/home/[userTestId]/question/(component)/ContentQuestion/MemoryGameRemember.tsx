@@ -1,18 +1,55 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { userRequest } from "@/apiRequest/user";
 import CountDownProgess from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/CountDownProgess";
 import MemoryGameAns from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/MemoryGameAns";
 import { AppContext } from "@/lib/context.wrapper";
+import { TGame } from "@/types/user";
+import { useMutation } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
-
+type TQuestionRe = {
+  content: {
+    question: TGame;
+  };
+  game_id: number;
+  id: number;
+  level: string;
+  score: number;
+};
 const MemoryGameRemember = () => {
-  const { generateQuestion } = useContext(AppContext);
+  const { generateQuestion, setGenerateQuestion } = useContext(AppContext);
+  const handleGenerateQuestion = async (data: FormData) => {
+    const res = await userRequest.generateQuestion(data);
+    return res.data.data;
+  };
+  const [question, setQuestion] = useState<TQuestionRe>(
+    generateQuestion.question
+  );
+  const generateQuestionMutation = useMutation({
+    mutationFn: handleGenerateQuestion,
+  });
+  const handleFetchQuestion = () => {
+    const id = new FormData();
+    id.append("game_id", generateQuestion.question.game_id.toString());
+    generateQuestionMutation.mutate(id, {
+      onSuccess: (res) => {
+        if (res) {
+          setGenerateQuestion(res);
+          localStorage.setItem("generateQuestion", JSON.stringify(res));
+        }
+      },
+    });
+  };
   const [time, setTime] = useState(
     generateQuestion.question.content.question.time!
   );
   const [progress, setProgress] = useState(100);
   const [questionOrAnswer, setQuestionOrAnswer] = useState(0); // true là question còn false là ans
   useEffect(() => {
+    if (questionOrAnswer === 0) {
+      handleFetchQuestion();
+    }
     setTime(generateQuestion.question.content.question.time!);
     setProgress(100);
   }, [generateQuestion.question.content.question.time, questionOrAnswer]);
@@ -82,7 +119,6 @@ const MemoryGameRemember = () => {
         </>
       ) : (
         <MemoryGameAns
-          generateQuestion={generateQuestion}
           time={time}
           setTime={setTime}
           setQuestionOrAnswer={setQuestionOrAnswer}

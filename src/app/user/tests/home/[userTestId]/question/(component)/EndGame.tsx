@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { userRequest } from "@/apiRequest/user";
 import Loading from "@/components/views/Loading";

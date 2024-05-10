@@ -1,6 +1,7 @@
+"use client";
 import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
-import { TQuestion } from "@/types/user";
+
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React, {
@@ -14,17 +15,14 @@ import React, {
 
 const MemoryGameAns = ({
   time,
-  generateQuestion,
   setTime,
   setQuestionOrAnswer,
 }: {
   time: number;
-  generateQuestion: TQuestion;
   setTime: Dispatch<SetStateAction<number>>;
   setQuestionOrAnswer: Dispatch<SetStateAction<number>>;
 }) => {
-  const { setGenerateQuestion } = useContext(AppContext);
-  console.log(generateQuestion.question.content.question.list_arrows?.length);
+  const { generateQuestion, setGenerateQuestion } = useContext(AppContext);
   const [isCorrect, setIsCorrect] = useState(0);
   const [ans, setAns] = useState("");
   const buttonRefs = useRef<(HTMLDivElement | null)[]>([null, null]);
@@ -65,26 +63,7 @@ const MemoryGameAns = ({
     const res = await userRequest.answerQuestion(data);
     return res.data.data;
   };
-  const handleGenerateQuestion = async (data: FormData) => {
-    const res = await userRequest.generateQuestion(data);
-    return res.data.data;
-  };
-  const generateQuestionMutation = useMutation({
-    mutationFn: handleGenerateQuestion,
-  });
-  const handleFetchQuestion = () => {
-    const id = new FormData();
-    id.append("game_id", generateQuestion.question.game_id.toString());
-    generateQuestionMutation.mutate(id, {
-      onSuccess: (res) => {
-        if (res) {
-          setGenerateQuestion(res);
-          localStorage.setItem("generateQuestion", JSON.stringify(res));
-          //
-        }
-      },
-    });
-  };
+
   const answerQuestionMutation = useMutation({
     mutationFn: handleAnswerQuestion,
   });
@@ -105,7 +84,6 @@ const MemoryGameAns = ({
 
         setTimeout(() => {
           setIsCorrect(0);
-          handleFetchQuestion();
           setQuestionOrAnswer(0);
         }, 1000);
       },
@@ -119,7 +97,7 @@ const MemoryGameAns = ({
       handleAnswerQuestionMutation({ message: ans });
       setTime(-1);
     }
-    if (time === 0) {
+    if (time <= 0) {
       setTime(-1);
       handleAnswerQuestionMutation({ message: ans });
     }
