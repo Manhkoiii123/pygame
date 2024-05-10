@@ -27,6 +27,7 @@ const MemoryGameRemember = () => {
     generateQuestion.question
   );
   // const generateQuestionMutation = useMutation({
+  console.log("🚀 ~ MemoryGameRemember ~ question:", question);
   //   mutationFn: handleGenerateQuestion,
   // });
   // const handleFetchQuestion = () => {
