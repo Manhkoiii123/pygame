@@ -107,15 +107,15 @@ function Footer({
   };
 
   return (
-    <div className="mt-6 flex flex-col">
+    <div className="flex flex-col mt-6">
       {skip && (
-        <div className=" inline-block">
+        <div className="inline-block ">
           <div
-            className="flex items-center justify-center gap-2 flex-col cursor-pointer"
+            className="flex flex-col items-center justify-center gap-2 cursor-pointer"
             onClick={() => handleClick(2, "skip")}
             onKeyDown={(event) => handleKeyDown(event, numbers)}
           >
-            <span className="text-primary font-medium text-xl">Skip</span>
+            <span className="text-xl font-medium text-primary">Skip</span>
             <Image
               src={"/buttonSkip.png"}
               alt="button left"
@@ -125,7 +125,7 @@ function Footer({
           </div>
         </div>
       )}
-      <div className="flex gap-40 items-center justify-center ">
+      <div className="flex items-center justify-center gap-40 ">
         {numbers.map((number, index) => (
           <div
             key={index}
@@ -140,8 +140,8 @@ function Footer({
           >
             {index === 0 ? (
               <>
-                <div className="flex gap-4 items-center cursor-pointer">
-                  <span className="text-primary font-medium text-xl">
+                <div className="flex items-center gap-4 cursor-pointer">
+                  <span className="text-xl font-medium text-primary">
                     {number}
                   </span>
                   <Image
@@ -154,14 +154,14 @@ function Footer({
               </>
             ) : (
               <>
-                <div className="flex gap-4 items-center cursor-pointer">
+                <div className="flex items-center gap-4 cursor-pointer">
                   <Image
                     src={"/buttonRight.png"}
                     alt="button left"
                     width={80}
                     height={80}
                   />
-                  <span className="text-primary font-medium text-xl">
+                  <span className="text-xl font-medium text-primary">
                     {number}
                   </span>
                 </div>

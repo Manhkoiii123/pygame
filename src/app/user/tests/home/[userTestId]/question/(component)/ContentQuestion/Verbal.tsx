@@ -9,7 +9,7 @@ const Verbal = () => {
   const { generateQuestion } = useContext(AppContext);
   return (
     <>
-      <div className="flex flex-col w-[600px] gap-3 relative">
+      <div className="flex flex-col  gap-3 relative">
         <div className="border border-1 border-gray-200 rounded-lg py-3 flex items-center justify-center ">
           <span className="font-semibold text-3xl text-primary">
             {generateQuestion.question.content.question.word_1}

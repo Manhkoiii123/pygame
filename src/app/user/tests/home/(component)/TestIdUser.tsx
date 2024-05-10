@@ -76,7 +76,7 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
                 </span>
               </div>
             </div>
-            {testUser.status_text === "In progress" && (
+            {testUser?.status_text === "In progress" && (
               <div className="bg-[#EFEFEF] p-3 rounded-lg flex items-center gap-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
