@@ -19,38 +19,16 @@ import { useContext, useEffect, useState } from "react";
 // };
 const MemoryGameRemember = () => {
   const { generateQuestion, setGenerateQuestion } = useContext(AppContext);
-  // const handleGenerateQuestion = async (data: FormData) => {
-  // const res = await userRequest.generateQuestion(data);
-  //   return res.data.data;
-  // };
+ 
   const [question, setQuestion] = useState<TQuestionRe>(
     generateQuestion.question
   );
-  // const generateQuestionMutation = useMutation({
-  console.log("🚀 ~ MemoryGameRemember ~ question:", question);
-  //   mutationFn: handleGenerateQuestion,
-  // });
-  // const handleFetchQuestion = () => {
-  //   const id = new FormData();
-  //   id.append("game_id", generateQuestion.question.game_id.toString());
-  //   generateQuestionMutation.mutate(id, {
-  //     onSuccess: (res) => {
-  //       if (res) {
-  //         setGenerateQuestion(res);
-  //         localStorage.setItem("generateQuestion", JSON.stringify(res));
-  //       }
-  //     },
-  //   });
-  // };
   const [time, setTime] = useState(
     generateQuestion.question.content.question.time!
   );
   const [progress, setProgress] = useState(100);
   const [questionOrAnswer, setQuestionOrAnswer] = useState(0); // true là question còn false là ans
   useEffect(() => {
-    // if (questionOrAnswer === 0) {
-    //   handleFetchQuestion();
-    // }
     setTime(question.content.question.time!);
     setProgress(100);
   }, [question.content.question.time, questionOrAnswer]);
