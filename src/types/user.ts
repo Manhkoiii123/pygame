@@ -43,6 +43,9 @@ export interface TGame {
   //id 5
   list_arrows?: string;
   time?: number;
+  //id 4
+  image_1?: string;
+  image_2?: string;
 }
 export type TQuestionRe = {
   content: {
