@@ -3,6 +3,7 @@ import LogicalGame from "@/app/user/tests/home/[userTestId]/question/(component)
 import MemoryGameRemember from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/MemoryGameRemember";
 import NumericalChallenge from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/NumericalChallenge";
 import Verbal from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/Verbal";
+import Visual from "@/app/user/tests/home/[userTestId]/question/(component)/ContentQuestion/Visual";
 import { AppContext } from "@/lib/context.wrapper";
 import Image from "next/image";
 import React, { useContext } from "react";
@@ -30,6 +31,10 @@ const Question = () => {
           {generateQuestion?.question?.content?.question?.list_arrows && (
             <MemoryGameRemember />
           )}
+          {generateQuestion?.question?.content?.question?.image_1 &&
+            generateQuestion?.question?.content?.question?.image_2 && (
+              <Visual />
+            )}
         </div>
       </div>
     </>
