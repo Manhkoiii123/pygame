@@ -1,6 +1,5 @@
 "use client";
 import { TUserTest } from "@/types/user";
-import { QueryCache, QueryKey } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 const Info = ({ listTest }: { listTest: TUserTest[] | undefined }) => {
@@ -38,10 +37,9 @@ const Info = ({ listTest }: { listTest: TUserTest[] | undefined }) => {
   return (
     <>
       {info.map((item, index) => (
-        <div key={index} className="flex items-center gap-2">
-          <div className="w-[10px] h-[10px] bg-[#333] rounded-full "></div>
-          <span>{item.content}</span>
-        </div>
+        <ul key={index} className="flex items-center gap-2">
+          <li className="list-disc">{item.content}</li>
+        </ul>
       ))}
     </>
   );
