@@ -6,4 +6,7 @@ export const authHrRequest = {
   login: (data: TLogin) =>
     axios.post<AuthResponse<User>>(`${BASE_URL}/login`, data),
   logout: () => instanceAxios.post(`/logout`),
+  changePassword: (data: FormData) => {
+    return instanceAxios.post<AuthResponse<any>>(`/update-password`, data);
+  },
 };
