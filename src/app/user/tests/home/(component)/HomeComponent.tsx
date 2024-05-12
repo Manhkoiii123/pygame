@@ -5,11 +5,13 @@ import Info from "@/app/user/tests/home/(component)/Info";
 import ListTest from "@/app/user/tests/home/(component)/ListTest";
 import Loading from "@/components/views/Loading";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "antd";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const HomeComponent = () => {
   const [doneAllTest, setDoneAllTest] = useState(false);
-
+  const [showMobileTest, setShowMobileTest] = useState(false);
   const handleFetchListTestUser = async () => {
     const res = await userRequest.userListTest();
     return res.data.data.games;
@@ -28,6 +30,45 @@ const HomeComponent = () => {
 
   return (
     <>
+      {!showMobileTest ? (
+        <>
+          <Image
+            alt="logo"
+            width={200}
+            height={100}
+            src={"/logo.png"}
+            className="hidden sm:block"
+          />
+          <div className="flex items-center justify-center">
+            <Image
+              src={"/welcome.png"}
+              alt="welcome"
+              width={240}
+              height={240}
+              className="block sm:hidden"
+            ></Image>
+          </div>
+        </>
+      ) : (
+        <>
+          <Image
+            alt="logo"
+            width={200}
+            height={100}
+            src={"/logo.png"}
+            className="hidden sm:block"
+          />
+          <div className="flex items-center justify-center">
+            <Image
+              src={"/welcome.png"}
+              alt="welcome"
+              width={240}
+              height={240}
+              className="hidden sm:hidden"
+            ></Image>
+          </div>
+        </>
+      )}
       {isLoading ? (
         <Loading />
       ) : (
@@ -35,7 +76,13 @@ const HomeComponent = () => {
           {doneAllTest ? (
             <DoneAllTest />
           ) : (
-            <div className="flex items-center justify-center">
+            <div
+              className={`${
+                showMobileTest
+                  ? "hidden sm:flex items-center justify-center"
+                  : "flex items-center justify-center"
+              }`}
+            >
               <div className="w-[1200px] pb-4">
                 <div className="w-full flex flex-col gap-1">
                   <span className="font-semibold text-xl block">
@@ -57,16 +104,33 @@ const HomeComponent = () => {
                     Have fun and good luck.
                   </span>
                 </div>
-                <div className="mt-3">
+                <div className="mt-3 hidden sm:block">
                   <h4 className="font-semibold text-primary text-4xl">
                     Choose a test
                   </h4>
                   <ListTest listTest={listTest} />
                 </div>
+                <Button
+                  onClick={() => {
+                    setShowMobileTest(true);
+                  }}
+                  type="primary"
+                  className="w-full mt-4 block sm:hidden"
+                >
+                  View assessment
+                </Button>
               </div>
             </div>
           )}
         </>
+      )}
+      {showMobileTest && (
+        <div className="block sm:hidden">
+          <h4 className="font-semibold text-primary text-3xl flex items-center justify-center">
+            Select test
+          </h4>
+          <ListTest listTest={listTest} />
+        </div>
       )}
     </>
   );

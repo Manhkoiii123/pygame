@@ -1,6 +1,5 @@
 import HomeComponent from "@/app/user/tests/home/(component)/HomeComponent";
 import { Metadata } from "next";
-import Image from "next/image";
 import React from "react";
 export const metadata: Metadata = {
   title: "User Test",
@@ -9,10 +8,9 @@ export const metadata: Metadata = {
 
 const HomePage = () => {
   return (
-    <>
-      <Image alt="logo" width={200} height={100} src={"/logo.png"} />
+    <div className="p-10 sm:p-0 ">
       <HomeComponent />
-    </>
+    </div>
   );
 };
 
