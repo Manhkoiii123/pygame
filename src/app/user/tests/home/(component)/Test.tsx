@@ -53,20 +53,20 @@ const Test = (props: Tprops) => {
   return (
     <div
       onClick={() => handleClick(data.status)}
-      className="cursor-pointer border-2 border-[#ccc] w-[190px] p-3 flex gap-2 rounded-lg flex-col"
+      className=" cursor-pointer border-2 border-[#ccc] sm:w-[190px] w-full p-3 flex gap-4 rounded-lg sm:flex-col flex-row"
     >
-      <div className="w-[100px] h-[100px]">
+      <div className="sm:w-full w-[100px] flex items-center justify-center">
         <Image
-          alt="imageTest"
+          alt="i"
           width={100}
           height={100}
-          src={data.image_cover}
-          className="w-full h-full object-cover"
+          src={"/test1.png"}
+          className="sm:w-[100px] sm:h-[100px] w-[80px] h-[80px] object-cover"
         />
       </div>
       {data.status !== 2 ? (
         <Link href={`/user/tests/home/${data.id}`}>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 ">
             <span
               className="text-sm font-medium"
               style={{
@@ -77,42 +77,42 @@ const Test = (props: Tprops) => {
             >
               {data.name}
             </span>
-            {(data.time > 0 || data.score > 0) && (
-              <div className="flex justify-between text-sm font-normal text-primary">
-                {data.time > 0 ? (
-                  <div className="flex items-center gap-2 ">
-                    <Image
-                      alt="clock"
-                      width={16}
-                      height={16}
-                      className="w-4 h-4 object-cover"
-                      src={"/light.png"}
-                    />
-                    <span>{data.time}s</span>
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-                {data.score > 0 ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <Image
-                      alt="clock"
-                      width={16}
-                      height={16}
-                      className="w-4 h-4 object-cover"
-                      src={"/cup.png"}
-                    />
-                    <span>{data.score}</span>
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            )}
-            {data.time <= 0 && data.score <= 0 && <div>&nbsp;</div>}
             <div>
+              {(data.time > 0 || data.score > 0) && (
+                <div className="flex justify-between text-sm font-normal text-primary">
+                  {data.time > 0 ? (
+                    <div className="flex items-center gap-2 ">
+                      <Image
+                        alt="clock"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4 object-cover"
+                        src={"/light.png"}
+                      />
+                      <span>{data.time}s</span>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                  {data.score > 0 ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <Image
+                        alt="clock"
+                        width={16}
+                        height={16}
+                        className="w-4 h-4 object-cover"
+                        src={"/cup.png"}
+                      />
+                      <span>{data.score}</span>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+              )}
+              {data.time <= 0 && data.score <= 0 && <div>&nbsp;</div>}
               <Tag
-                className="rounded-2xl py-1 px-3"
+                className="rounded-2xl py-1 px-3 mt-3"
                 color={`${bgColor}`}
                 bordered={false}
               >
