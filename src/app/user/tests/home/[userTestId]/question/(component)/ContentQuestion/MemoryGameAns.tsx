@@ -139,7 +139,7 @@ const MemoryGameAns = ({
                     viewBox="0 0 24 24"
                     strokeWidth={3}
                     stroke="currentColor"
-                    className="w-6 h-6 text-primary"
+                    className="sm:w-6 sm:h-6 w-3 h-3 text-primary"
                   >
                     <path
                       strokeLinecap="round"
@@ -157,7 +157,7 @@ const MemoryGameAns = ({
                     viewBox="0 0 24 24"
                     strokeWidth={3}
                     stroke="currentColor"
-                    className="w-6 h-6 text-primary"
+                    className="sm:w-6 sm:h-6 w-3 h-3 text-primary"
                   >
                     <path
                       strokeLinecap="round"
@@ -177,6 +177,7 @@ const MemoryGameAns = ({
                 alt="home banner"
                 width={60}
                 height={60}
+                className="sm:w-[60px] sm:h-[60px] w-[30px] h-[30px]"
               ></Image>
             </div>
           )}
@@ -187,6 +188,7 @@ const MemoryGameAns = ({
                 alt="home banner"
                 width={60}
                 height={60}
+                className="sm:w-[60px] sm:h-[60px] w-[30px] h-[30px]"
               ></Image>
             </div>
           )}
@@ -208,7 +210,7 @@ const MemoryGameAns = ({
             {index === 0 ? (
               <>
                 <div className={`flex items-center gap-4 cursor-pointer `}>
-                  <span className="text-xl font-medium text-primary">
+                  <span className=" sm:text-xl text-base font-medium text-primary">
                     {number}
                   </span>
                   <Image
@@ -216,6 +218,7 @@ const MemoryGameAns = ({
                     alt="button left"
                     width={80}
                     height={80}
+                    className="sm:w-[80px] sm:h-[80px] w-[40px] h-[40px]"
                   />
                 </div>
               </>
@@ -227,8 +230,9 @@ const MemoryGameAns = ({
                     alt="button left"
                     width={80}
                     height={80}
+                    className="sm:w-[80px] sm:h-[80px] w-[40px] h-[40px]"
                   />
-                  <span className="text-xl font-medium text-primary">
+                  <span className="sm:text-xl text-base font-medium text-primary">
                     {number}
                   </span>
                 </div>

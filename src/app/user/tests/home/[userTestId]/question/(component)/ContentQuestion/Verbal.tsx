@@ -11,12 +11,12 @@ const Verbal = () => {
     <>
       <div className="flex flex-col  gap-3 relative">
         <div className="border border-1 border-gray-200 rounded-lg py-3 flex items-center justify-center ">
-          <span className="font-semibold text-3xl text-primary">
+          <span className="font-semibold sm:text-3xl text-base text-primary">
             {generateQuestion.question.content.question.word_1}
           </span>
         </div>
         <div className="border border-1 border-gray-200 rounded-lg py-3 flex items-center justify-center ">
-          <span className="font-semibold text-3xl text-primary">
+          <span className="font-semibold sm:text-3xl text-base text-primary">
             {generateQuestion.question.content.question.word_2}
           </span>
         </div>

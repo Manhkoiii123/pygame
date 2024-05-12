@@ -115,17 +115,20 @@ function Footer({
             onClick={() => handleClick(2, "skip")}
             onKeyDown={(event) => handleKeyDown(event, numbers)}
           >
-            <span className="text-xl font-medium text-primary">Skip</span>
+            <span className="sm:text-xl text-xs font-medium text-primary">
+              Skip
+            </span>
             <Image
               src={"/buttonSkip.png"}
               alt="button left"
               width={60}
               height={60}
+              className="sm:w-[60px] sm:h-[60px] w-[40px] h-[40px]"
             />
           </div>
         </div>
       )}
-      <div className="flex items-center justify-center gap-40 ">
+      <div className="flex items-center justify-center sm:gap-40 gap-10 ">
         {numbers.map((number, index) => (
           <div
             key={index}
@@ -141,7 +144,7 @@ function Footer({
             {index === 0 ? (
               <>
                 <div className="flex items-center gap-4 cursor-pointer">
-                  <span className="text-xl font-medium text-primary">
+                  <span className="sm:text-xl text-base font-medium text-primary">
                     {number}
                   </span>
                   <Image
@@ -149,6 +152,7 @@ function Footer({
                     alt="button left"
                     width={80}
                     height={80}
+                    className="sm:w-[80px] sm:h-[80px] w-[60px] h-[60px]"
                   />
                 </div>
               </>
@@ -160,8 +164,9 @@ function Footer({
                     alt="button left"
                     width={80}
                     height={80}
+                    className="sm:w-[80px] sm:h-[80px] w-[60px] h-[60px]"
                   />
-                  <span className="text-xl font-medium text-primary">
+                  <span className="sm:text-xl text-base font-medium text-primary">
                     {number}
                   </span>
                 </div>

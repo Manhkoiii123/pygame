@@ -37,7 +37,7 @@ const CloseButton = () => {
       <Modal
         maskStyle={{ backdropFilter: "blur(10px)", backgroundColor: "none" }}
         title={
-          <span className="font-medium text-xl text-primary">
+          <span className="font-medium sm:text-xl text-base text-primary">
             Are you sure you want to leave this test?
           </span>
         }

@@ -2,16 +2,16 @@ import Image from "next/image";
 
 const DoneAllTest = () => {
   return (
-    <div className="flex ml-40">
+    <div className="flex sm:ml-40 ml-0 sm:flex-row flex-col">
       <div className="flex flex-col gap-4">
-        <span className="font-semibold text-[40px] leading-[56px] text-primary">
+        <span className="font-semibold sm:text-[40px] sm:leading-[56px] text-xl text-primary">
           Thank You
         </span>
-        <div className="flex flex-col gap-2 font-medium text-xl text-primary">
+        <div className="flex flex-col gap-2 font-medium sm:text-xl text-sm text-primary">
           <span>You have completed this assessment.</span>
           <span>Thank you & hope you had fun!</span>
         </div>
-        <span className="font-medium text-xl text-primary">
+        <span className="font-medium sm:text-xl text-sm text-primary">
           You can close the assessment window now.
         </span>
       </div>

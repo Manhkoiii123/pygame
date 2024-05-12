@@ -12,14 +12,15 @@ const Question = () => {
   const { generateQuestion } = useContext(AppContext);
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-4 w-[800px]">
+      <div className="flex flex-col items-center justify-center gap-4 sm:w-[800px] w-[400px]">
         <Image
           src="/banner_question.png"
           alt="home banner"
           width={500}
           height={124}
+          className="sm:w-[500px] w-[300px]"
         />
-        <div className="w-[700px]">
+        <div className="sm:w-[700px] w-[300px]">
           {generateQuestion?.question?.content?.question.word_1 &&
             generateQuestion?.question?.content?.question.word_2 && <Verbal />}
           {generateQuestion?.question?.content?.question?.expression && (

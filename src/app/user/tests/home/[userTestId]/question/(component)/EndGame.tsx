@@ -30,7 +30,7 @@ const EndGame = ({ id }: { id: number }) => {
     handleFinishTest(id);
   }, []);
   return (
-    <div className="font-medium bg-white px-12 py-6 border-[1px] border-[#009DBE] rounded-[16px] w-[700px]  mx-auto h-[500px] flex items-center justify-center ">
+    <div className="font-medium bg-white px-12 py-6 border-[1px] border-[#009DBE] rounded-[16px] sm:w-[800px] w-[400px]  mx-auto sm:h-[500px] h-[200px] flex items-center justify-center ">
       <div className="mt-[30px] font-bold text-3xl text-blue-500">
         {finishTestMutation.isPending ? <Loading /> : <>Your Score: {score}</>}
       </div>
