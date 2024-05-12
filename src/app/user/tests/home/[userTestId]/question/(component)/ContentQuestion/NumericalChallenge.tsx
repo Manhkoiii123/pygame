@@ -10,11 +10,11 @@ const NumericalChallenge = () => {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <span className="font-medium text-xl text-primary flex items-center justify-center">
+        <span className="font-medium sm:text-xl text-sm text-primary text-center flex items-center justify-center">
           Choose the number that is closer to the right answer.
         </span>
         <div className="p-4 bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl !relative">
-          <span className="font-semibold text-[30px] leading-[56px] text-primary ">
+          <span className="font-semibold sm:text-[30px] sm:leading-[56px] text-base text-primary ">
             {generateQuestion?.question.content.question.expression}
           </span>
           <div className="!absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
@@ -25,6 +25,7 @@ const NumericalChallenge = () => {
                   alt="home banner"
                   width={60}
                   height={60}
+                  className="sm:w-[60px] sm:h-[60px] w-[30px] h-[30px]"
                 ></Image>
               </div>
             )}
@@ -35,6 +36,7 @@ const NumericalChallenge = () => {
                   alt="home banner"
                   width={60}
                   height={60}
+                  className="sm:w-[60px] sm:h-[60px] w-[30px] h-[30px]"
                 ></Image>
               </div>
             )}

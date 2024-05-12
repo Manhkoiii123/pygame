@@ -17,7 +17,7 @@ const Visual = () => {
             width={200}
             height={300}
             alt="image1"
-            className="object-cover rounded-lg"
+            className="object-cover rounded-lg sm:w-[200px] sm:h-[300px] w-[40%] h-[200px]"
           ></Image>
         </div>
         <div className="p-2 flex-1 border border-gray-100 rounded-lg">
@@ -26,7 +26,7 @@ const Visual = () => {
             width={200}
             height={300}
             alt="image1"
-            className="object-cover rounded-lg"
+            className="object-cover rounded-lg sm:w-[200px] sm:h-[300px] w-[40%] h-[200px]"
           ></Image>
         </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">

@@ -22,7 +22,11 @@ const CountDown = ({
       clearInterval(idInterval);
     };
   }, [second]);
-  return <span className="font-semibold text-xl text-primary">{second}s</span>;
+  return (
+    <span className="font-semibold sm:text-xl text-base text-primary">
+      {second}s
+    </span>
+  );
 };
 
 export default CountDown;

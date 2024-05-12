@@ -8,18 +8,10 @@ import { AppContext } from "@/lib/context.wrapper";
 import { TGame, TQuestionRe } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
-// export type TQuestionRe = {
-//   content: {
-//     question: TGame;
-//   };
-//   game_id: number;
-//   id: number;
-//   level: string;
-//   score: number;
-// };
+
 const MemoryGameRemember = () => {
   const { generateQuestion, setGenerateQuestion } = useContext(AppContext);
- 
+
   const [question, setQuestion] = useState<TQuestionRe>(
     generateQuestion.question
   );
@@ -34,7 +26,7 @@ const MemoryGameRemember = () => {
   }, [question.content.question.time, questionOrAnswer]);
   return (
     <div className="flex flex-col items-center justify-center w-full gap-8">
-      <span className="text-xl font-medium">
+      <span className="sm:text-xl font-medium">
         {questionOrAnswer === 0 ? (
           <span>Memorize the pattern in </span>
         ) : (
@@ -53,7 +45,7 @@ const MemoryGameRemember = () => {
       {questionOrAnswer === 0 ? (
         <>
           <div className="w-full p-4 bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl">
-            <span className="font-semibold text-[30px] leading-[56px] text-primary flex items-center gap-2">
+            <span className="font-semibold sm:text-[30px] sm:leading-[56px] text-sm text-primary flex items-center gap-2">
               {question.content.question.list_arrows?.split(",").map((item) =>
                 item === "r" ? (
                   <>
@@ -63,7 +55,7 @@ const MemoryGameRemember = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={3}
                       stroke="currentColor"
-                      className="w-[40px] h-[40px]"
+                      className="sm:w-[40px] sm:h-[40px] w-[20px] h-[20px]"
                     >
                       <path
                         strokeLinecap="round"
@@ -80,7 +72,7 @@ const MemoryGameRemember = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={3}
                       stroke="currentColor"
-                      className="w-[40px] h-[40px]"
+                      className="sm:w-[40px] sm:h-[40px] w-[20px] h-[20px]"
                     >
                       <path
                         strokeLinecap="round"

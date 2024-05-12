@@ -80,17 +80,18 @@ const Welcome = (props: TProps) => {
   return (
     <div>
       <div className="flex items-center justify-center flex-col">
-        <div className="shadow-[0px_0px_48px_-8px_#0000001A] w-[500px] flex items-center justify-center rounded-lg">
+        <div className="shadow-[0px_0px_48px_-8px_#0000001A] sm:w-[500px] w-[300px] flex items-center justify-center rounded-lg">
           <Image
             src={"/banner.png"}
             alt="image_banner"
             width={400}
             height={250}
+            className="w-[90%] sm:w-[400px] object-cover"
           />
         </div>
-        <div className="w-[500px] text-primary mt-3 flex flex-col gap-2">
+        <div className="sm:w-[500px] w-[400px] text-primary mt-3 flex flex-col gap-2">
           <div className="text-center flex flex-col gap-2">
-            <span className="text-5xl font-semibold">
+            <span className="sm:text-5xl text-3xl font-semibold">
               Welcome to Shopee assessment
             </span>
             <span className="text-base mt-3 font-normal ">
@@ -98,7 +99,7 @@ const Welcome = (props: TProps) => {
               adress to access the assessment.
             </span>
           </div>
-          <div className="w-[500px]">
+          <div className="sm:w-[500px] w-[400px]">
             <Form
               form={form}
               name="basic"

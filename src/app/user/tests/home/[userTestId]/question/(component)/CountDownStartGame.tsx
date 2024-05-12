@@ -9,6 +9,7 @@ const CountDownStartGame = () => {
         width={600}
         height={600}
         alt="countdown"
+        className="sm:w-[600px] sm:h-[600px] h-[200px] w-[200px] object-cover"
       />
     </div>
   );

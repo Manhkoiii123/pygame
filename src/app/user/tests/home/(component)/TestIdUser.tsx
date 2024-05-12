@@ -42,9 +42,9 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
       {generateQuestionMutation.isPending ? (
         <Loading></Loading>
       ) : (
-        <div className=" w-[600px] flex justify-center">
+        <div className=" sm:w-[600px] w-[300px] flex justify-center">
           <div className="flex flex-col items-center justify-center gap-4">
-            <div className="w-[300px] h-[300px] border border-1 border-gray-200 rounded-lg">
+            <div className="sm:w-[300px] sm:h-[300px] w-[200px] h-[200px] border border-1 border-gray-200 rounded-lg sm:mt-0 mt-10">
               <Image
                 src={"/test1.png"}
                 alt="image"
@@ -53,29 +53,26 @@ const TestIdUser = ({ userTestId }: { userTestId: string }) => {
                 className="object-cover w-full h-full"
               ></Image>
             </div>
-            <span className="font-semibold text-[32px] leading-[44px] text-primary">
+            <span className="font-semibold sm:text-[32px] sm:leading-[44px] text-xl text-primary">
               {testUser?.name}
             </span>
-            <div className="flex flex-col mr-auto gap-2 w-[600px]">
-              <div className="flex items-center gap-2">
-                <div className="w-[8px] h-[8px] bg-[#333] rounded-full"></div>
+            <ul className="flex flex-col mr-auto gap-2 sm:w-[600px] w-[300px] ">
+              <li className=" list-disc">
                 <span>
                   {generateQuestion?.total_question} questions are given in{" "}
                   {generateQuestion?.time} seconds.
                 </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-[25px] h-[9px] bg-[#333] rounded-full flex self-start mt-[8px]"></div>
+              </li>
+              <li className=" list-disc">
                 <span>{testUser?.description}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-[11px] h-[8px] bg-[#333] rounded-full flex self-start mt-[8px]"></div>
+              </li>
+              <li className=" list-disc">
                 <span>
                   Use the keyboard’s Left (&lt;) or Right (&gt;) arrow to answer
                   the question and the Up (^) arrow to skip the question.
                 </span>
-              </div>
-            </div>
+              </li>
+            </ul>
             {testUser?.status_text === "In progress" && (
               <div className="bg-[#EFEFEF] p-3 rounded-lg flex items-center gap-4">
                 <svg

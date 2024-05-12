@@ -11,23 +11,30 @@ const LogicalGame = () => {
   return (
     <>
       <div className="flex flex-col gap-4 items-center justify-center">
-        <span className="font-medium text-xl text-ink100">
+        <span className="font-medium sm:text-xl text-base text-center text-ink100">
           Does the conclusion logically follow the statements?
         </span>
-        <div className="w-[700px] flex flex-col gap-4 relative">
-          <div className="flex items-center flex-col gap-3 justify-center border-2 border-gray-200 rounded-lg p-4">
-            <span className="font-medium text-xl text-primary">
-              A. {generateQuestion.question.content.question.statement_1}
+        <div className="sm:w-[700px] w-[300px] flex flex-col gap-4 relative">
+          <div className="flex sm:items-center flex-col gap-3 sm:justify-center border-2 border-gray-200 rounded-lg p-4">
+            <span className="font-medium sm:text-xl text-base text-primary flex sm:block">
+              <span> A.</span>{" "}
+              <span>
+                {generateQuestion.question.content.question.statement_1}
+              </span>
             </span>
-            <span className="font-medium text-xl text-primary">
-              B. {generateQuestion.question.content.question.statement_2}
+            <span className="font-medium sm:text-xl text-base text-primary flex sm:block">
+              <span> B.</span>{" "}
+              <span>
+                {generateQuestion.question.content.question.statement_2}
+              </span>
             </span>
           </div>
-          <div className="flex items-center gap-3 justify-center border-2 border-gray-200 rounded-lg p-4">
-            <div className="bg-[#CCEBF2] px-4 py-2 rounded-lg text-primary">
-              <span>Conclusion :</span>
+          <div className="flex sm:items-center gap-3 sm:justify-center border-2 border-gray-200 rounded-lg p-4">
+            <div className="bg-[#CCEBF2] sm:px-4 sm:py-2 px-2  rounded-lg text-primary">
+              <span className="sm:text-xl text-xs">Conclusion</span>
+              <span className="sm:text-xl text-xs">:</span>
             </div>
-            <span className="font-medium text-xl text-primary">
+            <span className="font-medium sm:text-xl text-base text-primary">
               {generateQuestion.question.content.question.conclusion}
             </span>
           </div>

@@ -23,7 +23,7 @@ const MainContentQuestion = () => {
       {!endGame && (
         <>
           <Header endGame={endGame} setEndGame={setEndGame} />
-          <div className="w-[800px] h-[1px] bg-gradient-divider"></div>
+          <div className="sm:w-[800px] w-[400px] h-[1px] bg-gradient-divider "></div>
           <Question></Question>
         </>
       )}

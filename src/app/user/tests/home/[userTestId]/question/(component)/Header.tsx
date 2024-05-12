@@ -14,10 +14,10 @@ const Header = ({
   const { testUser } = useContext(AppContext);
   const { generateQuestion } = useContext(AppContext);
   return (
-    <div className="flex items-center justify-between w-[800px]">
+    <div className="flex sm:flex-row flex-col gap-3 sm:gap-0 items-center justify-between sm:w-[800px] w-[400px]">
       <div className="flex items-center gap-3">
-        <div className="w-[12px] h-[40px] bg-[#009DBE] rounded-lg"></div>
-        <span className="font-semibold text-[32px] leading-[44px] text-primary">
+        <div className="sm:w-[12px] sm:h-[40px]  bg-[#009DBE] sm:rounded-lg"></div>
+        <span className="font-semibold sm:text-[32px] sm:leading-[44px] text-xl text-primary">
           {testUser?.name}
         </span>
       </div>
@@ -29,7 +29,7 @@ const Header = ({
               alt="home banner"
               width={24}
               height={24}
-              className=" object-cover"
+              className="sm:w-[24px] sm:h-[24px] w-[12px] h-[12px]"
             />
           </div>
           <CountDown
@@ -46,10 +46,10 @@ const Header = ({
               alt="home banner"
               width={24}
               height={24}
-              className=" object-cover"
+              className="sm:w-[24px] sm:h-[24px] w-[12px] h-[12px]"
             />
           </div>
-          <span className="font-semibold text-xl text-primary">
+          <span className="font-semibold sm:text-xl text-base text-primary">
             {generateQuestion?.answered_question_num + 1}/
             {generateQuestion?.total_question}
           </span>
@@ -61,10 +61,10 @@ const Header = ({
               alt="home banner"
               width={24}
               height={24}
-              className=" object-cover"
+              className="sm:w-[24px] sm:h-[24px] w-[12px] h-[12px]"
             />
           </div>
-          <span className="font-semibold text-xl text-primary">
+          <span className="font-semibold sm:text-xl text-base text-primary">
             {generateQuestion?.total_score}
           </span>
         </div>
