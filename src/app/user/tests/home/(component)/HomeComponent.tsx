@@ -137,9 +137,26 @@ const HomeComponent = () => {
       )}
       {showMobileTest && (
         <div className="block sm:hidden">
-          <h4 className="font-semibold text-primary text-3xl flex items-center justify-center">
-            Select test
-          </h4>
+          <div className="flex items-center justify-center gap-4">
+            <div
+              onClick={() => {
+                setShowMobileTest(false);
+              }}
+              className="p-2 rounded-full border-gray-100 cursor-pointer border-2"
+            >
+              <Image
+                src="/left.png"
+                alt="logo"
+                width={24}
+                height={24}
+                className="w-[16px] h-[16px] sm:w-[24px] sm:h-[24px]"
+              />
+            </div>
+            <h4 className="font-semibold text-primary text-3xl flex items-center justify-center">
+              Select test
+            </h4>
+          </div>
+
           <ListTest listTest={listTest} />
         </div>
       )}
