@@ -29,6 +29,7 @@ const CustomSelect = ({
   setValueChilrenCheck,
   game,
   setGame,
+  form,
 }: {
   selectedOption: string[];
   setSelectedOption: React.Dispatch<React.SetStateAction<string[]>>;
@@ -42,6 +43,7 @@ const CustomSelect = ({
   setValueChilrenCheck: React.Dispatch<React.SetStateAction<string[]>>;
   game: game[];
   setGame: React.Dispatch<React.SetStateAction<game[]>>;
+  form: FormInstance<any>;
 }) => {
   const { data: listTest } = useQuery({
     queryKey: ["listTest"],
@@ -150,6 +152,14 @@ const CustomSelect = ({
     }
     setValueChilrenCheck(tmpChildrenCheck);
   }, [valueCheck]);
+  const handleChangeSelect = () => {
+    form.setFields([
+      {
+        name: "selectedOption",
+        errors: [],
+      },
+    ]);
+  };
   return (
     <Form.Item
       label="Select an option"
@@ -174,6 +184,7 @@ const CustomSelect = ({
           const onChangeCheckbox: GetProp<typeof Checkbox.Group, "onChange"> = (
             checkedValues
           ) => {
+            handleChangeSelect();
             setValueCheck(checkedValues);
             (checkedValues as string[]).map((item) => {
               setValidateStatus({
@@ -188,6 +199,7 @@ const CustomSelect = ({
             name: string,
             id: string
           ) => {
+            handleChangeSelect();
             setValueRadio(e.target.value);
             setValidateStatus({
               ...validateStatus,
