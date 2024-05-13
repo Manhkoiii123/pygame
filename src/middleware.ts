@@ -3,8 +3,6 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  console.log("🚀 ~ middleware ~ search:", search);
-  console.log("🚀 ~ middleware ~ pathname:", pathname);
   const testPathRegex = /^\/user\/tests\/(\d+)\/home(?:\/|$)/;
   const match = pathname.match(testPathRegex);
   const token = search.split("=")[1];
