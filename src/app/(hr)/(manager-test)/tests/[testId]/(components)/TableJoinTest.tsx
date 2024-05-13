@@ -9,10 +9,10 @@ import Image from "next/image";
 import Loading from "@/components/views/Loading";
 import * as XLSX from "xlsx";
 import UpdateNote from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/UpdateNote";
-import MenuDropdown from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/MenuDropdown";
 import TitleHiring from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/TitleHiring";
 import InputHiring from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/InputHiring";
 import Grading from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/Grading";
+import Personal from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/Personal";
 const TableJoinTest = ({
   listTest,
   assId,
@@ -20,6 +20,8 @@ const TableJoinTest = ({
   listTest: TTestAssessment[] | undefined;
   assId: number;
 }) => {
+  const [openPer, setOpenPer] = useState(false);
+  const [idOpenPer, setIdOpenPer] = useState("");
   const [selectTypeUser, setSelectTypeUser] = useState(1);
   const [sortField, setSortField] = useState("");
   const [sortType, setSortType] = useState("");
@@ -102,6 +104,7 @@ const TableJoinTest = ({
     setSortField(name);
     setSortType(tmp2!);
   };
+
   useEffect(() => {
     let tmp2 =
       listTest?.map((item) => {
@@ -177,7 +180,10 @@ const TableJoinTest = ({
     if (openNote === false) {
       setIdOpenNote("");
     }
-  }, [openNote]);
+    if (openPer === false) {
+      setIdOpenPer("");
+    }
+  }, [openNote, openPer]);
   const columns: TableProps<any>["columns"] = [
     {
       title: (
@@ -234,105 +240,179 @@ const TableJoinTest = ({
         );
       },
     },
-    ...listTest!.map((item) => {
-      return {
-        title: (
-          <div
-            className="flex items-center justify-center gap-2 cursor-pointer"
-            onClick={() =>
-              handleSort(
-                `${item.name
-                  .split(" ")
-                  .filter((item) => item !== "challenge")
-                  .join("_")
-                  .toLocaleLowerCase()}_game`,
-                sortItem
-              )
-            }
-          >
-            {`${item.name
-              .split(" ")
-              .filter((item) => item !== "challenge")
-              .join(" ")}`}
-            {sortItem.find((item2) =>
-              item2.name.includes(
-                `${item.name
-                  .split(" ")
-                  .filter((item) => item !== "challenge")
-                  .join("_")
-                  .toLocaleLowerCase()}_game`
-              )
-            )?.type === "" && <span></span>}
-            {sortItem.find((item2) =>
-              item2.name.includes(
-                `${item.name
-                  .split(" ")
-                  .filter((item) => item !== "challenge")
-                  .join("_")
-                  .toLocaleLowerCase()}_game`
-              )
-            )?.type === "desc" && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#DEDDDD"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
-                />
-              </svg>
-            )}
-            {sortItem.find((item2) =>
-              item2.name.includes(
-                `${item.name
-                  .split(" ")
-                  .filter((item) => item !== "challenge")
-                  .join("_")
-                  .toLocaleLowerCase()}_game`
-              )
-            )?.type === "asc" && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"
-                />
-              </svg>
-            )}
-          </div>
-        ),
+    {
+      title: (
+        <div className="flex items-center justify-center gap-2 cursor-pointer text-[#009DBE]">
+          Average
+        </div>
+      ),
+      width: "84px",
+      key: "average",
+      render: (text, record) => {
+        return (
+          <span className="flex justify-center items-center text-base font-medium text-primary bg-[#CCEBF2] p-1 rounded-lg">
+            <>
+              {listTest &&
+                listTest
+                  .filter(
+                    (item) => !item.name.includes("Personality discovery")
+                  )
+                  .reduce((acc, item) => {
+                    return (
+                      acc +
+                      Number(
+                        record[
+                          `${item.name
+                            .split(" ")
+                            .filter((item) => item !== "challenge")
+                            .join("_")
+                            .toLocaleLowerCase()}_game`
+                        ]
+                      )
+                    );
+                  }, +0)}
+            </>
+          </span>
+        );
+      },
+    },
+    ...listTest!
+      .filter((item) => !item.name.includes("Personality discovery"))
+      .map((item) => {
+        return {
+          title: (
+            <div
+              className="flex items-center justify-center gap-2 cursor-pointer"
+              onClick={() =>
+                handleSort(
+                  `${item.name
+                    .split(" ")
+                    .filter((item) => item !== "challenge")
+                    .join("_")
+                    .toLocaleLowerCase()}_game`,
+                  sortItem
+                )
+              }
+            >
+              {`${item.name
+                .split(" ")
+                .filter((item) => item !== "challenge")
+                .join(" ")}`}
+              {sortItem.find((item2) =>
+                item2.name.includes(
+                  `${item.name
+                    .split(" ")
+                    .filter((item) => item !== "challenge")
+                    .join("_")
+                    .toLocaleLowerCase()}_game`
+                )
+              )?.type === "" && <span></span>}
+              {sortItem.find((item2) =>
+                item2.name.includes(
+                  `${item.name
+                    .split(" ")
+                    .filter((item) => item !== "challenge")
+                    .join("_")
+                    .toLocaleLowerCase()}_game`
+                )
+              )?.type === "desc" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="#DEDDDD"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+                  />
+                </svg>
+              )}
+              {sortItem.find((item2) =>
+                item2.name.includes(
+                  `${item.name
+                    .split(" ")
+                    .filter((item) => item !== "challenge")
+                    .join("_")
+                    .toLocaleLowerCase()}_game`
+                )
+              )?.type === "asc" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 6.75L12 3m0 0l3.75 3.75M12 3v18"
+                  />
+                </svg>
+              )}
+            </div>
+          ),
 
-        dataIndex: `${item.name
-          .split(" ")
-          .filter((item) => item !== "challenge")
-          .join("_")
-          .toLocaleLowerCase()}_game`,
-        key: `${item.name
-          .split(" ")
-          .filter((item) => item !== "challenge")
-          .join("_")
-          .toLocaleLowerCase()}_game`,
-        render: (text: string) => {
-          return (
-            <span className="flex justify-center text-base font-medium text-primary">
-              {text}
-            </span>
-          );
-        },
-      };
-    }),
+          dataIndex: `${item.name
+            .split(" ")
+            .filter((item) => item !== "challenge")
+            .join("_")
+            .toLocaleLowerCase()}_game`,
+          key: `${item.name
+            .split(" ")
+            .filter((item) => item !== "challenge")
+            .join("_")
+            .toLocaleLowerCase()}_game`,
+          render: (text: string) => {
+            return (
+              <span className="flex justify-center text-base font-medium text-primary">
+                {text}
+              </span>
+            );
+          },
+        };
+      }),
+    ...listTest!
+      .filter((item) => item.name.includes("Personality discovery"))
+      .map((item) => {
+        return {
+          title: (
+            <div className="flex items-center justify-center gap-2 text-center">
+              {`${item.name
+                .split(" ")
+                .filter((item) => item !== "challenge")
+                .join(" ")}`}
+            </div>
+          ),
+
+          key: `Personality discovery`,
+          render: (text: any, record: any) => {
+            return (
+              <>
+                <Image
+                  onClick={() => {
+                    setIdOpenPer(record.id);
+                    setOpenPer(!openPer);
+                  }}
+                  src={"/per.png"}
+                  alt="per"
+                  width={36}
+                  height={36}
+                  className="mx-auto bg-[#CCEBF2] p-2 rounded-lg cursor-pointer relative"
+                />
+                {idOpenPer === record.id && openPer && (
+                  <Personal id={record.id} />
+                )}
+              </>
+            );
+          },
+        };
+      }),
     {
       title: (
         <div

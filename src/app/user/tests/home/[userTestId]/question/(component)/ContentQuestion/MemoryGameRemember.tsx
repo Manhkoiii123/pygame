@@ -44,7 +44,7 @@ const MemoryGameRemember = () => {
       />
       {questionOrAnswer === 0 ? (
         <>
-          <div className="w-full p-4 bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl">
+          <div className="w-full p-4 bg-gradient-back-question sm:h-[800px] flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl">
             <span className="font-semibold sm:text-[30px] sm:leading-[56px] text-sm text-primary flex items-center gap-2">
               {question.content.question.list_arrows?.split(",").map((item) =>
                 item === "r" ? (

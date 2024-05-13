@@ -133,4 +133,14 @@ export const listTestRequest = {
   }) => {
     return await instanceAxios.post<AuthResponse<{}>>(`/update-feedback`, data);
   },
+  getPersionalAnswer: async (id: string) => {
+    return await instanceAxios.get<
+      AuthResponse<{
+        result: {
+          name: string;
+          value: number;
+        }[];
+      }>
+    >(`/personality-info?assessment_candidate_id=${id}`);
+  },
 };

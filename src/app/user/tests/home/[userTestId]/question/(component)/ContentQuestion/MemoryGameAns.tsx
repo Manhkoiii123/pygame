@@ -126,7 +126,7 @@ const MemoryGameAns = ({
   }, [time]);
   return (
     <>
-      <div className="w-full p-4 bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl !relative">
+      <div className="w-full p-4 sm:h-[800px] bg-gradient-back-question flex items-center justify-center shadow-[0px_4px_10px_0px_#33B1CB_inset] border-t-4 border-l-4 border-r-4 border-b-1 border-[#33B1CB] rounded-2xl !relative">
         <span className="px-5 py-3 text-xl font-medium text-center flex items-center gap-2">
           {ans &&
             ans.split(",").map((item, index) => {
