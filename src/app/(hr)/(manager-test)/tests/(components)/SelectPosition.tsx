@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Cascader, Form, Input } from "antd";
+import { Cascader, Form, FormInstance, Input } from "antd";
 import type { SingleCascaderProps } from "antd/es/cascader";
 import { Span } from "next/dist/trace";
 
@@ -9,6 +9,7 @@ interface Option {
   children?: Option[];
 }
 interface TProps {
+  form: FormInstance<any>;
   setJobPosition: React.Dispatch<React.SetStateAction<string>>;
   jobPosition: string;
   jobFunction: string;
@@ -65,8 +66,18 @@ const displayRender = (labels: string[]) => {
 };
 
 const SelectPosition = (props: TProps) => {
+  const { form } = props;
+  const handleChangeSelect = () => {
+    form.setFields([
+      {
+        name: "positionRecruiting",
+        errors: [],
+      },
+    ]);
+  };
   const [otherCheck, setOtherCheck] = useState<boolean>(false);
   const onChange: SingleCascaderProps<Option>["onChange"] = (value) => {
+    handleChangeSelect();
     if (value.length === 1) {
       setOtherCheck(true);
     } else {

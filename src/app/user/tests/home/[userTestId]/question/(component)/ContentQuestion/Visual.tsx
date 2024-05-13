@@ -17,7 +17,7 @@ const Visual = () => {
           <>
             <div className="p-2 flex-1 border border-gray-100 rounded-lg ">
               <Image
-                src={generateQuestion.question.content.question.image_1!}
+                src={generateQuestion.question.content.question.image_1}
                 width={200}
                 height={300}
                 alt="image1"
@@ -26,7 +26,7 @@ const Visual = () => {
             </div>
             <div className="p-2 flex-1 border border-gray-100 rounded-lg">
               <Image
-                src={generateQuestion.question.content.question.image_2!}
+                src={generateQuestion.question.content.question.image_2}
                 width={200}
                 height={300}
                 alt="image1"

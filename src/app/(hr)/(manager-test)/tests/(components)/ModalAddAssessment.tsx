@@ -79,7 +79,7 @@ const ModalAddAssessment = (props: TProps) => {
   const handleChangeInput = () => {
     form.setFields([
       {
-        name: "username",
+        name: "name",
         errors: [],
       },
     ]);
@@ -131,6 +131,7 @@ const ModalAddAssessment = (props: TProps) => {
           <Input onChange={handleChangeInput} placeholder="Enter your name" />
         </Form.Item>
         <CustomSelect
+          form={form}
           valueCheck={valueCheck}
           setValueCheck={setValueCheck}
           formChild={formChild}
@@ -145,6 +146,7 @@ const ModalAddAssessment = (props: TProps) => {
           setGame={setGame}
         />
         <SelectPosition
+          form={form}
           setJobPosition={setJobPosition}
           jobPosition={jobPosition}
           jobFunction={jobFunction}
