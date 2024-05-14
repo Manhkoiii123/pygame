@@ -24,6 +24,7 @@ interface TFile {
 }
 const { Dragger } = Upload;
 const ModalUpload = (props: TProps) => {
+  const [errorEmail, setErrorEmail] = useState<string[]>([]);
   const [dataExcel, setDataExcel] = useState<TFile[]>([]);
   const [statusUpload, setStatusUpload] = useState<number | undefined>(0);
   const [progress, setProgress] = useState(0);
@@ -37,6 +38,13 @@ const ModalUpload = (props: TProps) => {
   const inviteMutation = useMutation({
     mutationFn: handleInviteRequest,
   });
+  const handleCheckEmailRequest = async (data: FormData) => {
+    const res = await listTestRequest.CheckEmailCandicate(data);
+    return res;
+  };
+  const checkEmailMutation = useMutation({
+    mutationFn: handleCheckEmailRequest,
+  });
   const handleInvite = () => {
     const data = new FormData();
     data.append("assessment_id", id);
@@ -44,11 +52,19 @@ const ModalUpload = (props: TProps) => {
     dataExcel.map((item, index) => {
       data.append(`list_email[${index}]`, item.email);
     });
-    inviteMutation.mutate(data, {
-      onSuccess: () => {
-        setOpen(false);
-        handleCloseModalUpload();
-        toast.success("Mời người dùng thành công");
+    checkEmailMutation.mutate(data, {
+      onSuccess: (res) => {
+        setErrorEmail(res.data.data.error_emails);
+        if (res.data.data.error_emails.length === 0) {
+          inviteMutation.mutate(data, {
+            onSuccess: () => {
+              setOpen(false);
+              toast.success("Mời người dùng thành công");
+            },
+          });
+        } else {
+          setStatusUpload(-1);
+        }
       },
     });
   };
@@ -182,7 +198,7 @@ const ModalUpload = (props: TProps) => {
         </a>
         .
       </span>
-      {dataExcel.length > 0 && (
+      {statusUpload === -1 && dataExcel.length > 0 && (
         <div className="mt-4 flex flex-col border border-1 border-gray-300 p-4 rounded-lg h-[200px] overflow-y-auto">
           <span className="font-medium text-base text-primary">
             File Upload

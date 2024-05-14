@@ -91,6 +91,12 @@ export const listTestRequest = {
       data
     );
   },
+  CheckEmailCandicate: async (data: FormData) => {
+    return await instanceAxios.post<AuthResponse<any>>(
+      "/check-candidate-email",
+      data
+    );
+  },
   unActiveAss: async (data: { assessment_id: number }) => {
     return await instanceAxios.post<AuthResponse<any>>(
       "/archive-assessment",

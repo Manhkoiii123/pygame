@@ -4,9 +4,9 @@ import { listTestRequest } from "@/apiRequest/test";
 import ModalUpload from "@/app/(hr)/(manager-test)/tests/[testId]/(components)/ModalUpload";
 import Loading from "@/components/views/Loading";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Modal, Select, message } from "antd";
+import { Button, Modal, Select, Tag, message } from "antd";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 type TProps = {
   open: boolean;
@@ -37,22 +37,47 @@ const ModalInvite = (props: TProps) => {
   const [email, setEmail] = useState<string[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [errorEmail, setErrorEmail] = useState<string[]>([]);
+  const [emailInvalid, setEmailInvalid] = useState<string[]>([]);
   const [openUploadModal, setOpenUploadModal] = useState<boolean>(false);
-
   const isEmailValid = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
+  const customTagRender = ({ label }: { label: any }) => {
+    return (
+      <div
+        style={{ marginRight: 3 }}
+        className={`flex gap-2 items-center border rounded-lg px-2 py-1 ${
+          errorEmail.includes(label) || emailInvalid.includes(label)
+            ? "border-red-400"
+            : "border-gray-400"
+        } `}
+      >
+        {label}
+        <div onClick={() => handleDeselect(label)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4 cursor-pointer"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
+      </div>
+    );
+  };
+
   const handleChange = (value: string[]) => {
     const emailInput = String(value[value.length - 1]);
-    if (emailInput.length === 0) {
-      console.log("Vui định nghĩa email");
-    }
-    if (isEmailValid(emailInput)) {
-      setEmail((prev) => [...prev, emailInput]);
-    } else {
-      console.log("Vui định nghĩa email");
-    }
+    setEmail((prev) => [...prev, emailInput]);
   };
 
   const handleCopy = () => {
@@ -77,7 +102,11 @@ const ModalInvite = (props: TProps) => {
 
   const handleDeselect = (value: string) => {
     const newEmail = email.filter((item) => item !== value);
+    const newErrorEmail = errorEmail.filter((item) => item !== value);
+    const newEmailInvalid = emailInvalid.filter((item) => item !== value);
     setEmail(newEmail);
+    setErrorEmail(newErrorEmail);
+    setEmailInvalid(newEmailInvalid);
   };
   const handleOpenUpload = () => {
     setOpen(false);
@@ -91,21 +120,42 @@ const ModalInvite = (props: TProps) => {
     const res = await listTestRequest.inviteCandicate(data);
     return res;
   };
+  const handleCheckEmailRequest = async (data: FormData) => {
+    const res = await listTestRequest.CheckEmailCandicate(data);
+    return res;
+  };
   const inviteMutation = useMutation({
     mutationFn: handleInviteRequest,
+  });
+  const checkEmailMutation = useMutation({
+    mutationFn: handleCheckEmailRequest,
   });
   const handleInvite = () => {
     const data = new FormData();
     data.append("assessment_id", id);
     data.append("type", keyOpen);
-    email.map((item, index) => {
+    const emailCorrect = email.filter((item) => {
+      if (isEmailValid(item)) {
+        return item;
+      } else {
+        setEmailInvalid((prev) => [...prev, item]);
+      }
+    });
+    emailCorrect.map((item, index) => {
       data.append(`list_email[${index}]`, item);
     });
-    inviteMutation.mutate(data, {
-      onSuccess: () => {
-        setOpen(false);
-        toast.success("Mời người dùng thành công");
-        setEmail([]);
+    checkEmailMutation.mutate(data, {
+      onSuccess: (res) => {
+        setErrorEmail(res.data.data.error_emails);
+        if (res.data.data.error_emails.length === 0) {
+          inviteMutation.mutate(data, {
+            onSuccess: () => {
+              setOpen(false);
+              toast.success("Mời người dùng thành công");
+              setEmail([]);
+            },
+          });
+        }
       },
     });
   };
@@ -138,6 +188,7 @@ const ModalInvite = (props: TProps) => {
             value={email}
             placeholder="Please enter email"
             onDeselect={handleDeselect}
+            tagRender={customTagRender}
           />
           <Button
             type="primary"
