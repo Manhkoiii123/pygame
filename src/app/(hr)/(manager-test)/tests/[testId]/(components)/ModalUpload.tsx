@@ -59,6 +59,7 @@ const ModalUpload = (props: TProps) => {
           inviteMutation.mutate(data, {
             onSuccess: () => {
               setOpen(false);
+              setStatusUpload(2);
               toast.success("Mời người dùng thành công");
             },
           });
@@ -89,7 +90,6 @@ const ModalUpload = (props: TProps) => {
         setProgress(percent || 0);
       }
       if (status === "done") {
-        setStatusUpload(2);
         if (info.fileList && info.fileList.length > 0) {
           const reader = new FileReader();
           reader.readAsArrayBuffer(file);
