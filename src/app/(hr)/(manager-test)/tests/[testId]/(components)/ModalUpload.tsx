@@ -207,7 +207,14 @@ const ModalUpload = (props: TProps) => {
           <div className="grid grid-cols-2 gap-2">
             {dataExcel.map((item, index) => {
               return (
-                <div key={index} className="flex items-center gap-4">
+                <div
+                  key={index}
+                  className={`flex items-center gap-4 ${
+                    errorEmail.includes(item.email)
+                      ? "text-red-500"
+                      : "text-primary"
+                  }`}
+                >
                   <span>{index + 1}</span> - <span>{item.email}</span>
                 </div>
               );
