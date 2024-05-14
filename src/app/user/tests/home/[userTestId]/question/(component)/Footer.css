@@ -1,0 +1,7 @@
+.custom-cursor {
+  cursor: pointer;
+}
+
+.custom-cursor:hover {
+  cursor: url("/point.png"), auto;
+}
