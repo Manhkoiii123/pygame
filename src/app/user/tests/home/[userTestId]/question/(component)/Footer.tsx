@@ -3,6 +3,7 @@ import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
+import "./Footer.css";
 import React, { useEffect, useRef, useContext } from "react";
 
 function Footer({
@@ -107,11 +108,11 @@ function Footer({
   };
 
   return (
-    <div className="flex flex-col mt-6">
+    <div className="">
       {skip && (
-        <div className="inline-block ">
+        <div className="w-full flex items-center justify-center">
           <div
-            className="flex flex-col items-center justify-center gap-2 cursor-pointer"
+            className="flex flex-col items-center justify-center gap-2 custom-cursor"
             onClick={() => handleClick(2, "skip")}
             onKeyDown={(event) => handleKeyDown(event, numbers)}
           >
@@ -143,7 +144,7 @@ function Footer({
           >
             {index === 0 ? (
               <>
-                <div className="flex items-center gap-4 cursor-pointer">
+                <div className="flex items-center gap-4 custom-cursor group">
                   <span className="sm:text-xl text-base font-medium text-primary">
                     {number}
                   </span>
@@ -152,13 +153,13 @@ function Footer({
                     alt="button left"
                     width={80}
                     height={80}
-                    className="sm:w-[80px] sm:h-[80px] w-[60px] h-[60px]"
+                    className="sm:w-[80px] sm:h-[80px] w-[60px] h-[60px] group-hover:cursor-('/point.png'), auto;"
                   />
                 </div>
               </>
             ) : (
               <>
-                <div className="flex items-center gap-4 cursor-pointer">
+                <div className="flex items-center gap-4 custom-cursor">
                   <Image
                     src={"/buttonRight.png"}
                     alt="button left"
