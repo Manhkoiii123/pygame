@@ -85,10 +85,10 @@ const AssessmentItem = (props: TProps) => {
 
   return (
     <div
-      className={`w-[285px] h-[285px] rounded-2xl border-[1px] p-4 border-[#DEDDDD] flex hover:bg-gradient-hover hover:border-primary transition-background-color duration-500 ease-in-out flex-col  ${
+      className={`w-[285px] h-[285px] rounded-2xl border-[1px] p-4 border-[#DEDDDD] flex   transition-background-color flex-col bg-custom-vector bg-cover bg-center hover:bg-hover-zoom  transition-background-image duration-1000 ease-linear ${
         status === -1
           ? "cursor-default opacity-70 mt-auto justify-end"
-          : "cursor-pointer justify-between"
+          : "cursor-pointer justify-between hover:bg-gradient-hover hover:border-primary"
       }`}
     >
       {status !== -1 && (
