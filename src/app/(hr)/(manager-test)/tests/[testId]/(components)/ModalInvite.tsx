@@ -174,6 +174,8 @@ const ModalInvite = (props: TProps) => {
         onCancel={() => {
           setOpen(false);
           setEmail([]);
+          setEmailInvalid([]);
+          setEmailInvalid([]);
         }}
         footer={null}
       >
