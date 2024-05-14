@@ -18,7 +18,11 @@ const config: Config = {
           "linear-gradient(90deg, #FFFFFF 0%, #99D8E5 53.06%, #FFFFFF 101.45%)",
         "gradient-back-question":
           "linear-gradient(180deg, #56D4F2 0%, rgba(211, 236, 242, 0.2) 100%)",
+        "custom-vector": "url('/Vector.png')",
       },
+      // backgroundSize: {
+      //   "hover-zoom": "600%",
+      // },
       colors: {
         primary: "#009DBE",
         completed: "#A9F5AB",
@@ -48,6 +52,11 @@ const config: Config = {
         "ease-out": "ease-out",
         "ease-in-out": "ease-in-out",
       },
+    },
+  },
+  variants: {
+    extend: {
+      backgroundSize: ["hover"],
     },
   },
   plugins: [],

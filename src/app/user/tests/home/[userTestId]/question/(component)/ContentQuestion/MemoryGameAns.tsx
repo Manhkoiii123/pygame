@@ -3,7 +3,7 @@
 import { userRequest } from "@/apiRequest/user";
 import { AppContext } from "@/lib/context.wrapper";
 import { TQuestionRe } from "@/types/user";
-
+import "../Footer.css";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React, {
@@ -209,7 +209,7 @@ const MemoryGameAns = ({
           >
             {index === 0 ? (
               <>
-                <div className={`flex items-center gap-4 cursor-pointer `}>
+                <div className={`flex items-center gap-4 custom-cursor `}>
                   <span className=" sm:text-xl text-base font-medium text-primary">
                     {number}
                   </span>
@@ -224,7 +224,7 @@ const MemoryGameAns = ({
               </>
             ) : (
               <>
-                <div className={`flex items-center gap-4 cursor-pointer `}>
+                <div className={`flex items-center gap-4 custom-cursor `}>
                   <Image
                     src={"/buttonRight.png"}
                     alt="button left"
