@@ -11,13 +11,16 @@ export function middleware(request: NextRequest) {
   if (match) {
     testId = match[1];
   }
-  const candicate_access_token = request.cookies.get(
-    "candicate_access_token"
-  )?.value;
+
   const access_token = request.cookies.get("hr_access_token")?.value;
-  // if (pathname.startsWith(`/user/tests/home`) && !candicate_access_token) {
-  //   return NextResponse.redirect(new URL("/404", request.url));
-  // }
+  if (pathname.startsWith(`/user/tests/home`)) {
+    const candicate_access_token = request.cookies.get(
+      "candicate_access_token"
+    )?.value;
+    if (!candicate_access_token) {
+      return NextResponse.redirect(new URL("/404", request.url));
+    }
+  }
 
   if (pathname.startsWith("/tests") && !access_token) {
     return NextResponse.redirect(new URL("/login", request.url));

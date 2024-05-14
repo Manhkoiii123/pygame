@@ -55,12 +55,12 @@ const Welcome = (props: TProps) => {
         onSuccess: async (res) => {
           sessionTokenUser.value = res?.access_token;
           toast.success("Đăng nhập thành công");
-          router.push(`/user/tests/home`);
           try {
             await authRequest.setCookie(res?.access_token!);
           } catch (error) {
             console.error("Error setting email:", error);
           }
+          router.push(`/user/tests/home`);
         },
         onError: (res: any) => {
           toast.error(res?.response.data.message);
