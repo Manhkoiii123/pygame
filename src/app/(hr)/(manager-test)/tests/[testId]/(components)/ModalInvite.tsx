@@ -47,10 +47,9 @@ const ModalInvite = (props: TProps) => {
   const customTagRender = ({ label }: { label: any }) => {
     return (
       <div
-        style={{ marginRight: 3 }}
-        className={`flex gap-2 items-center border rounded-lg px-2 py-1 ${
+        className={`flex gap-2 items-center border rounded-lg px-2 py-[2px] mr-[3px] ${
           errorEmail.includes(label) || emailInvalid.includes(label)
-            ? "border-red-400"
+            ? "border-red-700 text-red-700"
             : "border-gray-400"
         } `}
       >
@@ -141,13 +140,14 @@ const ModalInvite = (props: TProps) => {
         setEmailInvalid((prev) => [...prev, item]);
       }
     });
+    const check = email.length === emailCorrect.length;
     emailCorrect.map((item, index) => {
       data.append(`list_email[${index}]`, item);
     });
     checkEmailMutation.mutate(data, {
       onSuccess: (res) => {
         setErrorEmail(res.data.data.error_emails);
-        if (res.data.data.error_emails.length === 0) {
+        if (res.data.data.error_emails.length === 0 && check) {
           inviteMutation.mutate(data, {
             onSuccess: () => {
               setOpen(false);
@@ -182,7 +182,7 @@ const ModalInvite = (props: TProps) => {
         <div className="flex items-center justify-between gap-2 my-4">
           <Select
             mode="tags"
-            style={{ width: "100%", padding: "4px 0" }}
+            style={{ width: "100%", padding: "8px 0" }}
             onChange={handleChange}
             tokenSeparators={[","]}
             open={false}
